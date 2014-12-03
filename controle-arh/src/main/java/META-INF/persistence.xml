@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="controleArhPu"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- entity -->
+		<class>br.com.bb.controle.arh.model.Demanda</class>
+		<class>br.com.bb.controle.arh.model.Funcionario</class>
+		<class>br.com.bb.controle.arh.model.FuncionarioHasMeta</class>
+		<class>br.com.bb.controle.arh.model.FuncionarioHasMetaPK</class>
+		<class>br.com.bb.controle.arh.model.Impacto</class>
+		<class>br.com.bb.controle.arh.model.Inventario</class>
+		<class>br.com.bb.controle.arh.model.Meta</class>
+
+		<properties>
+			<property name="hibernate.connection.username" value="usrctrl" />
+			<property name="hibernate.connection.password" value="usrctrl" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/arh" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+
+	</persistence-unit>
+</persistence>
