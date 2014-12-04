@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<center>
+		<div>
+			<p:messages showIcon="false" style="width: 350px" />
+		</div>
+		<p:panel header="Demandas ARH" style="width: 350px;margin-top: 7%;">
+			<h:form id="loginForm">
+				<h:panelGrid columns="2" cellpadding="2">
+					<h:outputLabel value="valeu #{sessionScope.funcionarioLogado.nome}" />
+					<h:commandButton value="Sair" action="#{loginBean.logout}" style="margin-top: 20px" />
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+	</center>
+</h:body>
+</html>

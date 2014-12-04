@@ -11,7 +11,7 @@ import br.com.bb.controle.arh.util.Constants;
 
 public class JPAUtil {
 
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(Constants.PERSISTENCE_UNIT_NAME);
+	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(Constants.database.PERSISTENCE_UNIT_NAME);
 
 	@Produces
 	@RequestScoped

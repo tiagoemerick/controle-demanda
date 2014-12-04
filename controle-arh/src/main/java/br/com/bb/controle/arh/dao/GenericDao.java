@@ -29,6 +29,7 @@ public class GenericDao<T> implements Serializable {
 		this.em = em;
 	}
 
+	/*
 	public void beginTransaction() {
 		// em = emf.createEntityManager();
 
@@ -60,6 +61,7 @@ public class GenericDao<T> implements Serializable {
 		// em = emf.createEntityManager();
 		em.joinTransaction();
 	}
+	*/
 
 	public void save(T entity) {
 		em.persist(entity);
