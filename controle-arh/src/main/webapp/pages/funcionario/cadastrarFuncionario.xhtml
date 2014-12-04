@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template.xhtml">
+	<ui:define name="body">
+		<center>
+			<p:panel header="Cadastro de funcionários" style="width: 50%;margin-top:1%">
+				<h:form id="funcionarioForm">
+					<h:panelGrid columns="2" cellpadding="2" style="margin-top: 1%">
+						<h:outputLabel value="Chave:" />
+						<h:inputText value="#{funcionarioBean.funcionario.chave}" required="true" requiredMessage="Campo Chave obrigatório" maxlength="8" />
+						<h:outputLabel value="Nome:" />
+						<h:inputText value="#{funcionarioBean.funcionario.nome}" required="true" requiredMessage="Campo nome obrigatório" maxlength="100" />
+						<h:outputLabel value="Equipe:" />
+						<h:inputText value="#{funcionarioBean.funcionario.equipe}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="11" />
+						<h:outputLabel value="Admin:" />
+						<h:selectBooleanCheckbox value="#{funcionarioBean.funcionario.isAdmin}" required="true" requiredMessage="Campo Admin obrigatório" />
+						<h:outputLabel value="Obs:" />
+						<h:outputLabel value="Para o primeiro acesso, a senha padrão é 123456." />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" style="margin-top: 3%">
+						<h:commandButton value="Cadastrar" action="#{funcionarioBean.cadastrar}" />
+						<h:commandButton value="Cancelar" action="#{funcionarioBean.cancelar}" style="margin-left: 20%" immediate="true" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

@@ -8,11 +8,11 @@
 <h:body>
 	<center>
 		<div>
-			<p:messages showIcon="false" style="width: 350px" />
+			<p:messages showIcon="false" style="width: 350px;margin-top:1%" />
 		</div>
-		<p:panel header="Demandas ARH" style="width: 350px;margin-top: 7%;">
+		<p:panel header="Demandas ARH" style="height:250px;width: 450px;position:relative;margin-top:7%">
 			<h:form id="loginForm">
-				<h:panelGrid columns="2" cellpadding="2">
+				<h:panelGrid columns="2" cellpadding="2" style="position: absolute;height: 100px;top: 0;bottom: 0;margin:auto;left:50%;margin-left:-100px;width:200px;">
 					<h:outputLabel value="Chave" />
 					<h:inputText value="#{loginBean.funcionario.chave}" required="true" requiredMessage="Campo Chave obrigatório" />
 					<h:outputLabel value="Senha" />

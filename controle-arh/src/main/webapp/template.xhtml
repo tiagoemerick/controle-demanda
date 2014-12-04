@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+</h:head>
+<h:body>
+
+	<div id="geral">
+		<div id="topo">
+			<h:form id="menuForm">
+				<p:menubar style="font-size: 100%;text-align: center;height: 30px;">
+					<p:menuitem value="Inicial" icon="ui-icon-home" url="/pages/home.jsf" style="font-size: 100%;text-align: justify;height: 20px;" />
+					<p:submenu label="Funcionário" style="font-size: 100%;text-align: justify;height: 20px;">
+						<p:menuitem value="Cadastrar" url="/pages/funcionario/cadastrarFuncionario.jsf" style="font-size: 90%;text-align: center;height: 20px" rendered="#{sessionScope.funcionarioLogado.isAdmin}" />
+						<p:menuitem value="Pesquisar" url="#" style="font-size: 90%;text-align: center;height: 20px;" />
+					</p:submenu>
+
+					<f:facet name="options">
+						<b><p:outputLabel value="#{sessionScope.funcionarioLogado.nome} - #{sessionScope.funcionarioLogado.chave}" /></b>
+						<p:commandButton value="Sair" icon="ui-icon-extlink" action="#{loginBean.logout}" style="font-size: 90%;margin-left: 20px" />
+					</f:facet>
+				</p:menubar>
+			</h:form>
+
+			<center>
+				<div>
+					<p:growl id="messages" />
+				</div>
+			</center>
+		</div>
+		<div id="conteudo">
+			<ui:insert name="body" />
+		</div>
+	</div>
+
+</h:body>
+</html>

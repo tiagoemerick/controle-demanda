@@ -10,9 +10,9 @@ public final class Constants {
 	}
 
 	public static final class pages {
-		public static final String LOGIN = "/pages/public/login.jsf";
-		public static final String ACCESS_DENIED = "/pages/public/accessDenied.jsf";
-		public static final String HOME = "/pages/public/home.jsf";
+		public static final String LOGIN = "/pages/login.jsf";
+		public static final String ACCESS_DENIED = "/pages/accessDenied.jsf";
+		public static final String HOME = "/pages/home.jsf";
 	}
 
 	public static final class session {

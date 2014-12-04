@@ -58,7 +58,7 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
 			doLogin(request, response, req);
 			return;
 		} else {
-			if (logado != null && (req.getRequestURI().equalsIgnoreCase("/controle-arh/pages/public/login.jsf"))) {
+			if (logado != null && (req.getRequestURI().equalsIgnoreCase("/controle-arh/pages/login.jsf"))) {
 				goHome(request, response, req);
 			}
 		}

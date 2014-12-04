@@ -21,10 +21,12 @@ import javax.persistence.OneToMany;
 public class Funcionario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public final static String SENHA_DEFAULT = "123456";
+
 	@Id
 	private String chave;
 
-	private int equipe;
+	private Integer equipe;
 
 	private String hash;
 
@@ -32,6 +34,9 @@ public class Funcionario implements Serializable {
 
 	@Column(name = "trocar_senha")
 	private Boolean trocarSenha;
+
+	@Column(name = "admin")
+	private Boolean isAdmin;
 
 	// bi-directional many-to-many association to Demanda
 	@ManyToMany
@@ -57,11 +62,11 @@ public class Funcionario implements Serializable {
 		this.chave = chave;
 	}
 
-	public int getEquipe() {
+	public Integer getEquipe() {
 		return this.equipe;
 	}
 
-	public void setEquipe(int equipe) {
+	public void setEquipe(Integer equipe) {
 		this.equipe = equipe;
 	}
 
@@ -150,6 +155,14 @@ public class Funcionario implements Serializable {
 		} else if (!chave.equals(other.chave))
 			return false;
 		return true;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 }

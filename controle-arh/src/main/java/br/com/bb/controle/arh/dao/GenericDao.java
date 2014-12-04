@@ -30,38 +30,23 @@ public class GenericDao<T> implements Serializable {
 	}
 
 	/*
-	public void beginTransaction() {
-		// em = emf.createEntityManager();
-
-		em.getTransaction().begin();
-	}
-
-	public void commit() {
-		em.getTransaction().commit();
-	}
-
-	public void rollback() {
-		em.getTransaction().rollback();
-	}
-
-	public void closeTransaction() {
-		em.close();
-	}
-
-	public void commitAndCloseTransaction() {
-		commit();
-		closeTransaction();
-	}
-
-	public void flush() {
-		em.flush();
-	}
-
-	public void joinTransaction() {
-		// em = emf.createEntityManager();
-		em.joinTransaction();
-	}
-	*/
+	 * public void beginTransaction() { // em = emf.createEntityManager();
+	 * 
+	 * em.getTransaction().begin(); }
+	 * 
+	 * public void commit() { em.getTransaction().commit(); }
+	 * 
+	 * public void rollback() { em.getTransaction().rollback(); }
+	 * 
+	 * public void closeTransaction() { em.close(); }
+	 * 
+	 * public void commitAndCloseTransaction() { commit(); closeTransaction(); }
+	 * 
+	 * public void flush() { em.flush(); }
+	 * 
+	 * public void joinTransaction() { // em = emf.createEntityManager();
+	 * em.joinTransaction(); }
+	 */
 
 	public void save(T entity) {
 		em.persist(entity);
@@ -77,11 +62,11 @@ public class GenericDao<T> implements Serializable {
 		return em.merge(entity);
 	}
 
-	public T find(int entityID) {
+	public T find(Object entityID) {
 		return em.find(entityClass, entityID);
 	}
 
-	public T findReferenceOnly(int entityID) {
+	public T findReferenceOnly(Object entityID) {
 		return em.getReference(entityClass, entityID);
 	}
 
