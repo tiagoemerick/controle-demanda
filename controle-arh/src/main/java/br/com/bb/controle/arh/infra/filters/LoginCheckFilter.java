@@ -19,6 +19,7 @@ import br.com.bb.controle.arh.util.Constants;
 public class LoginCheckFilter extends AbstractFilter implements Filter {
 
 	private static List<String> allowedURIs;
+	private static List<String> restrictedURIs;
 
 	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
@@ -34,6 +35,17 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
 			allowedURIs.add("/controle-arh/javax.faces.resource/messages/messages.png.jsf");
 			allowedURIs.add("/controle-arh/javax.faces.resource/images/ui-icons_2e83ff_256x240.png.jsf");
 			allowedURIs.add("/controle-arh/javax.faces.resource/images/ui-icons_38667f_256x240.png.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/bootstrap-responsive.min.css.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/bootstrap.min.css.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/login.css.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/dashboard.main.css.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/bootstrap.min.js.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/img/bblogin.png.jsf");
+			allowedURIs.add("/controle-arh/javax.faces.resource/img/glyphicons-halflings.png.jsf");
+		}
+		if (restrictedURIs == null) {
+			restrictedURIs = new ArrayList<String>();
+			restrictedURIs.add("/controle-arh/pages/funcionario/cadastrarFuncionario.jsf");
 		}
 	}
 
@@ -61,6 +73,10 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
 			if (logado != null && (req.getRequestURI().equalsIgnoreCase("/controle-arh/pages/login.jsf"))) {
 				goHome(request, response, req);
 			}
+		}
+
+		if (logado != null && !logado.getIsAdmin() && restrictedURIs.contains(req.getRequestURI())) {
+			goHome(request, response, req);
 		}
 		chain.doFilter(request, response);
 	}

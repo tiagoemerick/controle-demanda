@@ -1,26 +1,109 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+	<html lang="en">
 <h:head>
+
+	<title>Controle de demandas ARH</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Controle de demandas ARH" />
+	<meta name="author" content="BB Tecnologia" />
+
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	<!-- CSS - inicio -->
+	<h:outputStylesheet name="bootstrap.min.css" target="head" library="css" />
+	<h:outputStylesheet name="bootstrap-responsive.min.css" target="head" library="css" />
+	<h:outputStylesheet name="dashboard.main.css" target="head" library="css" />
+	<h:outputStylesheet name="login.css" target="head" library="css" />
+	<!-- CSS - fim -->
+
 </h:head>
+
 <h:body>
-	<center>
-		<div>
-			<p:messages showIcon="false" style="width: 350px;margin-top:1%" />
-		</div>
-		<p:panel header="Demandas ARH" style="height:250px;width: 450px;position:relative;margin-top:7%">
-			<h:form id="loginForm">
-				<h:panelGrid columns="2" cellpadding="2" style="position: absolute;height: 100px;top: 0;bottom: 0;margin:auto;left:50%;margin-left:-100px;width:200px;">
-					<h:outputLabel value="Chave" />
-					<h:inputText value="#{loginBean.funcionario.chave}" required="true" requiredMessage="Campo Chave obrigatório" />
-					<h:outputLabel value="Senha" />
-					<h:inputSecret value="#{loginBean.funcionario.hash}" required="true" requiredMessage="Campo Senha obrigatório" />
-					<h:commandButton value="Entrar" action="#{loginBean.login}" style="margin-top: 20px" />
-				</h:panelGrid>
-			</h:form>
-		</p:panel>
-	</center>
+
+	<p:growl id="growl" widgetVar="msgs" showDetail="true" autoUpdate="true" showSummary="true" redisplay="true" life="10000" />
+
+	<div id="logo">
+		<img src="#{resource['img/bblogin.png']}" alt="BB Tecnologia" />
+	</div>
+
+	<div id="loginbox">
+		<h:form id="loginform" class="form-vertical">
+			<p>Para continuar informe sua chave e senha.</p>
+			<div class="control-group">
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-user"></i></span>
+						<p:inputText value="#{loginBean.funcionario.chave}" required="true" requiredMessage="Campo Chave obrigatório" />
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-lock"></i></span>
+						<p:password value="#{loginBean.funcionario.hash}" required="true" requiredMessage="Campo Senha obrigatório" />
+					</div>
+				</div>
+			</div>
+			<div class="form-actions">
+				<span class="pull-right"> <p:commandButton value="Autenticar" action="#{loginBean.login}" styleClass="btn btn-inverse" type="submit" />
+				</span>
+			</div>
+		</h:form>
+	</div>
+
+	<script>
+			$(function(){
+
+				// Checking for CSS 3D transformation support
+				$.support.css3d = supportsCSS3D();
+
+				var formContainer = $('#loginbox');
+
+				// Listening for clicks on the ribbon links
+				$('.flip-link').click(function(e){
+
+					// Flipping the forms
+					formContainer.toggleClass('flipped');
+
+					// If there is no CSS3 3D support, simply
+					// hide the login form (exposing the recover one)
+					if(!$.support.css3d){
+						$('#loginform').toggle();
+					}
+					e.preventDefault();
+				});
+
+				// A helper function that checks for the
+				// support of the 3D CSS3 transformations.
+				function supportsCSS3D() {
+					var props = [
+						'perspectiveProperty', 'WebkitPerspective', 'MozPerspective'
+					], testDom = document.createElement('a');
+
+					for(var i=0; i &lt; props.length; i++){
+						if(props[i] in testDom.style){
+							return true;
+						}
+					}
+
+					return false;
+				}
+			});        
+        </script>
+
+	<!-- JS - inicio -->
+	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+	<h:outputScript name="bootstrap.min.js" target="body" library="js" />
+	<!-- JS - fim -->
+
 </h:body>
-</html>
+	</html>
+</ui:composition>

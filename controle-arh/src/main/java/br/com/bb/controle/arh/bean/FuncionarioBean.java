@@ -51,7 +51,7 @@ public class FuncionarioBean extends AbstractBean {
 	}
 
 	public String cancelar() {
-		return Constants.pages.HOME;
+		return Constants.pages.HOME + "?faces-redirect=true";
 	}
 
 	public Funcionario getFuncionario() {

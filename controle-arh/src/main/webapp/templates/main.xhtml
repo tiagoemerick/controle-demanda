@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<html lang="en">
+		<h:head>
+			
+			<title>Controle de demandas ARH</title>
+			
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="description" content="Demandas ARH" />
+			<meta name="author" content="BB Tecnologia" />
+			
+			<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+			
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+			<!--[if lt IE 9]>
+		      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		    <![endif]-->
+			
+			<!-- CSS - inicio -->
+			<h:outputStylesheet name="bootstrap.min.css" target="head" library="css" />
+			<h:outputStylesheet name="bootstrap-responsive.min.css" target="head" library="css" />
+			<h:outputStylesheet name="fullcalendar.css" target="head" library="css" />
+			<h:outputStylesheet name="dashboard.main.css" target="head" library="css" />
+			<h:outputStylesheet name="dashboard.grey.css" target="head" library="css" />
+			<h:outputStylesheet name="chosen.css" target="head" library="css" />
+			<h:outputStylesheet name="uniform.css" target="head" library="css" />
+			<!-- CSS - fim -->
+			
+		</h:head>
+		
+		<h:body>
+		
+			<div id="header">
+				<h1><a href="index">Inicial</a></h1>		
+			</div>
+			
+			<div id="search">
+				<input type="text" placeholder="número da demanda..." />
+				<button type="submit" class="tip-right" data-original-title="Search">
+					<i class="icon-search icon-white"></i>
+				</button>
+			</div>
+			
+			<ui:include src="/templates/header_buttons.xhtml" />
+	        
+	        <ui:include src="/templates/side_menu.xhtml" />
+			
+			<div id="content">
+				
+				<ui:include src="/templates/content_header.xhtml" />
+				
+				<ui:include src="/templates/breadcrumb.xhtml" />
+				
+				<div class="container-fluid">
+				
+					<ui:insert name="content">
+						conteúdo 
+					</ui:insert>
+					
+					<ui:remove>
+						<!-- <ui:include src="/templates/statistics.xhtml" />	-->
+					</ui:remove>
+					
+					<div class="row-fluid">
+						<div id="footer" class="span12">
+							<ui:include src="/templates/footer.xhtml" />
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<!-- JS - inicio -->
+			<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+			<h:outputScript name="jquery.ui.custom.js" target="body" library="js"/>
+			<h:outputScript name="excanvas.min.js" target="body" library="js"/>
+			<h:outputScript name="bootstrap.min.js" target="body" library="js"/>
+			<h:outputScript name="uniform.js" target="body" library="js"/>
+			<h:outputScript name="chosen.js" target="body" library="js"/>
+			<h:outputScript name="dashboard.js" target="body" library="js"/>
+			<!-- JS - fim -->
+			
+			<p:growl id="growl" widgetVar="msgs" showDetail="true" autoUpdate="true" showSummary="true" redisplay="true" life="10000" />
+			
+		</h:body>
+</html>
+
+</ui:composition>

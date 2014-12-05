@@ -1,0 +1,66 @@
+<ui:composition lang="pt-br" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:form>
+		<div id="sidebar">
+			<ul style="display: block; ">
+				<li class="active"><h:commandLink value="" action="/pages/home?faces-redirect=true"><i class="icon icon-home"></i> <span>Página inicial</span></h:commandLink></li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-user"></i> <span>Funcionário</span></a>
+					<ul>
+						<li><h:commandLink value="Cadastrar funcionário" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar funcionário" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true"/></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-file"></i> <span>Demandas</span> <span class="label">5</span></a>
+					<ul>
+						<li><h:commandLink value="Cadastrar demanda" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true"/></li>
+					</ul>
+				</li>
+				<!-- 
+				<li class="submenu">
+					<a href="#"><i class="icon icon-th-list"></i> <span>Projeto</span> <span class="label">2</span></a>
+					<ul>
+						<li><h:commandLink value="Projeto" action="/admin/projeto/projeto?faces-redirect=true"/></li>
+						<li><a href="#">Historico</a></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-road"></i> <span>Status</span> <span class="label">2</span></a>
+					<ul>
+						<li><h:commandLink value="Status" action="/admin/status/status?faces-redirect=true"/></li>
+						<li><h:commandLink value="Transição de status" action="/admin/transicaostatus/transicaostatus?faces-redirect=true"/></li>
+					</ul>
+				</li>
+				<li><h:commandLink value="" action="/admin/atorexterno/atorexterno?faces-redirect=true"><i class="icon icon-random"></i> <span>Ator externo</span> </h:commandLink></li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-ban-circle"></i> <span>Impedimento</span> <span class="label">3</span></a>
+					<ul>
+						<li><h:commandLink value="Impedimento" action="/admin/impedimento/impedimento?faces-redirect=true" /></li>
+						<li><h:commandLink value="Impacto" action="/admin/impacto/impacto?faces-redirect=true"/></li>
+						<li><h:commandLink value="Risco" action="/admin/risco/risco?faces-redirect=true"/></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-bell"></i> <span>Alerta</span> <span class="label">2</span></a>
+					<ul>
+						<li><a href="#">Alerta</a></li>
+						<li><a href="#">Template de email</a></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-briefcase"></i> <span>Usuário</span> <span class="label">2</span></a>
+					<ul>
+						<li><h:commandLink value="Usuario" action="/admin/usuario/usuario?faces-redirect=true"/></li>
+						<li><a href="#">Permissões</a></li>
+					</ul>
+				</li>
+				 -->
+			</ul>
+		</div>
+	</h:form>
+</ui:composition>

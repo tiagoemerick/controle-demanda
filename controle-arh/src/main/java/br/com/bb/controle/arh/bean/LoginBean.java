@@ -50,7 +50,7 @@ public class LoginBean extends AbstractBean {
 
 	public String logout() {
 		invalidateSession();
-		return Constants.pages.LOGIN;
+		return Constants.pages.LOGIN + "?faces-redirect=true";
 	}
 
 	public Funcionario getFuncionario() {

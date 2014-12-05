@@ -1,0 +1,22 @@
+<ui:composition lang="pt-br" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:form>
+	<div id="user-nav" class="navbar">
+	    <ul class="nav btn-group" style="width: auto; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; ">
+	        <li class="btn btn-inverse">
+	        	<a title="" href="#"><i class="icon icon-user"></i> <span class="text">Perfil</span></a>
+	        </li>
+	        <li class="btn btn-inverse">
+	        	<a title="" href="#"><i class="icon icon-file"></i> <span class="text">Demandas pendentes</span><span class="label label-important">5</span> </a>
+	        </li>
+	        <li class="btn btn-mini btn-inverse">
+	        	<h:commandLink value="" action="#{loginBean.logout}"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></h:commandLink>
+	        </li>
+	    </ul>
+	</div>
+	</h:form>
+</ui:composition>

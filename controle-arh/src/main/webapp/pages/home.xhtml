@@ -1,30 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/main.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/template.xhtml">
-	<ui:define name="body">
-		<h:form id="homeForm">
-			<center>
-				<p:panel header="Bem vindo" style="width: 50%;margin-top:1%">
-					<h:panelGrid columns="2" cellpadding="2">
-						<h:outputLabel value="Bem vindo #{sessionScope.funcionarioLogado.nome}." />
-					</h:panelGrid>
-				</p:panel>
-			</center>
-			<p:panel id="panelTrocaSenha" header="Trocar a senha" style="margin-right:40%;margin-left:40%;margin-top:1%;text-align: center" rendered="#{sessionScope.funcionarioLogado.trocarSenha}">
-				<h:panelGrid columns="1" cellpadding="1">
-					<h:outputLabel value="Este é seu primeiro acesso #{sessionScope.funcionarioLogado.nome}. Por favor, troque sua senha." />
-					<br />
-				</h:panelGrid>
-				<h:panelGrid columns="2" cellpadding="2">
-					<h:outputLabel value="Senha" />
-					<h:inputText value="#{funcionarioBean.funcionario.hash}" required="true" requiredMessage="Campo Senha obrigatório" />
-					<h:commandButton value="Alterar" action="#{funcionarioBean.alterarSenha}" style="margin-top: 20px"  />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-pencil"></i></span>
+						<h5>Bem vindo, #{sessionScope.funcionarioLogado.nome}</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<h:panelGroup id="campoTrocaSenha" styleClass="control-group" layout="block" rendered="#{sessionScope.funcionarioLogado.trocarSenha}">
+
+							<h:panelGroup styleClass="control-group" layout="block">
+								<div class="controls">
+									<p:outputLabel value="Este é seu primeiro acesso #{sessionScope.funcionarioLogado.nome}. Por favor, troque sua senha." />
+								</div>
+							</h:panelGroup>
+
+							<h:panelGroup styleClass="control-group" layout="block">
+								<label class="control-label">Nova senha :</label>
+								<div class="controls" style="width: 250px">
+									<p:password value="#{funcionarioBean.funcionario.hash}" required="true" requiredMessage="Campo Senha obrigatório" />
+								</div>
+							</h:panelGroup>
+							<h:panelGroup styleClass="control-group" layout="block">
+								<label class="control-label">Nova senha :</label>
+								<div class="controls">
+									<p:commandButton type="submit" value="Alterar" action="#{funcionarioBean.alterarSenha}" styleClass="btn btn-inverse" update=":formz" />
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:form>
+
+				</div>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>
-</html>
