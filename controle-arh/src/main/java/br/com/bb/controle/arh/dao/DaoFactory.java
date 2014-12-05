@@ -2,6 +2,7 @@ package br.com.bb.controle.arh.dao;
 
 import java.lang.reflect.ParameterizedType;
 
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
@@ -14,11 +15,12 @@ public class DaoFactory {
 	@Inject
 	private EntityManager em;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Any
+	@SuppressWarnings({ "unchecked" })
 	@Produces
 	public GenericDao<IEntity> getGenericDao(final InjectionPoint injectionPoint) {
 		ParameterizedType parameterizedType = (ParameterizedType) injectionPoint.getType();
-		Class classe = (Class) parameterizedType.getActualTypeArguments()[0];
+		Class<IEntity> classe = (Class<IEntity>) parameterizedType.getActualTypeArguments()[0];
 		return new GenericDao<IEntity>(classe, em);
 
 	}

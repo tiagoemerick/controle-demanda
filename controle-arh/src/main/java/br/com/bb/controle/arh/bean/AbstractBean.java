@@ -1,6 +1,7 @@
 package br.com.bb.controle.arh.bean;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import br.com.bb.controle.arh.util.AbstractUtil;
 import br.com.bb.controle.arh.util.JSFMessageUtil;

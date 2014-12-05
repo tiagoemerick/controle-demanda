@@ -1,6 +1,5 @@
 package br.com.bb.controle.arh.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the funcionario database table.
@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")
-public class Funcionario implements Serializable {
+public class Funcionario implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	public final static String SENHA_DEFAULT = "123456";
@@ -163,6 +163,17 @@ public class Funcionario implements Serializable {
 
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	@Override
+	@Transient
+	public Object getId() {
+		return this.getChave();
+	}
+
+	@Override
+	public void setId(Object id) {
+		setChave(String.valueOf(id));
 	}
 
 }

@@ -11,8 +11,8 @@
 				<li class="submenu">
 					<a href="#"><i class="icon icon-user"></i> <span>Funcionário</span></a>
 					<ul>
-						<li><h:commandLink value="Cadastrar funcionário" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
-						<li><h:commandLink value="Pesquisar funcionário" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true"/></li>
+						<li><h:commandLink value="Cadastrar funcionário" action="#{funcionarioBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar funcionário" action="#{funcionarioBean.initPesquisar()}"/></li>
 					</ul>
 				</li>
 				<li class="submenu">

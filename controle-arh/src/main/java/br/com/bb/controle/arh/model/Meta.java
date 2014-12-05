@@ -1,11 +1,17 @@
 package br.com.bb.controle.arh.model;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -14,12 +20,12 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Meta.findAll", query="SELECT m FROM Meta m")
-public class Meta implements Serializable {
+public class Meta implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	private String descricao;
 
@@ -34,12 +40,17 @@ public class Meta implements Serializable {
 	public Meta() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Override
+	public void setId(Object id) {
+		setId(Integer.valueOf(String.valueOf(id)));
 	}
 
 	public String getDescricao() {
@@ -101,5 +112,5 @@ public class Meta implements Serializable {
 			return false;
 		return true;
 	}
-
+	
 }

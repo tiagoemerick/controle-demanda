@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the demanda database table.
@@ -132,6 +133,17 @@ public class Demanda implements IEntity {
 		if (numero != other.numero)
 			return false;
 		return true;
+	}
+
+	@Override
+	@Transient
+	public Object getId() {
+		return this.getNumero();
+	}
+
+	@Override
+	public void setId(Object id) {
+		setNumero(Integer.valueOf(String.valueOf(id)));
 	}
 
 }

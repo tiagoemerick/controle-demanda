@@ -1,10 +1,15 @@
 package br.com.bb.controle.arh.model;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 
 /**
  * The persistent class for the impacto database table.
@@ -12,12 +17,12 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Impacto.findAll", query = "SELECT i FROM Impacto i")
-public class Impacto implements Serializable {
+public class Impacto implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	private String descricao;
 
@@ -29,12 +34,17 @@ public class Impacto implements Serializable {
 	public Impacto() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Override
+	public void setId(Object id) {
+		setId(Integer.valueOf(String.valueOf(id)));
 	}
 
 	public String getDescricao() {

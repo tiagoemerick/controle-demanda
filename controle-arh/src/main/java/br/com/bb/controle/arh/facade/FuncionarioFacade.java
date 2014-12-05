@@ -1,5 +1,7 @@
 package br.com.bb.controle.arh.facade;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 
@@ -27,6 +29,11 @@ public class FuncionarioFacade extends AbstractUtil {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+	}
+
+	public List<Funcionario> findAll() {
+		List<Funcionario> funcionarios = funcionarioDao.findAll();
+		return funcionarios;
 	}
 
 	@Transactional(roolBack = true)

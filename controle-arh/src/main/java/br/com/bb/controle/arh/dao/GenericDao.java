@@ -65,6 +65,10 @@ public class GenericDao<T> implements Serializable {
 	public T find(Object entityID) {
 		return em.find(entityClass, entityID);
 	}
+	
+	public T find(Class<T> clazz, Object entityID) {
+		return em.find(clazz, entityID);
+	}
 
 	public T findReferenceOnly(Object entityID) {
 		return em.getReference(entityClass, entityID);

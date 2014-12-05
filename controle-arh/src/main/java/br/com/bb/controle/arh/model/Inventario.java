@@ -1,10 +1,17 @@
 package br.com.bb.controle.arh.model;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the inventario database table.
@@ -12,7 +19,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Inventario.findAll", query = "SELECT i FROM Inventario i")
-public class Inventario implements Serializable {
+public class Inventario implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -88,6 +95,17 @@ public class Inventario implements Serializable {
 		} else if (!numBem.equals(other.numBem))
 			return false;
 		return true;
+	}
+	
+	@Override
+	@Transient
+	public Object getId() {
+		return this.getNumBem();
+	}
+
+	@Override
+	public void setId(Object id) {
+		setNumBem(String.valueOf(id));
 	}
 
 }
