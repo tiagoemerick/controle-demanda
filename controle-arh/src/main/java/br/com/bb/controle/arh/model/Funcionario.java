@@ -38,6 +38,9 @@ public class Funcionario implements IEntity {
 	@Column(name = "admin")
 	private Boolean isAdmin;
 
+	@Column(name = "ativo")
+	private Boolean isAtivo;
+
 	// bi-directional many-to-many association to Demanda
 	@ManyToMany
 	@JoinTable(name = "funcionario_has_demanda", joinColumns = { @JoinColumn(name = "Funcionario_chave") }, inverseJoinColumns = { @JoinColumn(name = "Demanda_numero") })
@@ -174,6 +177,14 @@ public class Funcionario implements IEntity {
 	@Override
 	public void setId(Object id) {
 		setChave(String.valueOf(id));
+	}
+
+	public Boolean getIsAtivo() {
+		return isAtivo;
+	}
+
+	public void setIsAtivo(Boolean isAtivo) {
+		this.isAtivo = isAtivo;
 	}
 
 }

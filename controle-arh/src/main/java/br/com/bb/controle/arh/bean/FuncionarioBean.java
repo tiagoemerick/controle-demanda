@@ -2,12 +2,9 @@ package br.com.bb.controle.arh.bean;
 
 import java.util.ArrayList;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.New;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.event.SelectEvent;
 
 import br.com.bb.controle.arh.facade.FuncionarioFacade;
 import br.com.bb.controle.arh.infra.DataModel;
@@ -15,7 +12,7 @@ import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.util.Constants;
 
 @Named
-@RequestScoped
+@ConversationScoped
 public class FuncionarioBean extends AbstractBean {
 
 	private static final long serialVersionUID = 1L;
@@ -23,23 +20,25 @@ public class FuncionarioBean extends AbstractBean {
 	@Inject
 	private FuncionarioFacade funcionarioFacade;
 
-	@New
 	@Inject
 	private DataModel<Funcionario> dataModel;
 
 	@Inject
-	private Funcionario funcionarioSelecionado;
-
 	private Funcionario funcionario;
 
 	public String init() {
+		super.beginNewConversation();
+
 		this.funcionario = new Funcionario();
 
 		return Constants.funcionarioPages.CADASTRAR_FUNCIONARIO;
 	}
 
 	public String initPesquisar() {
+		super.beginNewConversation();
+
 		this.dataModel.setList(new ArrayList<Funcionario>());
+		pesquisar();
 
 		return Constants.funcionarioPages.PESQUISAR_FUNCIONARIO;
 	}
@@ -56,13 +55,29 @@ public class FuncionarioBean extends AbstractBean {
 		return null;
 	}
 
-	public String teste() {
+	public void pesquisar() {
 		dataModel.setList(funcionarioFacade.findAll());
-		return null;
 	}
 
-	public void selecionarFuncionario(SelectEvent event) {
-		funcionarioSelecionado = (Funcionario) event.getObject();
+	public void resetarSenha(Funcionario funcionario) {
+		try {
+			funcionarioFacade.resetarSenha(funcionario);
+			displayInfoMessageToUser("Senha redefinida com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void inativar(Funcionario funcionario) {
+		try {
+			funcionarioFacade.inativar(funcionario);
+			displayInfoMessageToUser("Funcionário invativado com sucesso!");
+			funcionario.setIsAtivo(Boolean.FALSE);
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public String alterarSenha() {
@@ -88,14 +103,6 @@ public class FuncionarioBean extends AbstractBean {
 
 	public DataModel<Funcionario> getDataModel() {
 		return dataModel;
-	}
-
-	public Funcionario getFuncionarioSelecionado() {
-		return funcionarioSelecionado;
-	}
-
-	public void setFuncionarioSelecionado(Funcionario funcionarioSelecionado) {
-		this.funcionarioSelecionado = funcionarioSelecionado;
 	}
 
 }

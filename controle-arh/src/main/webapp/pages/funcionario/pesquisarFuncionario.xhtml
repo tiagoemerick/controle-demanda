@@ -1,10 +1,4 @@
-<ui:composition 
-	template="/templates/main.xhtml" 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets" 
-	xmlns:h="http://java.sun.com/jsf/html" 
-	xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
 		<div class="row-fluid">
@@ -17,18 +11,35 @@
 
 					<h:form id="table_form" styleClass="form-horizontal">
 						<div class="widget-content">
-							
-							<p:dataTable id="table" var="func" value="#{funcionarioBean.dataModel}" lazy="true"
-								tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom"
-								rows="3" selection="#{funcionarioBean.funcionarioSelecionado}" selectionMode="single" emptyMessage="Nenhum usuário cadastrado">
-								<p:ajax event="rowSelect" listener="#{funcionarioBean.selecionarFuncionario}" />
-								<p:column headerText="Chave">
+
+							<p:dataTable id="table" var="func" value="#{funcionarioBean.dataModel}" lazy="true" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum usuário cadastrado">
+								<p:column headerText="Ativo" sortBy="#{func.isAtivo}" style="width: 20px">
+									<h:graphicImage value="../../resources/img/ativo.png" rendered="#{func.isAtivo}" />
+									<h:graphicImage value="../../resources/img/inativo.png" rendered="#{not func.isAtivo}" />
+								</p:column>
+								<p:column headerText="Chave" sortBy="#{func.chave}" filterBy="#{func.chave}">
 									<h:outputText value="#{func.chave}" />
+								</p:column>
+								<p:column headerText="Nome" sortBy="#{func.nome}" filterBy="#{func.nome}">
+									<h:outputText value="#{func.nome}" />
+								</p:column>
+								<p:column headerText="Equipe" sortBy="#{func.equipe}" filterBy="#{func.equipe}">
+									<h:outputText value="#{func.equipe}" />
+								</p:column>
+								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
+									<center>
+										<p:commandLink title="Redefinir senha" action="#{funcionarioBean.resetarSenha(func)}">
+											<i class="icon icon-retweet"></i>
+										</p:commandLink>
+										<p:commandLink title="Inativar funcionário" style="margin-left: 5px;" action="#{funcionarioBean.inativar(func)}" update="table">
+											<i class="icon icon-ban-circle"></i>
+										</p:commandLink>
+									</center>
 								</p:column>
 							</p:dataTable>
 
 							<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-								<p:commandButton value="Pesquisar" action="#{funcionarioBean.teste}" update="table" styleClass="btn btn-inverse" />
+								<p:commandButton value="Limpar" action="#{funcionarioBean.initPesquisar()}" styleClass="btn btn-inverse" immediate="true" />
 							</h:panelGroup>
 
 						</div>

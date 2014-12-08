@@ -2,6 +2,8 @@ package br.com.bb.controle.arh.infra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +16,16 @@ import org.primefaces.model.SortOrder;
 
 import br.com.bb.controle.arh.dao.GenericDao;
 import br.com.bb.controle.arh.model.IEntity;
+import br.com.bb.controle.arh.util.PropertyComparator;
+import br.com.bb.controle.arh.util.ReflectionUtil;
 
 @SuppressWarnings({ "unchecked", "static-access" })
 public class DataModel<T extends IEntity> extends LazyDataModel<T> implements SelectableDataModel<T>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
 	@Any
+	@Inject
 	private GenericDao<IEntity> genericDao;
 
 	private static List<?> list;
@@ -40,13 +44,43 @@ public class DataModel<T extends IEntity> extends LazyDataModel<T> implements Se
 		List<T> data = new ArrayList<T>();
 
 		if (this.list != null) {
-			data = (List<T>) this.list;
+			// filtros
+			for (T car : (List<T>) this.list) {
+				boolean match = true;
 
-			// rowCount
+				if (filters != null) {
+					for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
+						try {
+							String filterProperty = it.next();
+							Object filterValue = filters.get(filterProperty);
+							String fieldValue = String.valueOf(ReflectionUtil.getFieldValue(car, filterProperty));
+
+							if (filterValue == null || fieldValue.contains(filterValue.toString())) {
+								match = true;
+							} else {
+								match = false;
+								break;
+							}
+						} catch (Exception e) {
+							match = false;
+						}
+					}
+				}
+				if (match) {
+					data.add(car);
+				}
+			}
+
+			// ordenacao
+			if (sortField != null) {
+				boolean ASCENDING = (sortOrder.ordinal() == 0 ? true : false);
+				Collections.sort(data, new PropertyComparator<T>(sortField, ASCENDING));
+			}
+
 			int dataSize = data.size();
 			this.setRowCount(dataSize);
 
-			// paginate
+			// paginacao
 			if (dataSize > pageSize) {
 				try {
 					return data.subList(first, first + pageSize);

@@ -42,11 +42,39 @@ public class FuncionarioFacade extends AbstractUtil {
 
 		funcionario.setHash(CryptUtil.crypt(Funcionario.SENHA_DEFAULT));
 		funcionario.setTrocarSenha(Boolean.TRUE);
+		funcionario.setIsAtivo(Boolean.TRUE);
 		try {
 			funcionarioDao.save(funcionario);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao salvar funcionário. Tente novamente.", e);
+		}
+	}
+
+	@Transactional(roolBack = true)
+	public void resetarSenha(Funcionario funcionario) throws Exception {
+		Funcionario funcAux = funcionarioDao.find(funcionario.getChave());
+
+		funcAux.setHash(CryptUtil.crypt(Funcionario.SENHA_DEFAULT));
+		funcAux.setTrocarSenha(Boolean.TRUE);
+		try {
+			funcionarioDao.save(funcAux);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao redefinir senha. Tente novamente.", e);
+		}
+	}
+
+	@Transactional(roolBack = true)
+	public void inativar(Funcionario funcionario) throws Exception {
+		Funcionario funcAux = funcionarioDao.find(funcionario.getChave());
+
+		funcAux.setIsAtivo(Boolean.FALSE);
+		try {
+			funcionarioDao.save(funcAux);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao inativar funcionário. Tente novamente.", e);
 		}
 	}
 

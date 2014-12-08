@@ -1,7 +1,9 @@
 package br.com.bb.controle.arh.bean;
 
+import javax.enterprise.context.Conversation;
+import javax.inject.Inject;
+
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 
 import br.com.bb.controle.arh.util.AbstractUtil;
 import br.com.bb.controle.arh.util.JSFMessageUtil;
@@ -14,6 +16,29 @@ public class AbstractBean extends AbstractUtil {
 
 	public AbstractBean() {
 		super();
+	}
+
+	@Inject
+	private Conversation conversation;
+
+	protected void beginNewConversation() {
+		if (!conversation.isTransient()) {
+			conversation.end();
+		}
+		conversation.begin();
+	}
+
+	/**
+	 * Se houver uma conversation ativa, usa a mesa, caso contrario cria nova.
+	 */
+	protected void joinConversation() {
+		if (conversation.isTransient()) {
+			conversation.begin();
+		}
+	}
+
+	protected void endConversation() {
+		conversation.end();
 	}
 
 	protected void displayErrorMessageToUser(String message) {
