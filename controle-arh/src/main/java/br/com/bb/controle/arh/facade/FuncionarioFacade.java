@@ -41,6 +41,7 @@ public class FuncionarioFacade extends AbstractUtil {
 		validarCadastro(funcionario);
 
 		funcionario.setHash(CryptUtil.crypt(Funcionario.SENHA_DEFAULT));
+		funcionario.setChave(funcionario.getChave().toUpperCase());
 		funcionario.setTrocarSenha(Boolean.TRUE);
 		funcionario.setIsAtivo(Boolean.TRUE);
 		try {
