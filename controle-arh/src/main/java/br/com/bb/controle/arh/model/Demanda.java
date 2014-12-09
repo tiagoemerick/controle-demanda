@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,14 @@ public class Demanda implements IEntity {
 		this.descricao = descricao;
 	}
 
+	public String getDtFimFormatada() {
+		if (getDtFim() != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+			return sf.format(getDtFim());
+		}
+		return "";
+	}
+
 	public Date getDtFim() {
 		return this.dtFim;
 	}
@@ -84,6 +93,14 @@ public class Demanda implements IEntity {
 
 	public Date getDtIni() {
 		return this.dtIni;
+	}
+
+	public String getDtIniFormatada() {
+		if (getDtIni() != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+			return sf.format(getDtIni());
+		}
+		return "";
 	}
 
 	public void setDtIni(Date dtIni) {

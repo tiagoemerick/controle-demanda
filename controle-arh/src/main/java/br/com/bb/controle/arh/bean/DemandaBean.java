@@ -52,7 +52,7 @@ public class DemandaBean extends AbstractBean {
 			}
 			demandaFacade.cadastrar(demanda);
 			displayInfoMessageToUser("Demanda cadastrada com sucesso!");
-			return Constants.pages.HOME;
+			return Constants.demandaPages.DETALHE_DEMANDA;
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();

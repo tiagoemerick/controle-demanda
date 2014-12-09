@@ -24,6 +24,7 @@ public final class Constants {
 	public static final class demandaPages {
 		public static final String PESQUISAR_DEMANDA = "/pages/demanda/pesquisarDemanda?faces-redirect=true";
 		public static final String CADASTRAR_DEMANDA = "/pages/demanda/cadastrarDemanda?faces-redirect=true";
+		public static final String DETALHE_DEMANDA = "/pages/demanda/detalheDemanda?faces-redirect=true";
 	}
 
 	public static final class session {
