@@ -54,6 +54,25 @@
 								<p:outputLabel id="display" />
 							</div>
 						</div>
+						
+						<div class="control-group">
+							<label class="control-label">Funcionários alocados: </label>
+							<div class="controls">
+								<p:pickList id="funcPickList" value="#{demandaBean.funcionarios}" var="func"
+							                itemValue="#{func}" itemLabel="#{func.nome}" showSourceControls="false" showTargetControls="false" showCheckbox="true"
+							                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="funcionarioConverter">
+							        <f:facet name="sourceCaption">Disponíveis</f:facet>
+							        <f:facet name="targetCaption">Selecionados</f:facet>
+							        
+							        <p:ajax event="transfer" listener="#{demandaBean.onTransfer}" />
+							        
+							        <p:column>
+							            <p:outputLabel value="#{func.nome}" />
+							    	</p:column>
+							    </p:pickList>
+							</div>
+						</div>
+						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
 							<p:commandButton value="Cadastrar" action="#{demandaBean.cadastrar}" styleClass="btn btn-inverse" />
 							<p:commandButton value="Cancelar" action="#{demandaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />

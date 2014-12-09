@@ -6,6 +6,7 @@ public final class Constants {
 	}
 
 	public static final class database {
+		public static final String SCHEMA = "arh";
 		public static final String PERSISTENCE_UNIT_NAME = "controleArhPu";
 	}
 

@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -98,6 +99,9 @@ public class Demanda implements IEntity {
 	}
 
 	public List<Funcionario> getFuncionarios() {
+		if (this.funcionarios == null) {
+			this.funcionarios = new ArrayList<Funcionario>();
+		}
 		return this.funcionarios;
 	}
 
@@ -106,6 +110,9 @@ public class Demanda implements IEntity {
 	}
 
 	public List<Impacto> getImpactos() {
+		if (this.impactos == null) {
+			this.impactos = new ArrayList<Impacto>();
+		}
 		return this.impactos;
 	}
 

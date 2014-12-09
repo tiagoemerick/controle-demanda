@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import br.com.bb.controle.arh.dao.FuncionarioDao;
 import br.com.bb.controle.arh.infra.interceptors.Transactional;
 import br.com.bb.controle.arh.model.Funcionario;
+import br.com.bb.controle.arh.model.StatusEnum;
 import br.com.bb.controle.arh.util.AbstractUtil;
 import br.com.bb.controle.arh.util.Constants;
 import br.com.bb.controle.arh.util.CryptUtil;
@@ -29,6 +30,15 @@ public class FuncionarioFacade extends AbstractUtil {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+	}
+
+	public List<Funcionario> findAllAtivos() {
+		return findAllByStatus(StatusEnum.ATIVO);
+	}
+
+	private List<Funcionario> findAllByStatus(StatusEnum statusEnum) {
+		List<Funcionario> funcionarios = funcionarioDao.findAllByStatus(statusEnum);
+		return funcionarios;
 	}
 
 	public List<Funcionario> findAll() {

@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -98,6 +99,9 @@ public class Funcionario implements IEntity {
 	}
 
 	public List<Demanda> getDemandas() {
+		if (this.demandas == null) {
+			this.demandas = new ArrayList<Demanda>();
+		}
 		return this.demandas;
 	}
 
@@ -106,6 +110,9 @@ public class Funcionario implements IEntity {
 	}
 
 	public List<FuncionarioHasMeta> getFuncionarioHasMetas() {
+		if (this.funcionarioHasMetas == null) {
+			this.funcionarioHasMetas = new ArrayList<FuncionarioHasMeta>();
+		}
 		return this.funcionarioHasMetas;
 	}
 

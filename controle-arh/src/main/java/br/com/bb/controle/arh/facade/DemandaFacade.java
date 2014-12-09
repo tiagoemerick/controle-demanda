@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import br.com.bb.controle.arh.dao.DemandaDao;
 import br.com.bb.controle.arh.infra.interceptors.Transactional;
 import br.com.bb.controle.arh.model.Demanda;
+import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.util.AbstractUtil;
 
 public class DemandaFacade extends AbstractUtil {
@@ -27,10 +28,18 @@ public class DemandaFacade extends AbstractUtil {
 		validarCadastro(demanda);
 		try {
 			validarNumeroDemanda(demanda);
-			demandaDao.save(demanda);
+			demandaDao.saveAndFlush(demanda);
+
+			insertFuncionarioDemanda(demanda);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao salvar demanda. Tente novamente.", e);
+		}
+	}
+
+	private void insertFuncionarioDemanda(Demanda demanda) {
+		for (Funcionario f : demanda.getFuncionarios()) {
+			this.demandaDao.insertFuncionarioDemanda(demanda.getNumero(), f.getChave());
 		}
 	}
 

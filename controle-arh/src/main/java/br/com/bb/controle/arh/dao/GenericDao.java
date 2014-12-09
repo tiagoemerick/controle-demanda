@@ -48,8 +48,18 @@ public class GenericDao<T> implements Serializable {
 	 * em.joinTransaction(); }
 	 */
 
+	private void flush() {
+		em.flush();
+	}
+
 	public void save(T entity) {
 		em.persist(entity);
+	}
+
+	public T saveAndFlush(T entity) {
+		em.persist(entity);
+		flush();
+		return entity;
 	}
 
 	protected void delete(Object id, Class<T> classe) {
@@ -65,13 +75,23 @@ public class GenericDao<T> implements Serializable {
 	public T find(Object entityID) {
 		return em.find(entityClass, entityID);
 	}
-	
+
 	public T find(Class<T> clazz, Object entityID) {
 		return em.find(clazz, entityID);
 	}
 
 	public T findReferenceOnly(Object entityID) {
 		return em.getReference(entityClass, entityID);
+	}
+
+	protected void executeNativeSql(String nativeQuery) {
+		try {
+			Query query = em.createNativeQuery(nativeQuery);
+			query.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Erro no executeNativeSql() \ne.getMessage(): " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
