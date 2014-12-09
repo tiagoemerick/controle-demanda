@@ -22,9 +22,9 @@ public class Demanda implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int numero;
+	private Long numero;
 
-	private int acao;
+	private Integer acao;
 
 	private String descricao;
 
@@ -36,7 +36,7 @@ public class Demanda implements IEntity {
 	@Column(name = "dt_ini")
 	private Date dtIni;
 
-	private int esforco;
+	private Integer esforco;
 
 	// bi-directional many-to-many association to Funcionario
 	@ManyToMany(mappedBy = "demandas")
@@ -49,19 +49,19 @@ public class Demanda implements IEntity {
 	public Demanda() {
 	}
 
-	public int getNumero() {
+	public Long getNumero() {
 		return this.numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
 
-	public int getAcao() {
+	public Integer getAcao() {
 		return this.acao;
 	}
 
-	public void setAcao(int acao) {
+	public void setAcao(Integer acao) {
 		this.acao = acao;
 	}
 
@@ -89,11 +89,11 @@ public class Demanda implements IEntity {
 		this.dtIni = dtIni;
 	}
 
-	public int getEsforco() {
+	public Integer getEsforco() {
 		return this.esforco;
 	}
 
-	public void setEsforco(int esforco) {
+	public void setEsforco(Integer esforco) {
 		this.esforco = esforco;
 	}
 
@@ -116,9 +116,9 @@ public class Demanda implements IEntity {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		Long result = 1l;
 		result = prime * result + numero;
-		return result;
+		return result.intValue();
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class Demanda implements IEntity {
 
 	@Override
 	public void setId(Object id) {
-		setNumero(Integer.valueOf(String.valueOf(id)));
+		setNumero(Long.valueOf(String.valueOf(id)));
 	}
 
 }

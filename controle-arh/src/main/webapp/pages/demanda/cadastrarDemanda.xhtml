@@ -1,0 +1,67 @@
+<ui:composition 
+	template="/templates/main.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-pencil"></i></span>
+						<h5>Cadastro de demanda</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">Número :</label>
+							<div class="controls" style="width: 500px;">
+								<p:outputLabel value="Número será gerado após salvar a demanda." />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Ação :</label>
+							<div class="controls" style="width: 500px;">
+								<p:inputText value="#{demandaBean.demanda.acao}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Esforço :</label>
+							<div class="controls" style="width: 500px;">
+								<p:inputText value="#{demandaBean.demanda.esforco}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Período: </label>
+							<div class="controls" style="width: 250px">
+								<h:panelGrid columns="3" border="0" >
+									<p:calendar value="#{demandaBean.demanda.dtIni}" pattern="dd/MM/yyyy">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:calendar>à
+									<p:calendar value="#{demandaBean.demanda.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:calendar>
+								</h:panelGrid>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Descrição: </label>
+							<div class="controls" style="width: 500px;">
+								<p:inputTextarea value="#{demandaBean.demanda.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
+								<p:outputLabel id="display" />
+							</div>
+						</div>
+						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
+							<p:commandButton value="Cadastrar" action="#{demandaBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cancelar" action="#{demandaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+						</h:panelGroup>
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

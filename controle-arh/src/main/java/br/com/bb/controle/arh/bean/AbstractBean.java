@@ -34,6 +34,8 @@ public class AbstractBean extends AbstractUtil {
 	protected void joinConversation() {
 		if (conversation.isTransient()) {
 			conversation.begin();
+		} else {
+			conversation.begin(conversation.getId());
 		}
 	}
 

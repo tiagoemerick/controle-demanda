@@ -18,7 +18,7 @@
 				<li class="submenu">
 					<a href="#"><i class="icon icon-file"></i> <span>Demandas</span> <span class="label">5</span></a>
 					<ul>
-						<li><h:commandLink value="Cadastrar demanda" action="/pages/funcionario/cadastrarFuncionario?faces-redirect=true"/></li>
+						<li><h:commandLink value="Cadastrar demanda" action="#{demandaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
 					</ul>
 				</li>
 				<!-- 

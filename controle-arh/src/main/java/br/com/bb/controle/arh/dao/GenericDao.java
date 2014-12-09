@@ -103,7 +103,7 @@ public class GenericDao<T> implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<T> findListResult(String stringQuery, Map<String, Object> parameters) {
+	protected List<T> findListResult(String stringQuery, Map<String, Object> parameters, int maxResult) {
 		List<T> result = null;
 
 		try {
@@ -111,6 +111,9 @@ public class GenericDao<T> implements Serializable {
 
 			if (parameters != null && !parameters.isEmpty()) {
 				populateQueryParameters(query, parameters);
+			}
+			if (maxResult != 0) {
+				query.setMaxResults(maxResult);
 			}
 			result = (List<T>) query.getResultList();
 

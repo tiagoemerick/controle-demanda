@@ -18,19 +18,19 @@
 					<h:form id="formz" styleClass="form-horizontal">
 						<div class="control-group">
 							<label class="control-label">Chave :</label>
-							<div class="controls">
+							<div class="controls" style="width: 500px;">
 								<p:inputText value="#{funcionarioBean.funcionario.chave}" required="true" requiredMessage="Campo Chave obrigatório" maxlength="8" />
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Nome :</label>
-							<div class="controls">
+							<div class="controls" style="width: 500px;">
 								<p:inputText value="#{funcionarioBean.funcionario.nome}" required="true" requiredMessage="Campo nome obrigatório" maxlength="100" />
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Equipe :</label>
-							<div class="controls">
+							<div class="controls" style="width: 500px;">
 								<p:inputText value="#{funcionarioBean.funcionario.equipe}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="11" />
 							</div>
 						</div>
