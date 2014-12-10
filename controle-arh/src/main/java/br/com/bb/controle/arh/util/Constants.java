@@ -20,11 +20,14 @@ public final class Constants {
 		public static final String PESQUISAR_FUNCIONARIO = "/pages/funcionario/pesquisarFuncionario?faces-redirect=true";
 		public static final String CADASTRAR_FUNCIONARIO = "/pages/funcionario/cadastrarFuncionario?faces-redirect=true";
 	}
-	
-	public static final class demandaPages {
-		public static final String PESQUISAR_DEMANDA = "/pages/demanda/pesquisarDemanda?faces-redirect=true";
-		public static final String CADASTRAR_DEMANDA = "/pages/demanda/cadastrarDemanda?faces-redirect=true";
-		public static final String DETALHE_DEMANDA = "/pages/demanda/detalheDemanda?faces-redirect=true";
+
+	public static final class tarefaPages {
+		public static final String PESQUISAR_TAREFA = "/pages/tarefa/pesquisarTarefa?faces-redirect=true";
+		public static final String CADASTRAR_TAREFA = "/pages/tarefa/cadastrarTarefa?faces-redirect=true";
+	}
+
+	public static final class impactoPages {
+		public static final String CADASTRAR_IMPACTO = "/pages/impacto/cadastrarImpacto?faces-redirect=true";
 	}
 
 	public static final class session {

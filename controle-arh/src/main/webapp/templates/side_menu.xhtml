@@ -16,9 +16,15 @@
 					</ul>
 				</li>
 				<li class="submenu">
-					<a href="#"><i class="icon icon-file"></i> <span>Demandas</span> <span class="label">5</span></a>
+					<a href="#"><i class="icon icon-file"></i> <span>Tarefas</span> <span class="label">5</span></a>
 					<ul>
-						<li><h:commandLink value="Cadastrar demanda" action="#{demandaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Cadastrar tarefa" action="#{tarefaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-file"></i> <span>Impactos</span> </a>
+					<ul>
+						<li><h:commandLink value="Cadastrar impacto" action="#{impactoBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
 					</ul>
 				</li>
 				<!-- 

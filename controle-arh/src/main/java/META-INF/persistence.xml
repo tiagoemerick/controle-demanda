@@ -8,7 +8,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<!-- entity -->
-		<class>br.com.bb.controle.arh.model.Demanda</class>
+		<class>br.com.bb.controle.arh.model.Tarefa</class>
 		<class>br.com.bb.controle.arh.model.Funcionario</class>
 		<class>br.com.bb.controle.arh.model.FuncionarioHasMeta</class>
 		<class>br.com.bb.controle.arh.model.FuncionarioHasMetaPK</class>

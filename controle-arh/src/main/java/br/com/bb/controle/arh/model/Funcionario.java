@@ -42,10 +42,10 @@ public class Funcionario implements IEntity {
 	@Column(name = "ativo")
 	private Boolean isAtivo;
 
-	// bi-directional many-to-many association to Demanda
+	// bi-directional many-to-many association to Tarefa
 	@ManyToMany
-	@JoinTable(name = "funcionario_has_demanda", joinColumns = { @JoinColumn(name = "Funcionario_chave") }, inverseJoinColumns = { @JoinColumn(name = "Demanda_numero") })
-	private List<Demanda> demandas;
+	@JoinTable(name = "Funcionario_has_Tarefa", joinColumns = { @JoinColumn(name = "Funcionario_chave") }, inverseJoinColumns = { @JoinColumn(name = "Tarefa_id") })
+	private List<Tarefa> tarefas;
 
 	// bi-directional many-to-one association to FuncionarioHasMeta
 	@OneToMany(mappedBy = "funcionario")
@@ -98,15 +98,15 @@ public class Funcionario implements IEntity {
 		this.trocarSenha = trocarSenha;
 	}
 
-	public List<Demanda> getDemandas() {
-		if (this.demandas == null) {
-			this.demandas = new ArrayList<Demanda>();
+	public List<Tarefa> getTarefas() {
+		if (this.tarefas == null) {
+			this.tarefas = new ArrayList<Tarefa>();
 		}
-		return this.demandas;
+		return this.tarefas;
 	}
 
-	public void setDemandas(List<Demanda> demandas) {
-		this.demandas = demandas;
+	public void setTarefas(List<Tarefa> tarefas) {
+		this.tarefas = tarefas;
 	}
 
 	public List<FuncionarioHasMeta> getFuncionarioHasMetas() {

@@ -12,36 +12,36 @@
 				<div class="widget-box">
 					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
 						<span class="icon"> <i class="icon icon-pencil"></i></span>
-						<h5>Cadastro de demanda</h5>
+						<h5>Cadastro de tarefa</h5>
 					</div>
 
 					<h:form id="formz" styleClass="form-horizontal">
 						<div class="control-group">
 							<label class="control-label">Número :</label>
 							<div class="controls" style="width: 500px;">
-								<p:outputLabel value="Número será gerado após salvar a demanda." />
+								<p:inputText value="#{tarefaBean.tarefa.numero}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Ação :</label>
 							<div class="controls" style="width: 500px;">
-								<p:inputText value="#{demandaBean.demanda.acao}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+								<p:inputText value="#{tarefaBean.tarefa.acao}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Esforço :</label>
 							<div class="controls" style="width: 500px;">
-								<p:inputText value="#{demandaBean.demanda.esforco}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+								<p:inputText value="#{tarefaBean.tarefa.esforco}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label">Período: </label>
 							<div class="controls" style="width: 250px">
 								<h:panelGrid columns="3" border="0" >
-									<p:calendar value="#{demandaBean.demanda.dtIni}" pattern="dd/MM/yyyy">
+									<p:calendar value="#{tarefaBean.tarefa.dtIni}" pattern="dd/MM/yyyy">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</p:calendar>à
-									<p:calendar value="#{demandaBean.demanda.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+									<p:calendar value="#{tarefaBean.tarefa.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</p:calendar>
 								</h:panelGrid>
@@ -50,7 +50,7 @@
 						<div class="control-group">
 							<label class="control-label">Descrição: </label>
 							<div class="controls" style="width: 500px;">
-								<p:inputTextarea value="#{demandaBean.demanda.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
+								<p:inputTextarea value="#{tarefaBean.tarefa.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
 								<p:outputLabel id="display" />
 							</div>
 						</div>
@@ -58,13 +58,13 @@
 						<div class="control-group">
 							<label class="control-label">Funcionários alocados: </label>
 							<div class="controls">
-								<p:pickList id="funcPickList" value="#{demandaBean.funcionarios}" var="func"
+								<p:pickList id="funcPickList" value="#{tarefaBean.funcionarios}" var="func"
 							                itemValue="#{func}" itemLabel="#{func.nome}" showSourceControls="false" showTargetControls="false" showCheckbox="true"
 							                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="funcionarioConverter">
 							        <f:facet name="sourceCaption">Disponíveis</f:facet>
 							        <f:facet name="targetCaption">Selecionados</f:facet>
 							        
-							        <p:ajax event="transfer" listener="#{demandaBean.onTransfer}" />
+							        <p:ajax event="transfer" listener="#{tarefaBean.onTransfer}" />
 							        
 							        <p:column>
 							            <p:outputLabel value="#{func.nome}" />
@@ -74,8 +74,8 @@
 						</div>
 						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-							<p:commandButton value="Cadastrar" action="#{demandaBean.cadastrar}" styleClass="btn btn-inverse" />
-							<p:commandButton value="Cancelar" action="#{demandaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+							<p:commandButton value="Cadastrar" action="#{tarefaBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cancelar" action="#{tarefaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 						</h:panelGroup>
 					</h:form>
 

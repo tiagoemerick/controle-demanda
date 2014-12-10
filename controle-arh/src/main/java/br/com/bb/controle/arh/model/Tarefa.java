@@ -7,23 +7,27 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
- * The persistent class for the demanda database table.
+ * The persistent class for the tarefa database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Demanda.findAll", query = "SELECT d FROM Demanda d")
-public class Demanda implements IEntity {
+@NamedQuery(name = "Tarefa.findAll", query = "SELECT d FROM Tarefa d")
+public class Tarefa implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	private Long numero;
 
 	private Integer acao;
@@ -41,14 +45,14 @@ public class Demanda implements IEntity {
 	private Integer esforco;
 
 	// bi-directional many-to-many association to Funcionario
-	@ManyToMany(mappedBy = "demandas")
+	@ManyToMany(mappedBy = "tarefas")
 	private List<Funcionario> funcionarios;
 
 	// bi-directional many-to-many association to Impacto
-	@ManyToMany(mappedBy = "demandas")
+	@ManyToMany(mappedBy = "tarefas")
 	private List<Impacto> impactos;
 
-	public Demanda() {
+	public Tarefa() {
 	}
 
 	public Long getNumero() {
@@ -141,7 +145,7 @@ public class Demanda implements IEntity {
 	public int hashCode() {
 		final int prime = 31;
 		Long result = 1l;
-		result = prime * result + numero;
+		result = prime * result + id;
 		return result.intValue();
 	}
 
@@ -153,21 +157,23 @@ public class Demanda implements IEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Demanda other = (Demanda) obj;
-		if (numero != other.numero)
+		Tarefa other = (Tarefa) obj;
+		if (id != other.id)
 			return false;
 		return true;
 	}
 
-	@Override
-	@Transient
-	public Object getId() {
-		return this.getNumero();
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@Override
 	public void setId(Object id) {
-		setNumero(Long.valueOf(String.valueOf(id)));
+		setId(Integer.valueOf(String.valueOf(id)));
 	}
 
 }

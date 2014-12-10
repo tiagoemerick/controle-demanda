@@ -15,8 +15,8 @@ import javax.persistence.NamedQuery;
  * The persistent class for the impacto database table.
  * 
  */
-@Entity
-@NamedQuery(name = "Impacto.findAll", query = "SELECT i FROM Impacto i")
+@Entity(name = "impacto")
+@NamedQuery(name = "impacto.findAll", query = "SELECT i FROM impacto i")
 public class Impacto implements IEntity {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +26,10 @@ public class Impacto implements IEntity {
 
 	private String descricao;
 
-	// bi-directional many-to-many association to Demanda
+	// bi-directional many-to-many association to Tarefa
 	@ManyToMany
-	@JoinTable(name = "demanda_has_impacto", joinColumns = { @JoinColumn(name = "impacto_id") }, inverseJoinColumns = { @JoinColumn(name = "Demanda_numero") })
-	private List<Demanda> demandas;
+	@JoinTable(name = "Tarefa_has_impacto", joinColumns = { @JoinColumn(name = "impacto_id") }, inverseJoinColumns = { @JoinColumn(name = "Tarefa_id") })
+	private List<Tarefa> tarefas;
 
 	public Impacto() {
 	}
@@ -41,7 +41,7 @@ public class Impacto implements IEntity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public void setId(Object id) {
 		setId(Integer.valueOf(String.valueOf(id)));
@@ -55,12 +55,12 @@ public class Impacto implements IEntity {
 		this.descricao = descricao;
 	}
 
-	public List<Demanda> getDemandas() {
-		return this.demandas;
+	public List<Tarefa> getTarefas() {
+		return this.tarefas;
 	}
 
-	public void setDemandas(List<Demanda> demandas) {
-		this.demandas = demandas;
+	public void setTarefas(List<Tarefa> tarefas) {
+		this.tarefas = tarefas;
 	}
 
 	@Override

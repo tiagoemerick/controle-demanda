@@ -10,26 +10,26 @@ import javax.inject.Named;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
-import br.com.bb.controle.arh.facade.DemandaFacade;
 import br.com.bb.controle.arh.facade.FuncionarioFacade;
-import br.com.bb.controle.arh.model.Demanda;
+import br.com.bb.controle.arh.facade.TarefaFacade;
 import br.com.bb.controle.arh.model.Funcionario;
+import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.Constants;
 
 @Named
 @ConversationScoped
-public class DemandaBean extends AbstractBean {
+public class TarefaBean extends AbstractBean {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private DemandaFacade demandaFacade;
+	private TarefaFacade tarefaFacade;
 
 	@Inject
 	private FuncionarioFacade funcionarioFacade;
 
 	@Inject
-	private Demanda demanda;
+	private Tarefa tarefa;
 
 	private DualListModel<Funcionario> funcionarios;
 	private List<Funcionario> funcionariosSelecionados;
@@ -37,22 +37,22 @@ public class DemandaBean extends AbstractBean {
 	public String init() {
 		super.beginNewConversation();
 
-		this.demanda = new Demanda();
+		this.tarefa = new Tarefa();
 		this.funcionariosSelecionados = new ArrayList<Funcionario>();
 
 		this.funcionarios = new DualListModel<Funcionario>(this.funcionarioFacade.findAllAtivos(), funcionariosSelecionados);
 
-		return Constants.demandaPages.CADASTRAR_DEMANDA;
+		return Constants.tarefaPages.CADASTRAR_TAREFA;
 	}
 
 	public String cadastrar() {
 		try {
 			if (!funcionariosSelecionados.isEmpty()) {
-				demanda.setFuncionarios(funcionariosSelecionados);
+				tarefa.setFuncionarios(funcionariosSelecionados);
 			}
-			demandaFacade.cadastrar(demanda);
-			displayInfoMessageToUser("Demanda cadastrada com sucesso!");
-			return Constants.demandaPages.DETALHE_DEMANDA;
+			tarefaFacade.cadastrar(tarefa);
+			displayInfoMessageToUser("Tarefa cadastrada com sucesso!");
+			return Constants.pages.HOME;
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();
@@ -75,12 +75,12 @@ public class DemandaBean extends AbstractBean {
 		return Constants.pages.HOME + "?faces-redirect=true";
 	}
 
-	public Demanda getDemanda() {
-		return demanda;
+	public Tarefa getTarefa() {
+		return tarefa;
 	}
 
-	public void setDemanda(Demanda demanda) {
-		this.demanda = demanda;
+	public void setTarefa(Tarefa tarefa) {
+		this.tarefa = tarefa;
 	}
 
 	public DualListModel<Funcionario> getFuncionarios() {

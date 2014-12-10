@@ -1,0 +1,76 @@
+<ui:composition 
+	template="/templates/main.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-pencil"></i></span>
+						<h5>Cadastro de impacto</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">Descrição: </label>
+							<div class="controls" style="width: 500px;">
+								<p:inputTextarea value="#{impactoBean.impacto.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
+								<p:outputLabel id="display" />
+							</div>
+						</div>
+						
+						<h:panelGroup layout="block" id="divTarefas" class="control-group">
+							<label class="control-label">Número da tarefa: </label>
+							<div class="controls" style="width: 500px;">
+								<h:panelGrid columns="2" border="0" >
+									<p:inputText id="demNumero" value="#{impactoBean.tarefa.numero}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+									<p:commandLink title="Incluir tarefa" style="margin-left: 5px;" action="#{impactoBean.incluirTarefa}" partialSubmit="true" process="@this,demNumero" update=":formz:divTarefas">
+										<i class="icon icon-plus-sign"></i>
+									</p:commandLink>
+								</h:panelGrid>
+								
+								<div style="margin-top: 5px">
+									<p:outputLabel value="Ações dessa tarefa: " rendered="#{impactoBean.tarefasDuplicadasAcao != null and !impactoBean.tarefasDuplicadasAcao.isEmpty()}"/>
+									<ui:repeat var="dem" value="#{impactoBean.tarefasDuplicadasAcao}" varStatus="loop">
+										<h:panelGrid columns="2" border="0" >
+											<p:selectBooleanCheckbox id="acaoCheck">
+												<p:ajax listener="#{impactoBean.incluirTarefaAcao(dem)}" update=":formz:divTarefasSelecionadas" />
+											</p:selectBooleanCheckbox>
+	        								<p:outputLabel value="#{dem.acao}" />
+										</h:panelGrid>
+									</ui:repeat>
+								</div>
+								<p:panel id="divTarefasSelecionadas" style="width: 400px;">
+									<div style="margin-top: 5px;width: 400px;margin-left: -10px">
+										<table>
+											<ui:repeat var="dem" value="#{impactoBean.tarefasSelecionadas}">
+												<tr> 
+													<td><p:outputLabel value="Tarefa: #{dem.numero} - Ação: #{dem.acao}" /></td>
+													<td>
+														<p:commandLink title="Remover tarefa" style="margin-left: 5px;" action="#{impactoBean.removerTarefa(dem)}" partialSubmit="true" process="@this" update=":formz:divTarefasSelecionadas">
+															<i class="icon icon-remove-sign"></i>
+														</p:commandLink>
+													</td>
+												</tr>
+											</ui:repeat>
+										</table>
+									</div>
+								</p:panel>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
+							<p:commandButton value="Cadastrar" action="#{impactoBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cancelar" action="#{impactoBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+						</h:panelGroup>
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
