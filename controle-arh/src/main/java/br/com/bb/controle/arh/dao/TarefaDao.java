@@ -16,6 +16,7 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	private static final String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
 	private static final String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
 	private static final String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
+	private static final String FIND_TAREFA = "select t from Tarefa t where 1 = 1 ";
 
 	public TarefaDao() {
 		super(Tarefa.class);
@@ -47,6 +48,31 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 		parameters.put("numero", numero);
 
 		return super.findListResult(FIND_TAREFA_NUMERO_HAS_ACAO, parameters, 0);
+	}
+
+	public List<Tarefa> findByFilter(Tarefa tarefa) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		StringBuilder sb = new StringBuilder(FIND_TAREFA);
+
+		if (tarefa != null) {
+			if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
+				sb.append(" and t.numero = :numero ");
+				parameters.put("numero", tarefa.getNumero());
+			}
+			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
+				sb.append(" and t.acao = :acao ");
+				parameters.put("acao", tarefa.getAcao());
+			}
+			if (tarefa.getEsforco() != null && tarefa.getEsforco().compareTo(0) != 0) {
+				sb.append(" and t.esforco = :esforco ");
+				parameters.put("esforco", tarefa.getEsforco());
+			}
+			if (tarefa.getDescricao() != null && !tarefa.getDescricao().trim().equals("")) {
+				sb.append(" and t.descricao like '%" + tarefa.getDescricao() + "%' ");
+			}
+		}
+
+		return super.findListResult(sb.toString(), parameters, 0);
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import br.com.bb.controle.arh.facade.ImpactoFacade;
 import br.com.bb.controle.arh.facade.TarefaFacade;
+import br.com.bb.controle.arh.infra.DataModel;
 import br.com.bb.controle.arh.model.Impacto;
 import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.Constants;
@@ -31,23 +32,29 @@ public class ImpactoBean extends AbstractBean {
 	@Inject
 	private Tarefa tarefa;
 
+	@Inject
+	private DataModel<Tarefa> tarefasBusca;
+
 	private List<Tarefa> tarefasSelecionadas;
-	private List<Tarefa> tarefasDuplicadasAcao;
 
 	public String init() {
 		super.beginNewConversation();
 
 		this.impacto = new Impacto();
 		this.tarefa = new Tarefa();
+		this.tarefasBusca = new DataModel<Tarefa>();
 		this.tarefasSelecionadas = new ArrayList<Tarefa>();
-		this.tarefasDuplicadasAcao = new ArrayList<Tarefa>();
+		this.tarefasBusca.setList(new ArrayList<Tarefa>());
 
 		return Constants.impactoPages.CADASTRAR_IMPACTO;
 	}
 
 	public String cadastrar() {
 		try {
-			impactoFacade.cadastrar(impacto, tarefasSelecionadas);
+			if (!tarefasSelecionadas.isEmpty()) {
+				impacto.setTarefas(tarefasSelecionadas);
+			}
+			impactoFacade.cadastrar(impacto);
 			displayInfoMessageToUser("Impacto cadastrado com sucesso!");
 			return Constants.pages.HOME;
 		} catch (Exception e) {
@@ -57,44 +64,38 @@ public class ImpactoBean extends AbstractBean {
 		return null;
 	}
 
-	public void removerTarefa(Tarefa tarefa) {
-		tarefasSelecionadas.remove(tarefa);
-	}
-
-	public void incluirTarefaAcao(Tarefa tarefa) {
-		if (!tarefasSelecionadas.contains(tarefa)) {
-			tarefasSelecionadas.add(tarefa);
-		} else {
-			tarefasSelecionadas.remove(tarefa);
-		}
-	}
-
-	public void incluirTarefa() {
-		this.tarefasDuplicadasAcao = new ArrayList<Tarefa>();
-		if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
+	public void pesquisarTarefas() {
+		if (validarFiltro()) {
 			try {
-				List<Tarefa> tarefas = tarefaFacade.buscarPorNumeroTemAcao(tarefa);
-				if (tarefas != null && !tarefas.isEmpty()) {
-					if (tarefas.size() > 1) {
-						tarefasDuplicadasAcao.addAll(tarefas);
-					} else {
-						if (!tarefasSelecionadas.contains(tarefas.get(0))) {
-							tarefasSelecionadas.add(tarefas.get(0));
-							tarefa = new Tarefa();
-						} else {
-							displayErrorMessageToUser("Tarefa já incluída.");
-						}
-					}
-				} else {
-					displayErrorMessageToUser("Nenhuma tarefa encontrada com este número ou a tarefa não possui ações.");
-				}
+				List<Tarefa> tarefas = tarefaFacade.buscarPorCriterios(tarefa);
+				this.tarefasBusca.setList(tarefas != null ? tarefas : new ArrayList<Tarefa>());
 			} catch (Exception e) {
 				displayErrorMessageToUser(e.getMessage());
 				e.printStackTrace();
 			}
-		} else {
-			displayErrorMessageToUser("Número da tarefa obrigatório.");
 		}
+	}
+
+	public void vincularTarefas(Tarefa tarefa) {
+		if (!tarefasSelecionadas.contains(tarefa)) {
+			tarefasSelecionadas.add(tarefa);
+		} else {
+			displayErrorMessageToUser("Tarefa já vinculada");
+		}
+	}
+
+	public void removerTarefa(Tarefa tarefa) {
+		tarefasSelecionadas.remove(tarefa);
+	}
+
+	private boolean validarFiltro() {
+		if (tarefa != null) {
+			if ((tarefa.getNumero() == null || tarefa.getNumero().compareTo(0l) == 0) && (tarefa.getAcao() == null || tarefa.getAcao().compareTo(0) == 0) && (tarefa.getDescricao() == null || tarefa.getDescricao().trim().equals(""))) {
+				displayErrorMessageToUser("Pelo menos um filtro deve ser preenchido para a pesquisa de tarefas.");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public String cancelar() {
@@ -117,20 +118,20 @@ public class ImpactoBean extends AbstractBean {
 		this.tarefa = tarefa;
 	}
 
+	public DataModel<Tarefa> getTarefasBusca() {
+		return tarefasBusca;
+	}
+
+	public void setTarefasBusca(DataModel<Tarefa> tarefasBusca) {
+		this.tarefasBusca = tarefasBusca;
+	}
+
 	public List<Tarefa> getTarefasSelecionadas() {
 		return tarefasSelecionadas;
 	}
 
 	public void setTarefasSelecionadas(List<Tarefa> tarefasSelecionadas) {
 		this.tarefasSelecionadas = tarefasSelecionadas;
-	}
-
-	public List<Tarefa> getTarefasDuplicadasAcao() {
-		return tarefasDuplicadasAcao;
-	}
-
-	public void setTarefasDuplicadasAcao(List<Tarefa> tarefasDuplicadasAcao) {
-		this.tarefasDuplicadasAcao = tarefasDuplicadasAcao;
 	}
 
 }
