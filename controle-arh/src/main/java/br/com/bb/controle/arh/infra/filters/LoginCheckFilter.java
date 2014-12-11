@@ -47,6 +47,8 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
 			restrictedURIs = new ArrayList<String>();
 			restrictedURIs.add("/controle-arh/pages/funcionario/cadastrarFuncionario.jsf");
 			restrictedURIs.add("/controle-arh/pages/tarefa/cadastrarTarefa.jsf");
+			restrictedURIs.add("/controle-arh/pages/impacto/cadastrarImpacto.jsf");
+			restrictedURIs.add("/controle-arh/pages/meta/cadastrarMeta.jsf");
 		}
 	}
 

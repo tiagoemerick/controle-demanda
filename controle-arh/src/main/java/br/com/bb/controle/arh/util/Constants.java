@@ -29,6 +29,10 @@ public final class Constants {
 	public static final class impactoPages {
 		public static final String CADASTRAR_IMPACTO = "/pages/impacto/cadastrarImpacto?faces-redirect=true";
 	}
+	
+	public static final class metaPages {
+		public static final String CADASTRAR_META = "/pages/meta/cadastrarMeta?faces-redirect=true";
+	}
 
 	public static final class session {
 		public static final String FUNCIONARIO_LOGADO = "funcionarioLogado";

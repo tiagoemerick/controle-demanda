@@ -58,7 +58,7 @@ public class TarefaFacade extends AbstractUtil {
 			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
 				Tarefa demAux = tarefaDao.findByNumeroEAcao(tarefa.getNumero(), tarefa.getAcao());
 				if (demAux != null) {
-					throw new Exception("Já existe uma tarefa com este número e esta ação.");
+					throw new Exception("Já existe uma tarefa com esta demanda e esta ação.");
 				}
 			}
 		}

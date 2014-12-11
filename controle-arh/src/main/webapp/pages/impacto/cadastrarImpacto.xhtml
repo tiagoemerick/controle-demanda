@@ -38,7 +38,7 @@
 								
 								
 								<p:dataTable id="tableTarefas" var="tar" value="#{impactoBean.tarefasBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhuma tarefa encontrada">
-									<p:column headerText="Número" sortBy="#{tar.numero}" style="width: 150px">
+									<p:column headerText="Demanda" sortBy="#{tar.numero}" style="width: 150px">
 										<center><h:outputText value="#{tar.numero}" /></center>
 									</p:column>
 									<p:column headerText="Ação" sortBy="#{tar.acao}" style="width: 150px">
@@ -62,7 +62,7 @@
 										<table>
 											<ui:repeat var="tar" value="#{impactoBean.tarefasSelecionadas}">
 												<tr> 
-													<td><p:outputLabel value="Tarefa - [ID: #{tar.id}] - [Número: #{tar.numero}] - [Ação: #{tar.acao}]" style="font-size: 14;" /></td>
+													<td><p:outputLabel value="Tarefa - [ID: #{tar.id}] - [Demanda: #{tar.numero}] - [Ação: #{tar.acao}]" style="font-size: 14;" /></td>
 													<td>
 														<p:commandLink title="Remover tarefa" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{impactoBean.removerTarefa(tar)}" partialSubmit="true" process="@this" update=":formz:divTarefas">
 															<i class="icon icon-remove-sign"></i>
