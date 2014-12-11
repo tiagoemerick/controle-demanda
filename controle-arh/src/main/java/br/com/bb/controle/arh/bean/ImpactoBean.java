@@ -67,7 +67,7 @@ public class ImpactoBean extends AbstractBean {
 	public void pesquisarTarefas() {
 		if (validarFiltro()) {
 			try {
-				List<Tarefa> tarefas = tarefaFacade.buscarPorCriterios(tarefa);
+				List<Tarefa> tarefas = tarefaFacade.buscarPorCriteriosComponente(tarefa);
 				this.tarefasBusca.setList(tarefas != null ? tarefas : new ArrayList<Tarefa>());
 			} catch (Exception e) {
 				displayErrorMessageToUser(e.getMessage());

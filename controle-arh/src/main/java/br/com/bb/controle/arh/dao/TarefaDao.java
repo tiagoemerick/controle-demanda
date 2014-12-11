@@ -1,10 +1,15 @@
 package br.com.bb.controle.arh.dao;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.Constants;
 
@@ -16,7 +21,8 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	private static final String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
 	private static final String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
 	private static final String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
-	private static final String FIND_TAREFA = "select t from Tarefa t where 1 = 1 ";
+	private static final String FIND_TAREFA_COMPONENT = "select t from Tarefa t where 1 = 1 ";
+	private static final String FIND_TAREFA = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t where 1 = 1 ";
 
 	public TarefaDao() {
 		super(Tarefa.class);
@@ -50,9 +56,9 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 		return super.findListResult(FIND_TAREFA_NUMERO_HAS_ACAO, parameters, 0);
 	}
 
-	public List<Tarefa> findByFilter(Tarefa tarefa) {
+	public List<Tarefa> findByFilterComponent(Tarefa tarefa) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		StringBuilder sb = new StringBuilder(FIND_TAREFA);
+		StringBuilder sb = new StringBuilder(FIND_TAREFA_COMPONENT);
 
 		if (tarefa != null) {
 			if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
@@ -73,6 +79,80 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 		}
 
 		return super.findListResult(sb.toString(), parameters, 0);
+	}
+
+	public List<Tarefa> findByFilter(Tarefa tarefa) {
+		List<Tarefa> tarefas = null;
+		StringBuilder sb = new StringBuilder(FIND_TAREFA);
+
+		if (tarefa != null) {
+			if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
+				sb.append(" and t.numero = " + tarefa.getNumero());
+			}
+			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
+				sb.append(" and t.acao = " + tarefa.getAcao());
+			}
+			if (tarefa.getEsforco() != null && tarefa.getEsforco().compareTo(0) != 0) {
+				sb.append(" and t.esforco = " + tarefa.getEsforco());
+			}
+			if (tarefa.getDescricao() != null && !tarefa.getDescricao().trim().equals("")) {
+				sb.append(" and t.descricao like '%" + tarefa.getDescricao() + "%' ");
+			}
+			if (tarefa.getDtIni() != null && tarefa.getDtFim() != null) {
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				sb.append(" and t.dt_ini >= '" + sf.format(tarefa.getDtIni()) + "'");
+				sb.append(" and t.dt_fim <= '" + sf.format(tarefa.getDtFim()) + "'");
+			}
+			if (!tarefa.getFuncionarios().isEmpty()) {
+				sb.append(" and t.id in (select ft.Tarefa_id from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft where ft.Funcionario_chave in ( ");
+				int i = 1;
+				for (Funcionario f : tarefa.getFuncionarios()) {
+					sb.append("'" + f.getChave() + "'");
+					if (i != tarefa.getFuncionarios().size()) {
+						sb.append(",");
+						i++;
+					}
+				}
+				sb.append(" ) )");
+			}
+		}
+
+		List<Object> result = super.findListResultNativeQuery(sb.toString());
+		tarefas = convertObjectIntoTarefa(result);
+
+		return tarefas;
+	}
+
+	private List<Tarefa> convertObjectIntoTarefa(List<Object> result) {
+		List<Tarefa> tarefas = new ArrayList<Tarefa>();
+		if (result != null && !result.isEmpty()) {
+			for (Object ob : result) {
+				Object[] obArray = (Object[]) ob;
+
+				Tarefa t = new Tarefa();
+				t.setId(Integer.valueOf(obArray[0].toString()));
+				if (obArray[1] != null) {
+					t.setNumero(Long.valueOf(obArray[1].toString()));
+				}
+				if (obArray[2] != null) {
+					t.setAcao(Integer.valueOf(obArray[2].toString()));
+				}
+				if (obArray[3] != null) {
+					t.setEsforco(Integer.valueOf(obArray[3].toString()));
+				}
+				if (obArray[4] != null) {
+					t.setDescricao(obArray[4].toString());
+				}
+				if (obArray[5] != null) {
+					t.setDtIni(new Date(((Timestamp) obArray[5]).getTime()));
+				}
+				if (obArray[6] != null) {
+					t.setDtFim(new Date(((Timestamp) obArray[6]).getTime()));
+				}
+				tarefas.add(t);
+			}
+		}
+		return tarefas;
 	}
 
 }

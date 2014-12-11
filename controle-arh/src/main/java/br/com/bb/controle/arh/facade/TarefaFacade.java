@@ -76,6 +76,17 @@ public class TarefaFacade extends AbstractUtil {
 		validarAcaoTarefa(tarefa);
 	}
 
+	public List<Tarefa> buscarPorCriteriosComponente(Tarefa tarefa) throws Exception {
+		List<Tarefa> tafefas = new ArrayList<Tarefa>();
+		try {
+			tafefas = tarefaDao.findByFilterComponent(tarefa);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao pesquisar tarefas por critérios. Tente novamente.", e);
+		}
+		return tafefas;
+	}
+
 	public List<Tarefa> buscarPorCriterios(Tarefa tarefa) throws Exception {
 		List<Tarefa> tafefas = new ArrayList<Tarefa>();
 		try {

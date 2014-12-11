@@ -1,0 +1,139 @@
+<ui:composition template="/templates/main.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#table_form').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-search"></i></span>
+						<h5>Pesquisa de tarefas</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<div class="widget-content">
+							<div class="control-group">
+								<label class="control-label">Demanda :</label>
+								<div class="controls" style="width: 500px;">
+									<p:inputText id="taDemanda" value="#{tarefaBean.tarefa.numero}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Ação :</label>
+								<div class="controls" style="width: 500px;">
+									<p:inputText id="taAcao" value="#{tarefaBean.tarefa.acao}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Período: </label>
+								<div class="controls" style="width: 250px">
+									<h:panelGrid columns="3" border="0" >
+										<p:calendar id="taIni" value="#{tarefaBean.tarefa.dtIni}" pattern="dd/MM/yyyy">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:calendar>à
+										<p:calendar id="taFim" value="#{tarefaBean.tarefa.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:calendar>
+									</h:panelGrid>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Descrição: </label>
+								<div class="controls" style="width: 500px;">
+									<p:inputText id="taDesc" value="#{tarefaBean.tarefa.descricao}" maxlength="100" />
+								</div>
+							</div>
+							
+							<h:panelGroup layout="block" id="divFuncionarios" class="control-group">
+								<label class="control-label">Funcionários na tarefa: </label>
+								<div class="controls" >
+									<h:panelGrid columns="4" border="0" >
+										<p:inputText id="funChave" placeholder="Chave" value="#{tarefaBean.funcionario.chave}" size="12" maxlength="8" />
+										<p:inputText id="funNome" placeholder="Nome" value="#{tarefaBean.funcionario.nome}" size="55" maxlength="50" />
+										<p:commandLink title="Pesquisar funcionário" style="margin-left: 5px;" action="#{tarefaBean.pesquisarFuncionarios}" partialSubmit="true" process="@this,funChave,funNome" update=":formz:tableFuncionarios">
+											<i class="icon icon-search" style="margin-left: -50px"></i>
+										</p:commandLink>
+									</h:panelGrid>
+									
+									<p:dataTable id="tableFuncionarios" var="fun" value="#{tarefaBean.funcionariosBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhum funcionário encontrado">
+										<p:column headerText="Chave" sortBy="#{fun.chave}" style="width: 100px">
+											<center><h:outputText value="#{fun.chave}" /></center>
+										</p:column>
+										<p:column headerText="Nome" sortBy="#{fun.nome}" style="width: 350px">
+											<center><h:outputText value="#{fun.nome}" /></center>
+										</p:column>
+										<p:column headerText="Equipe" sortBy="#{fun.equipe}" style="width: 50px">
+											<center><h:outputText value="#{fun.equipe}" /></center>
+										</p:column>
+										<p:column headerText="Ação" style="width: 20px;">
+											<center>
+												<p:commandLink title="Adicionar à lista" action="#{tarefaBean.vincularFuncionarios(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionariosSelecionados">
+													<i class="icon icon-plus-sign"></i>
+												</p:commandLink>
+											</center>
+										</p:column>
+									</p:dataTable>
+									
+									<h:panelGroup layout="block" id="divFuncionariosSelecionados" class="control-group">
+										<p:panel id="divFuncs" style="width: 700px;margin-top: 2px;" rendered="#{tarefaBean.funcionariosSelecionados != null and !tarefaBean.funcionariosSelecionados.isEmpty()}">
+												<div style="margin-top: 5px;width: 700px;margin-left: -10px">
+													<p:outputLabel value="Funcionários selecionados: " />
+													<table>
+														<ui:repeat var="fun" value="#{tarefaBean.funcionariosSelecionados}">
+															<tr> 
+																<td><p:outputLabel value="Funcionário - [Chave: #{fun.chave}] - [Nome: #{fun.nome}] - [Equipe: #{fun.equipe}]" style="font-size: 14;" /></td>
+																<td>
+																	<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{tarefaBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionariosSelecionados">
+																		<i class="icon icon-remove-sign"></i>
+																	</p:commandLink>
+																</td>
+															</tr>
+														</ui:repeat>
+													</table>
+												</div>
+										</p:panel>
+									</h:panelGroup>
+								</div>
+							</h:panelGroup>
+							
+							<p:dataTable id="tableTarefas" var="tar" value="#{tarefaBean.tarefasBusca}" lazy="true" style="margin-top: 10px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhuma tarefa encontrada">
+								<p:column headerText="Demanda" sortBy="#{tar.numero}" style="width: 100px">
+									<center><h:outputText value="#{tar.numero}" /></center>
+								</p:column>
+								<p:column headerText="Ação" sortBy="#{tar.acao}" style="width: 100px">
+									<center><h:outputText value="#{tar.acao}" /></center>
+								</p:column>
+								<p:column headerText="Esforço" sortBy="#{tar.esforco}" style="width: 100px">
+									<center><h:outputText value="#{tar.esforco}" /></center>
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{tar.descricao}" >
+									<h:outputText value="#{tar.descricao}" />
+								</p:column>
+								<p:column headerText="Data início" sortBy="#{tar.dtIni}" style="width: 150px">
+									<center><h:outputText value="#{tar.dtIniFormatada}" /></center>
+								</p:column>
+								<p:column headerText="Data fim" sortBy="#{tar.dtFim}" style="width: 150px">
+									<center><h:outputText value="#{tar.dtFimFormatada}" /></center>
+								</p:column>
+								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
+									<center>
+										<p:commandLink title="Editar tarefa" >
+											<i class="icon icon-pencil"></i>
+										</p:commandLink>
+										<p:commandLink title="Excluir" style="margin-left: 5px;" >
+											<i class="icon icon-remove-circle"></i>
+										</p:commandLink>
+									</center>
+								</p:column>
+							</p:dataTable>
+							
+							<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
+								<p:commandButton value="Pesquisar" action="#{tarefaBean.pesquisar()}" partialSubmit="true" process="@this,taDemanda,taAcao,taIni,taFim,taDesc" styleClass="btn btn-inverse" update=":formz:tableTarefas" />
+								<p:commandButton value="Limpar" action="#{tarefaBean.initPesquisar()}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+							</h:panelGroup>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

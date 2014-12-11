@@ -146,6 +146,22 @@ public class GenericDao<T> implements Serializable {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	protected List<Object> findListResultNativeQuery(String stringNativeQuery) {
+		List<Object> result = null;
+
+		try {
+			Query query = em.createNativeQuery(stringNativeQuery);
+			result = (List<Object>) query.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("Nenhum resultado encontrado para a lista native query: " + stringNativeQuery);
+		} catch (Exception e) {
+			System.out.println("Erro na lista native query: " + stringNativeQuery + "\ne.getMessage(): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	private void populateQueryParameters(Query query, Map<String, Object> parameters) {
 		for (Entry<String, Object> entry : parameters.entrySet()) {
 			query.setParameter(entry.getKey(), entry.getValue());

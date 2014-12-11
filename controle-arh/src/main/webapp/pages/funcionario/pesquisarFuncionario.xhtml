@@ -5,14 +5,14 @@
 			<div class="span12">
 				<div class="widget-box">
 					<div id="widget_title" class="widget-title" onclick="$('#table_form').collapse('toggle')">
-						<span class="icon"> <i class="icon icon-pencil"></i></span>
+						<span class="icon"> <i class="icon icon-search"></i></span>
 						<h5>Lista de funcionários</h5>
 					</div>
 
 					<h:form id="table_form" styleClass="form-horizontal">
 						<div class="widget-content">
 
-							<p:dataTable id="table" var="func" value="#{funcionarioBean.dataModel}" lazy="true" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum usuário cadastrado">
+							<p:dataTable id="table" var="func" value="#{funcionarioBean.dataModel}" lazy="true" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum funcionário encontrado">
 								<p:column headerText="Ativo" sortBy="#{func.isAtivo}" style="width: 20px">
 									<h:graphicImage value="../../resources/img/ativo.png" rendered="#{func.isAtivo}" />
 									<h:graphicImage value="../../resources/img/inativo.png" rendered="#{not func.isAtivo}" />

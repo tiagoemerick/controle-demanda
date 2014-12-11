@@ -19,6 +19,7 @@
 					<a href="#"><i class="icon icon-list-alt"></i> <span>Tarefas</span></a>
 					<ul>
 						<li><h:commandLink value="Cadastrar tarefa" action="#{tarefaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar tarefa" action="#{tarefaBean.initPesquisar()}" /></li>
 					</ul>
 				</li>
 				<li class="submenu">

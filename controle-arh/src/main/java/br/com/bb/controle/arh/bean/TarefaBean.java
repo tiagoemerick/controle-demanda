@@ -35,6 +35,9 @@ public class TarefaBean extends AbstractBean {
 	@Inject
 	private DataModel<Funcionario> funcionariosBusca;
 
+	@Inject
+	private DataModel<Tarefa> tarefasBusca;
+
 	private List<Funcionario> funcionariosSelecionados;
 
 	public String init() {
@@ -47,6 +50,20 @@ public class TarefaBean extends AbstractBean {
 		this.funcionariosSelecionados = new ArrayList<Funcionario>();
 
 		return Constants.tarefaPages.CADASTRAR_TAREFA;
+	}
+
+	public String initPesquisar() {
+		this.beginNewConversation();
+
+		this.tarefa = new Tarefa();
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+		this.funcionariosSelecionados = new ArrayList<Funcionario>();
+		this.tarefasBusca = new DataModel<Tarefa>();
+		this.tarefasBusca.setList(new ArrayList<Tarefa>());
+
+		return Constants.tarefaPages.PESQUISAR_TAREFA;
 	}
 
 	public String cadastrar() {
@@ -62,6 +79,54 @@ public class TarefaBean extends AbstractBean {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void pesquisar() {
+		if (validarPesquisa()) {
+			try {
+				if (!funcionariosSelecionados.isEmpty()) {
+					this.tarefa.setFuncionarios(funcionariosSelecionados);
+				}
+				List<Tarefa> tarefas = tarefaFacade.buscarPorCriterios(tarefa);
+				if (tarefas != null) {
+					this.tarefasBusca.setList(tarefas);
+				}
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private boolean validarPesquisa() {
+		boolean valido = false;
+		String msgErrov = "Pelo menos um filtro deve ser preenchido para a pesquisa de tarefas.";
+		if (tarefa != null) {
+			if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
+				valido = true;
+			}
+			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
+				valido = true;
+			}
+			if (tarefa.getDescricao() != null && !tarefa.getDescricao().trim().equals("")) {
+				valido = true;
+			}
+			if (!funcionariosSelecionados.isEmpty()) {
+				valido = true;
+			}
+			if (tarefa.getDtIni() != null && tarefa.getDtFim() != null) {
+				if (tarefa.getDtIni().before(tarefa.getDtFim())) {
+					valido = true;
+				} else {
+					msgErrov = "A data final não pode ser anterior a data inicial";
+					valido = false;
+				}
+			}
+		}
+		if (!valido) {
+			displayErrorMessageToUser(msgErrov);
+		}
+		return valido;
 	}
 
 	public void pesquisarFuncionarios() {
@@ -132,6 +197,14 @@ public class TarefaBean extends AbstractBean {
 
 	public void setFuncionariosSelecionados(List<Funcionario> funcionariosSelecionados) {
 		this.funcionariosSelecionados = funcionariosSelecionados;
+	}
+
+	public DataModel<Tarefa> getTarefasBusca() {
+		return tarefasBusca;
+	}
+
+	public void setTarefasBusca(DataModel<Tarefa> tarefasBusca) {
+		this.tarefasBusca = tarefasBusca;
 	}
 
 }
