@@ -47,8 +47,8 @@
 						<div class="control-group">
 							<label class="control-label">Atualizar senha: </label>
 							<div class="controls" style="width: 500px;">
-								<p:password value="#{funcionarioBean.funcionario.novaSenha}" rendered="#{funcionarioBean.funcionario.hash.equals(sessionScope.funcionarioLogado.hash)}" />
-								<p:outputLabel value="********" rendered="#{not funcionarioBean.funcionario.hash.equals(sessionScope.funcionarioLogado.hash)}" />
+								<p:password value="#{funcionarioBean.funcionario.novaSenha}" rendered="#{funcionarioBean.funcionario.chave.equals(sessionScope.funcionarioLogado.chave)}" />
+								<p:outputLabel value="********" rendered="#{not funcionarioBean.funcionario.chave.equals(sessionScope.funcionarioLogado.chave)}" />
 							</div>
 						</div>
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
