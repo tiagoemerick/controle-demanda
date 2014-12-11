@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -121,6 +122,17 @@ public class FuncionarioFacade extends AbstractUtil {
 		if (funcionario == null || (funcionario.getChave() == null || funcionario.getChave().trim().equals("")) || (funcionario.getHash() == null || funcionario.getHash().trim().equals(""))) {
 			throw new IllegalArgumentException("Funcionário inválido. Tente novamente.");
 		}
+	}
+
+	public List<Funcionario> buscarPorCriterios(Funcionario funcionario) throws Exception {
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		try {
+			funcionarios = funcionarioDao.findByFilter(funcionario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao pesquisar funcionários por critérios. Tente novamente.", e);
+		}
+		return funcionarios;
 	}
 
 }

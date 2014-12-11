@@ -43,8 +43,8 @@ public class ImpactoBean extends AbstractBean {
 		this.impacto = new Impacto();
 		this.tarefa = new Tarefa();
 		this.tarefasBusca = new DataModel<Tarefa>();
-		this.tarefasSelecionadas = new ArrayList<Tarefa>();
 		this.tarefasBusca.setList(new ArrayList<Tarefa>());
+		this.tarefasSelecionadas = new ArrayList<Tarefa>();
 
 		return Constants.impactoPages.CADASTRAR_IMPACTO;
 	}

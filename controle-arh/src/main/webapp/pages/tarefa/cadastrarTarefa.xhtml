@@ -55,23 +55,55 @@
 							</div>
 						</div>
 						
-						<div class="control-group">
-							<label class="control-label">Funcionários alocados: </label>
-							<div class="controls">
-								<p:pickList id="funcPickList" value="#{tarefaBean.funcionarios}" var="func"
-							                itemValue="#{func}" itemLabel="#{func.nome}" showSourceControls="false" showTargetControls="false" showCheckbox="true"
-							                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="funcionarioConverter">
-							        <f:facet name="sourceCaption">Disponíveis</f:facet>
-							        <f:facet name="targetCaption">Selecionados</f:facet>
-							        
-							        <p:ajax event="transfer" listener="#{tarefaBean.onTransfer}" />
-							        
-							        <p:column>
-							            <p:outputLabel value="#{func.nome}" />
-							    	</p:column>
-							    </p:pickList>
+						<h:panelGroup layout="block" id="divFuncionarios" class="control-group">
+							<label class="control-label">Pesquisa de funcionários: </label>
+							<div class="controls" >
+								<h:panelGrid columns="4" border="0" >
+									<p:inputText id="funChave" placeholder="Chave" value="#{tarefaBean.funcionario.chave}" size="12" maxlength="8" />
+									<p:inputText id="funNome" placeholder="Nome" value="#{tarefaBean.funcionario.nome}" size="55" maxlength="50" />
+									<p:commandLink title="Pesquisar funcionário" style="margin-left: 5px;" action="#{tarefaBean.pesquisarFuncionarios}" partialSubmit="true" process="@this,funChave,funNome" update=":formz:tableFuncionarios">
+										<i class="icon icon-search" style="margin-left: -50px"></i>
+									</p:commandLink>
+								</h:panelGrid>
+								
+								<p:dataTable id="tableFuncionarios" var="fun" value="#{tarefaBean.funcionariosBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhum funcionário encontrado">
+									<p:column headerText="Chave" sortBy="#{fun.chave}" style="width: 100px">
+										<center><h:outputText value="#{fun.chave}" /></center>
+									</p:column>
+									<p:column headerText="Nome" sortBy="#{fun.nome}" style="width: 350px">
+										<center><h:outputText value="#{fun.nome}" /></center>
+									</p:column>
+									<p:column headerText="Equipe" sortBy="#{fun.equipe}" style="width: 50px">
+										<center><h:outputText value="#{fun.equipe}" /></center>
+									</p:column>
+									<p:column headerText="Ação" style="width: 20px;">
+										<center>
+											<p:commandLink title="Adicionar à lista" action="#{tarefaBean.vincularFuncionarios(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
+												<i class="icon icon-plus-sign"></i>
+											</p:commandLink>
+										</center>
+									</p:column>
+								</p:dataTable>
+								
+								<p:panel id="divFuncionariosSelecionados" style="width: 700px;margin-top: 2px;" rendered="#{tarefaBean.funcionariosSelecionados != null and !tarefaBean.funcionariosSelecionados.isEmpty()}">
+									<div style="margin-top: 5px;width: 700px;margin-left: -10px">
+										<p:outputLabel value="Funcionários selecionados: " />
+										<table>
+											<ui:repeat var="fun" value="#{tarefaBean.funcionariosSelecionados}">
+												<tr> 
+													<td><p:outputLabel value="Funcionário - [Chave: #{fun.chave}] - [Nome: #{fun.nome}] - [Equipe: #{fun.equipe}]" style="font-size: 14;" /></td>
+													<td>
+														<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{tarefaBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
+															<i class="icon icon-remove-sign"></i>
+														</p:commandLink>
+													</td>
+												</tr>
+											</ui:repeat>
+										</table>
+									</div>
+								</p:panel>
 							</div>
-						</div>
+						</h:panelGroup>
 						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
 							<p:commandButton value="Cadastrar" action="#{tarefaBean.cadastrar}" styleClass="btn btn-inverse" />
