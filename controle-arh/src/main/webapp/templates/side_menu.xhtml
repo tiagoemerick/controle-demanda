@@ -16,7 +16,7 @@
 					</ul>
 				</li>
 				<li class="submenu">
-					<a href="#"><i class="icon icon-list-alt"></i> <span>Tarefas</span> <span class="label">5</span></a>
+					<a href="#"><i class="icon icon-list-alt"></i> <span>Tarefas</span></a>
 					<ul>
 						<li><h:commandLink value="Cadastrar tarefa" action="#{tarefaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
 					</ul>
@@ -31,6 +31,12 @@
 					<a href="#"><i class="icon icon-calendar"></i> <span>Metas</span> </a>
 					<ul>
 						<li><h:commandLink value="Cadastrar meta" action="#{metaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-hdd"></i> <span>Inventário</span> </a>
+					<ul>
+						<li><h:commandLink value="Cadastrar inventário" action="#{inventarioBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
 					</ul>
 				</li>
 				<!-- 

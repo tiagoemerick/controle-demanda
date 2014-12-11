@@ -11,7 +11,6 @@ import br.com.bb.controle.arh.infra.interceptors.Transactional;
 import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.model.StatusEnum;
 import br.com.bb.controle.arh.util.AbstractUtil;
-import br.com.bb.controle.arh.util.Constants;
 import br.com.bb.controle.arh.util.CryptUtil;
 
 public class FuncionarioFacade extends AbstractUtil {
@@ -27,7 +26,7 @@ public class FuncionarioFacade extends AbstractUtil {
 		funcionario.setHash(CryptUtil.crypt(funcionario.getHash()));
 		funcionario = funcionarioDao.doLogin(funcionario);
 		if (funcionario != null) {
-			putObjectInSession(Constants.session.FUNCIONARIO_LOGADO, funcionario);
+			setFuncionarioLogadoSessao(funcionario);
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
@@ -103,7 +102,7 @@ public class FuncionarioFacade extends AbstractUtil {
 
 	@Transactional(roolBack = true)
 	public void alterarSenha(Funcionario funcionario) throws Exception {
-		String chaveLogged = ((Funcionario) getObjectInSession(Constants.session.FUNCIONARIO_LOGADO)).getChave();
+		String chaveLogged = getFuncionarioLogado().getChave();
 
 		Funcionario funcAux = funcionarioDao.find(chaveLogged);
 
@@ -111,7 +110,7 @@ public class FuncionarioFacade extends AbstractUtil {
 		funcAux.setTrocarSenha(Boolean.FALSE);
 		try {
 			funcionarioDao.update(funcAux);
-			putObjectInSession(Constants.session.FUNCIONARIO_LOGADO, funcAux);
+			setFuncionarioLogadoSessao(funcAux);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao salvar funcionário. Tente novamente.", e);
@@ -133,6 +132,38 @@ public class FuncionarioFacade extends AbstractUtil {
 			throw new Exception("Erro ao pesquisar funcionários por critérios. Tente novamente.", e);
 		}
 		return funcionarios;
+	}
+
+	@Transactional(roolBack = true)
+	public void reativar(Funcionario funcionario) throws Exception {
+		Funcionario funcAux = funcionarioDao.find(funcionario.getChave());
+
+		funcAux.setIsAtivo(Boolean.TRUE);
+		try {
+			funcionarioDao.save(funcAux);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao reativar funcionário. Tente novamente.", e);
+		}
+	}
+
+	@Transactional(roolBack = true)
+	public void atualizar(Funcionario funcionario) throws Exception {
+		if (funcionario.getNovaSenha() != null && !funcionario.getNovaSenha().trim().equals("")) {
+			if (!funcionario.getNovaSenha().equals(funcionario.getHash())) {
+				funcionario.setHash(CryptUtil.crypt(funcionario.getNovaSenha()));
+			}
+		}
+		try {
+			funcionarioDao.update(funcionario);
+
+			if (funcionario.getChave().equals(getFuncionarioLogado().getChave())) {
+				setFuncionarioLogadoSessao(funcionario);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao atualizar funcionário. Tente novamente.", e);
+		}
 	}
 
 }

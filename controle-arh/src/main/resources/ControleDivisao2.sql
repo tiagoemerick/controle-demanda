@@ -101,33 +101,34 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `arh`.`inventario`
+-- Table `arh`.`Inventario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `arh`.`inventario` (
+CREATE TABLE IF NOT EXISTS `arh`.`Inventario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `num_bem` VARCHAR(20) NOT NULL,
-  `chave_funcionario` VARCHAR(8) NULL,
   `descricao` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`num_bem`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `num_bem_UNIQUE` (`num_bem` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `arh`.`Funcionario_has_inventario`
+-- Table `arh`.`Funcionario_has_Inventario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `arh`.`Funcionario_has_inventario` (
+CREATE TABLE IF NOT EXISTS `arh`.`Funcionario_has_Inventario` (
   `Funcionario_chave` VARCHAR(8) NOT NULL,
-  `inventario_num_bem` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`Funcionario_chave`, `inventario_num_bem`),
-  INDEX `fk_Funcionario_has_inventario_inventario1_idx` (`inventario_num_bem` ASC),
+  `Inventario_id` INT NOT NULL,
+  PRIMARY KEY (`Funcionario_chave`, `Inventario_id`),
   INDEX `fk_Funcionario_has_inventario_Funcionario1_idx` (`Funcionario_chave` ASC),
+  INDEX `fk_Funcionario_has_Inventario_Inventario1_idx` (`Inventario_id` ASC),
   CONSTRAINT `fk_Funcionario_has_inventario_Funcionario1`
     FOREIGN KEY (`Funcionario_chave`)
     REFERENCES `arh`.`Funcionario` (`chave`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Funcionario_has_inventario_inventario1`
-    FOREIGN KEY (`inventario_num_bem`)
-    REFERENCES `arh`.`inventario` (`num_bem`)
+  CONSTRAINT `fk_Funcionario_has_Inventario_Inventario1`
+    FOREIGN KEY (`Inventario_id`)
+    REFERENCES `arh`.`Inventario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -168,7 +169,6 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 
 CREATE USER 'usrctrl'@'localhost' IDENTIFIED BY 'usrctrl';
 GRANT ALL PRIVILEGES ON arh.* TO 'usrctrl'@'localhost';

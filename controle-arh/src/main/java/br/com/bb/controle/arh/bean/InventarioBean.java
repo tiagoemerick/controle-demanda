@@ -8,26 +8,26 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.bb.controle.arh.facade.FuncionarioFacade;
-import br.com.bb.controle.arh.facade.MetaFacade;
+import br.com.bb.controle.arh.facade.InventarioFacade;
 import br.com.bb.controle.arh.infra.DataModel;
 import br.com.bb.controle.arh.model.Funcionario;
-import br.com.bb.controle.arh.model.Meta;
+import br.com.bb.controle.arh.model.Inventario;
 import br.com.bb.controle.arh.util.Constants;
 
 @Named
 @ConversationScoped
-public class MetaBean extends AbstractBean {
+public class InventarioBean extends AbstractBean {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private MetaFacade metaFacade;
+	private InventarioFacade inventarioFacade;
 
 	@Inject
 	private FuncionarioFacade funcionarioFacade;
 
 	@Inject
-	private Meta meta;
+	private Inventario inventario;
 
 	@Inject
 	private Funcionario funcionario;
@@ -40,19 +40,19 @@ public class MetaBean extends AbstractBean {
 	public String init() {
 		super.beginNewConversation();
 
-		this.meta = new Meta();
+		this.inventario = new Inventario();
 		this.funcionario = new Funcionario();
 		this.funcionariosBusca = new DataModel<Funcionario>();
 		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
 		this.funcionariosSelecionados = new ArrayList<Funcionario>();
 
-		return Constants.metaPages.CADASTRAR_META;
+		return Constants.inventarioPages.CADASTRAR_INVENTARIO;
 	}
 
 	public String cadastrar() {
 		try {
-			metaFacade.cadastrar(meta, funcionariosSelecionados);
-			displayInfoMessageToUser("Meta cadastrada com sucesso!");
+			inventarioFacade.cadastrar(inventario, funcionariosSelecionados);
+			displayInfoMessageToUser("Inventário cadastrado com sucesso!");
 			return Constants.pages.HOME;
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
@@ -74,10 +74,14 @@ public class MetaBean extends AbstractBean {
 	}
 
 	public void vincularFuncionarios(Funcionario funcionario) {
-		if (!funcionariosSelecionados.contains(funcionario)) {
-			funcionariosSelecionados.add(funcionario);
+		if (funcionariosSelecionados.size() == 2) {
+			displayErrorMessageToUser("Só é possível vincular 2 funcionários para cada inventário.");
 		} else {
-			displayErrorMessageToUser("Funcionário já vinculado");
+			if (!funcionariosSelecionados.contains(funcionario)) {
+				funcionariosSelecionados.add(funcionario);
+			} else {
+				displayErrorMessageToUser("Funcionário já vinculado");
+			}
 		}
 	}
 
@@ -123,12 +127,12 @@ public class MetaBean extends AbstractBean {
 		this.funcionariosSelecionados = funcionariosSelecionados;
 	}
 
-	public Meta getMeta() {
-		return meta;
+	public Inventario getInventario() {
+		return inventario;
 	}
 
-	public void setMeta(Meta meta) {
-		this.meta = meta;
+	public void setInventario(Inventario inventario) {
+		this.inventario = inventario;
 	}
 
 }

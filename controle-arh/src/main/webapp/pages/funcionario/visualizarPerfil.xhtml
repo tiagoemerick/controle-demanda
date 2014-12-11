@@ -1,0 +1,64 @@
+<ui:composition 
+	template="/templates/main.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-pencil"></i></span>
+						<h5>Perfil do #{funcionarioBean.funcionario.nome}</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">Chave :</label>
+							<div class="controls" style="width: 500px;">
+								<p:outputLabel value="#{funcionarioBean.funcionario.chave}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Nome :</label>
+							<div class="controls" style="width: 500px;">
+								<p:inputText value="#{funcionarioBean.funcionario.nome}" required="true" requiredMessage="Campo nome obrigatório" maxlength="100" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Equipe :</label>
+							<div class="controls" style="width: 500px;">
+								<p:inputText value="#{funcionarioBean.funcionario.equipe}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="11" />
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">Admin: </label>
+							<div class="controls">
+								<p:outputLabel value="Sim" rendered="#{funcionarioBean.funcionario.isAdmin}" />
+								<p:outputLabel value="Não" rendered="#{not funcionarioBean.funcionario.isAdmin}" />
+								<p:selectBooleanCheckbox value="#{funcionarioBean.funcionario.isAdmin}" rendered="#{sessionScope.funcionarioLogado.isAdmin}" />
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">Atualizar senha: </label>
+							<div class="controls" style="width: 500px;">
+								<p:password value="#{funcionarioBean.funcionario.novaSenha}" rendered="#{funcionarioBean.funcionario.hash.equals(sessionScope.funcionarioLogado.hash)}" />
+								<p:outputLabel value="********" rendered="#{not funcionarioBean.funcionario.hash.equals(sessionScope.funcionarioLogado.hash)}" />
+							</div>
+						</div>
+						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
+							<p:commandButton value="Atualizar" action="#{funcionarioBean.atualizar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cancelar" action="#{funcionarioBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+						</h:panelGroup>
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

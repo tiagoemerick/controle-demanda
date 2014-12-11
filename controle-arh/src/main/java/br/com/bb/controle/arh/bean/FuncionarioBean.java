@@ -34,6 +34,22 @@ public class FuncionarioBean extends AbstractBean {
 		return Constants.funcionarioPages.CADASTRAR_FUNCIONARIO;
 	}
 
+	public String initVisualizarPerfilLogado() {
+		super.beginNewConversation();
+
+		this.funcionario = getFuncionarioLogado();
+
+		return Constants.funcionarioPages.VISUALIZAR_PERFIL;
+	}
+
+	public String initVisualizarPerfil(Funcionario funcionario) {
+		super.beginNewConversation();
+
+		this.funcionario = funcionario;
+
+		return Constants.funcionarioPages.VISUALIZAR_PERFIL;
+	}
+
 	public String initPesquisar() {
 		super.beginNewConversation();
 
@@ -55,6 +71,18 @@ public class FuncionarioBean extends AbstractBean {
 		return null;
 	}
 
+	public String atualizar() {
+		try {
+			funcionarioFacade.atualizar(funcionario);
+			displayInfoMessageToUser("Funcionário atualizado com sucesso!");
+			return Constants.pages.HOME;
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public void pesquisar() {
 		dataModel.setList(funcionarioFacade.findAll());
 	}
@@ -63,6 +91,17 @@ public class FuncionarioBean extends AbstractBean {
 		try {
 			funcionarioFacade.resetarSenha(funcionario);
 			displayInfoMessageToUser("Senha redefinida com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void reativar(Funcionario funcionario) {
+		try {
+			funcionarioFacade.reativar(funcionario);
+			displayInfoMessageToUser("Funcionário reativado com sucesso!");
+			funcionario.setIsAtivo(Boolean.TRUE);
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();

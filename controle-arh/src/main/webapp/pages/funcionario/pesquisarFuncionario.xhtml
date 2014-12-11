@@ -17,22 +17,28 @@
 									<h:graphicImage value="../../resources/img/ativo.png" rendered="#{func.isAtivo}" />
 									<h:graphicImage value="../../resources/img/inativo.png" rendered="#{not func.isAtivo}" />
 								</p:column>
-								<p:column headerText="Chave" sortBy="#{func.chave}" filterBy="#{func.chave}">
-									<h:outputText value="#{func.chave}" />
+								<p:column headerText="Chave" sortBy="#{func.chave}" filterBy="#{func.chave}" style="width: 150px">
+									<center><h:outputText value="#{func.chave}" /></center>
 								</p:column>
 								<p:column headerText="Nome" sortBy="#{func.nome}" filterBy="#{func.nome}">
-									<h:outputText value="#{func.nome}" />
+									<center><h:outputText value="#{func.nome}" /></center>
 								</p:column>
-								<p:column headerText="Equipe" sortBy="#{func.equipe}" filterBy="#{func.equipe}">
-									<h:outputText value="#{func.equipe}" />
+								<p:column headerText="Equipe" sortBy="#{func.equipe}" filterBy="#{func.equipe}" style="width: 150px">
+									<center><h:outputText value="#{func.equipe}" /></center>
 								</p:column>
-								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
+								<p:column headerText="Ação" style="width: 65px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
 									<center>
-										<p:commandLink title="Redefinir senha" action="#{funcionarioBean.resetarSenha(func)}">
+										<p:commandLink title="Editar funcionário" action="#{funcionarioBean.initVisualizarPerfil(func)}">
+											<i class="icon icon-pencil"></i>
+										</p:commandLink>
+										<p:commandLink title="Redefinir senha" style="margin-left: 5px;" action="#{funcionarioBean.resetarSenha(func)}">
 											<i class="icon icon-retweet"></i>
 										</p:commandLink>
-										<p:commandLink title="Inativar funcionário" style="margin-left: 5px;" action="#{funcionarioBean.inativar(func)}" update="table">
+										<p:commandLink title="Inativar funcionário" style="margin-left: 5px;" action="#{funcionarioBean.inativar(func)}" update="table" rendered="#{func.isAtivo}">
 											<i class="icon icon-ban-circle"></i>
+										</p:commandLink>
+										<p:commandLink title="Reativar funcionário" style="margin-left: 5px;" action="#{funcionarioBean.reativar(func)}" update="table" rendered="#{not func.isAtivo}">
+											<i class="icon icon-ok-circle"></i>
 										</p:commandLink>
 									</center>
 								</p:column>

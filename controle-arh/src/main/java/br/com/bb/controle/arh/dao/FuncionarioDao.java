@@ -14,7 +14,7 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 
 	private static final String FIND_FUNCIONARIO_BY_CHAVE_SENHA = "select f from Funcionario f where f.chave = :chave and f.hash = :hash";
 	private static final String FIND_ALL_FUNCIONARIOS_BY_STATUS = "select f from Funcionario f where f.isAtivo = :status";
-	private static final String FIND_FUNCIONARIO = "select f from Funcionario f where 1 = 1 ";
+	private static final String FIND_FUNCIONARIOS_ATIVO = "select f from Funcionario f where f.isAtivo = :ativo ";
 
 	public FuncionarioDao() {
 		super(Funcionario.class);
@@ -37,7 +37,7 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 
 	public List<Funcionario> findByFilter(Funcionario funcionario) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		StringBuilder sb = new StringBuilder(FIND_FUNCIONARIO);
+		StringBuilder sb = new StringBuilder(FIND_FUNCIONARIOS_ATIVO);
 
 		if (funcionario != null) {
 			if (funcionario.getChave() != null && !funcionario.getChave().trim().equals("")) {
@@ -51,6 +51,7 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 				parameters.put("equipe", funcionario.getEquipe());
 			}
 		}
+		parameters.put("ativo", Boolean.TRUE);
 
 		return super.findListResult(sb.toString(), parameters, 0);
 	}

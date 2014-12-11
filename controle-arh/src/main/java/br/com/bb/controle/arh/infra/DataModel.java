@@ -55,7 +55,7 @@ public class DataModel<T extends IEntity> extends LazyDataModel<T> implements Se
 							Object filterValue = filters.get(filterProperty);
 							String fieldValue = String.valueOf(ReflectionUtil.getFieldValue(car, filterProperty));
 
-							if (filterValue == null || fieldValue.contains(filterValue.toString())) {
+							if (filterValue == null || fieldValue.toLowerCase().contains(filterValue.toString().toLowerCase())) {
 								match = true;
 							} else {
 								match = false;

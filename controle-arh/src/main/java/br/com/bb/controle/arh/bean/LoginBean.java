@@ -29,7 +29,7 @@ public class LoginBean extends AbstractBean {
 		try {
 			boolean isLogado = funcionarioFacade.login(funcionario);
 			if (isLogado) {
-				Funcionario logado = (Funcionario) getObjectInSession(Constants.session.FUNCIONARIO_LOGADO);
+				Funcionario logado = getFuncionarioLogado();
 				StringBuilder sb = new StringBuilder("Bem vindo, ");
 				sb.append(logado.getNome());
 				sb.append(" (");

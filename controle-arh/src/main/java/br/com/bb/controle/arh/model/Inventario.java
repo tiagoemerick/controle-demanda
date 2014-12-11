@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
 
 /**
  * The persistent class for the inventario database table.
@@ -24,17 +23,16 @@ public class Inventario implements IEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "num_bem")
-	private String numBem;
+	private Integer id;
 
-	@Column(name = "chave_funcionario")
-	private String chaveFuncionario;
+	@Column(name = "num_bem", unique = true)
+	private String numBem;
 
 	private String descricao;
 
 	// bi-directional many-to-many association to Funcionario
 	@ManyToMany
-	@JoinTable(name = "funcionario_has_inventario", joinColumns = { @JoinColumn(name = "inventario_num_bem") }, inverseJoinColumns = { @JoinColumn(name = "Funcionario_chave") })
+	@JoinTable(name = "Funcionario_has_Inventario", joinColumns = { @JoinColumn(name = "Inventario_id") }, inverseJoinColumns = { @JoinColumn(name = "Funcionario_chave") })
 	private List<Funcionario> funcionarios;
 
 	public Inventario() {
@@ -46,14 +44,6 @@ public class Inventario implements IEntity {
 
 	public void setNumBem(String numBem) {
 		this.numBem = numBem;
-	}
-
-	public String getChaveFuncionario() {
-		return this.chaveFuncionario;
-	}
-
-	public void setChaveFuncionario(String chaveFuncionario) {
-		this.chaveFuncionario = chaveFuncionario;
 	}
 
 	public String getDescricao() {
@@ -76,7 +66,7 @@ public class Inventario implements IEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((numBem == null) ? 0 : numBem.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -89,23 +79,22 @@ public class Inventario implements IEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Inventario other = (Inventario) obj;
-		if (numBem == null) {
-			if (other.numBem != null)
-				return false;
-		} else if (!numBem.equals(other.numBem))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
-	@Override
-	@Transient
-	public Object getId() {
-		return this.getNumBem();
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@Override
 	public void setId(Object id) {
-		setNumBem(String.valueOf(id));
+		setId(Integer.valueOf(String.valueOf(id)));
 	}
 
 }

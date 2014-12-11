@@ -19,6 +19,7 @@ public final class Constants {
 	public static final class funcionarioPages {
 		public static final String PESQUISAR_FUNCIONARIO = "/pages/funcionario/pesquisarFuncionario?faces-redirect=true";
 		public static final String CADASTRAR_FUNCIONARIO = "/pages/funcionario/cadastrarFuncionario?faces-redirect=true";
+		public static final String VISUALIZAR_PERFIL = "/pages/funcionario/visualizarPerfil?faces-redirect=true";
 	}
 
 	public static final class tarefaPages {
@@ -29,9 +30,13 @@ public final class Constants {
 	public static final class impactoPages {
 		public static final String CADASTRAR_IMPACTO = "/pages/impacto/cadastrarImpacto?faces-redirect=true";
 	}
-	
+
 	public static final class metaPages {
 		public static final String CADASTRAR_META = "/pages/meta/cadastrarMeta?faces-redirect=true";
+	}
+
+	public static final class inventarioPages {
+		public static final String CADASTRAR_INVENTARIO = "/pages/inventario/cadastrarInventario?faces-redirect=true";
 	}
 
 	public static final class session {

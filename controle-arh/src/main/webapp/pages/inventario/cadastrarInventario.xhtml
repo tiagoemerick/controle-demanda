@@ -12,24 +12,22 @@
 				<div class="widget-box">
 					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
 						<span class="icon"> <i class="icon icon-pencil"></i></span>
-						<h5>Cadastro de metas</h5>
+						<h5>Cadastro de inventário</h5>
 					</div>
 
 					<h:form id="formz" styleClass="form-horizontal">
 						<div class="control-group">
-							<label class="control-label">Descrição: </label>
+							<label class="control-label">Número do bem: </label>
 							<div class="controls" style="width: 500px;">
-								<p:inputTextarea value="#{metaBean.meta.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
-								<p:outputLabel id="display" />
+								<p:inputText value="#{inventarioBean.inventario.numBem}" required="true" requiredMessage="Campo Número do bem obrigatório" maxlength="20" />
 							</div>
 						</div>
-
+					
 						<div class="control-group">
-							<label class="control-label">Data limite: </label>
-							<div class="controls" style="width: 100px">
-								<p:calendar value="#{metaBean.meta.dtLimite}" pattern="dd/MM/yyyy" required="true" requiredMessage="Campo Data limite obrigatório">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</p:calendar>
+							<label class="control-label">Descrição: </label>
+							<div class="controls" style="width: 500px;">
+								<p:inputTextarea value="#{inventarioBean.inventario.descricao}" style="height: 100px" required="true" requiredMessage="Campo Descrição obrigatório" maxlength="100" counter="display" counterTemplate="{0} caracteres faltando."/>
+								<p:outputLabel id="display" />
 							</div>
 						</div>
 						
@@ -37,14 +35,14 @@
 							<label class="control-label">Pesquisa de funcionários: </label>
 							<div class="controls" >
 								<h:panelGrid columns="4" border="0" >
-									<p:inputText id="funChave" placeholder="Chave" value="#{metaBean.funcionario.chave}" size="12" maxlength="8" />
-									<p:inputText id="funNome" placeholder="Nome" value="#{metaBean.funcionario.nome}" size="55" maxlength="50" />
-									<p:commandLink title="Pesquisar funcionário" style="margin-left: 5px;" action="#{metaBean.pesquisarFuncionarios}" partialSubmit="true" process="@this,funChave,funNome" update=":formz:tableFuncionarios">
+									<p:inputText id="funChave" placeholder="Chave" value="#{inventarioBean.funcionario.chave}" size="12" maxlength="8" />
+									<p:inputText id="funNome" placeholder="Nome" value="#{inventarioBean.funcionario.nome}" size="55" maxlength="50" />
+									<p:commandLink title="Pesquisar funcionário" style="margin-left: 5px;" action="#{inventarioBean.pesquisarFuncionarios}" partialSubmit="true" process="@this,funChave,funNome" update=":formz:tableFuncionarios">
 										<i class="icon icon-search" style="margin-left: -50px"></i>
 									</p:commandLink>
 								</h:panelGrid>
 								
-								<p:dataTable id="tableFuncionarios" var="fun" value="#{metaBean.funcionariosBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhum funcionário encontrado">
+								<p:dataTable id="tableFuncionarios" var="fun" value="#{inventarioBean.funcionariosBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhum funcionário encontrado">
 									<p:column headerText="Chave" sortBy="#{fun.chave}" style="width: 100px">
 										<center><h:outputText value="#{fun.chave}" /></center>
 									</p:column>
@@ -56,22 +54,22 @@
 									</p:column>
 									<p:column headerText="Ação" style="width: 20px;">
 										<center>
-											<p:commandLink title="Adicionar à lista" action="#{metaBean.vincularFuncionarios(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
+											<p:commandLink title="Adicionar à lista" action="#{inventarioBean.vincularFuncionarios(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
 												<i class="icon icon-plus-sign"></i>
 											</p:commandLink>
 										</center>
 									</p:column>
 								</p:dataTable>
 								
-								<p:panel id="divFuncionariosSelecionados" style="width: 700px;margin-top: 2px;" rendered="#{metaBean.funcionariosSelecionados != null and !metaBean.funcionariosSelecionados.isEmpty()}">
+								<p:panel id="divFuncionariosSelecionados" style="width: 700px;margin-top: 2px;" rendered="#{inventarioBean.funcionariosSelecionados != null and !inventarioBean.funcionariosSelecionados.isEmpty()}">
 									<div style="margin-top: 5px;width: 700px;margin-left: -10px">
 										<p:outputLabel value="Funcionários selecionados: " />
 										<table>
-											<ui:repeat var="fun" value="#{metaBean.funcionariosSelecionados}">
+											<ui:repeat var="fun" value="#{inventarioBean.funcionariosSelecionados}">
 												<tr> 
 													<td><p:outputLabel value="Funcionário - [Chave: #{fun.chave}] - [Nome: #{fun.nome}] - [Equipe: #{fun.equipe}]" style="font-size: 14;" /></td>
 													<td>
-														<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{metaBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
+														<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{inventarioBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionarios">
 															<i class="icon icon-remove-sign"></i>
 														</p:commandLink>
 													</td>
@@ -82,10 +80,9 @@
 								</p:panel>
 							</div>
 						</h:panelGroup>
-						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-							<p:commandButton value="Cadastrar" action="#{metaBean.cadastrar}" styleClass="btn btn-inverse" />
-							<p:commandButton value="Cancelar" action="#{metaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+							<p:commandButton value="Cadastrar" action="#{inventarioBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cancelar" action="#{inventarioBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 						</h:panelGroup>
 					</h:form>
 
