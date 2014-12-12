@@ -19,7 +19,7 @@ import br.com.bb.controle.arh.model.IEntity;
 import br.com.bb.controle.arh.util.PropertyComparator;
 import br.com.bb.controle.arh.util.ReflectionUtil;
 
-@SuppressWarnings({ "unchecked", "static-access" })
+@SuppressWarnings({ "unchecked" })
 public class DataModel<T extends IEntity> extends LazyDataModel<T> implements SelectableDataModel<T>, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,8 +28,8 @@ public class DataModel<T extends IEntity> extends LazyDataModel<T> implements Se
 	@Inject
 	private GenericDao<IEntity> genericDao;
 
-	private static List<?> list;
-	private static Class<? extends IEntity> entityClass;
+	private List<?> list;
+	private Class<? extends IEntity> entityClass;
 
 	public void setList(List<T> list) {
 		if (list != null) {
