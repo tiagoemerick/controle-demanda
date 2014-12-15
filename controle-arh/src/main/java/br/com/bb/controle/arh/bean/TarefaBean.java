@@ -114,14 +114,6 @@ public class TarefaBean extends AbstractBean {
 			if (!funcionariosSelecionados.isEmpty()) {
 				valido = true;
 			}
-			if (tarefa.getDtIni() != null && tarefa.getDtFim() != null) {
-				if (tarefa.getDtIni().before(tarefa.getDtFim())) {
-					valido = true;
-				} else {
-					msgErrov = "A data final não pode ser anterior a data inicial";
-					valido = false;
-				}
-			}
 		}
 		if (!valido) {
 			displayErrorMessageToUser(msgErrov);

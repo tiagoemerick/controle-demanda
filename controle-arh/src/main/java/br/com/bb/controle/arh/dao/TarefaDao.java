@@ -83,6 +83,8 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 
 	public List<Tarefa> findByFilter(Tarefa tarefa) {
 		List<Tarefa> tarefas = null;
+		SimpleDateFormat sfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sfDate = new SimpleDateFormat("yyyy-MM-dd");
 		StringBuilder sb = new StringBuilder(FIND_TAREFA);
 
 		if (tarefa != null) {
@@ -98,10 +100,17 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 			if (tarefa.getDescricao() != null && !tarefa.getDescricao().trim().equals("")) {
 				sb.append(" and t.descricao like '%" + tarefa.getDescricao() + "%' ");
 			}
-			if (tarefa.getDtIni() != null && tarefa.getDtFim() != null) {
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				sb.append(" and t.dt_ini >= '" + sf.format(tarefa.getDtIni()) + "'");
-				sb.append(" and t.dt_fim <= '" + sf.format(tarefa.getDtFim()) + "'");
+			if (tarefa.getDtIniPlan() != null) {
+				sb.append(" and t.dt_ini_plan >= '" + sfDateTime.format(tarefa.getDtIniPlan()) + "'");
+			}
+			if (tarefa.getDtFimPlan() != null) {
+				sb.append(" and t.dt_fim_plan <= '" + sfDateTime.format(tarefa.getDtFimPlan()) + "'");
+			}
+			if (tarefa.getDtIniRealizado() != null) {
+				sb.append(" and t.dt_ini_realizado >= '" + sfDate.format(tarefa.getDtIniRealizado()) + "'");
+			}
+			if (tarefa.getDtFimRealizado() != null) {
+				sb.append(" and t.dt_fim_realizado <= '" + sfDate.format(tarefa.getDtFimRealizado()) + "'");
 			}
 			if (!tarefa.getFuncionarios().isEmpty()) {
 				sb.append(" and t.id in (select ft.Tarefa_id from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft where ft.Funcionario_chave in ( ");
@@ -144,10 +153,10 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 					t.setDescricao(obArray[4].toString());
 				}
 				if (obArray[5] != null) {
-					t.setDtIni(new Date(((Timestamp) obArray[5]).getTime()));
+					t.setDtIniPlan(new Date(((Timestamp) obArray[5]).getTime()));
 				}
 				if (obArray[6] != null) {
-					t.setDtFim(new Date(((Timestamp) obArray[6]).getTime()));
+					t.setDtFimPlan(new Date(((Timestamp) obArray[6]).getTime()));
 				}
 				tarefas.add(t);
 			}

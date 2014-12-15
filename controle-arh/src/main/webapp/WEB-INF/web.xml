@@ -25,6 +25,10 @@
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
+	
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
 
 	<filter>
 		<filter-name>LoginCheckFilter</filter-name>

@@ -35,13 +35,26 @@
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label">Período: </label>
+							<label class="control-label">Planejado: </label>
 							<div class="controls" style="width: 250px">
 								<h:panelGrid columns="3" border="0" >
-									<p:calendar value="#{tarefaBean.tarefa.dtIni}" pattern="dd/MM/yyyy">
+									<p:calendar value="#{tarefaBean.tarefa.dtIniPlan}" pattern="dd/MM/yyyy">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</p:calendar>à
-									<p:calendar value="#{tarefaBean.tarefa.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+									<p:calendar value="#{tarefaBean.tarefa.dtFimPlan}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:calendar>
+								</h:panelGrid>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Realizado: </label>
+							<div class="controls" style="width: 250px">
+								<h:panelGrid columns="3" border="0" >
+									<p:calendar value="#{tarefaBean.tarefa.dtIniRealizado}" pattern="dd/MM/yyyy">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:calendar>à
+									<p:calendar value="#{tarefaBean.tarefa.dtFimRealizado}" pattern="dd/MM/yyyy" style="margin-left: 15px">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</p:calendar>
 								</h:panelGrid>

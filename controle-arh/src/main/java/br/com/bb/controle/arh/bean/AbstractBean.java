@@ -17,15 +17,18 @@ public class AbstractBean extends AbstractUtil {
 	public AbstractBean() {
 		super();
 	}
+	
+	private final int MINUTOS20 = 1200000;
 
 	@Inject
 	private Conversation conversation;
-
+	
 	protected void beginNewConversation() {
 		if (!conversation.isTransient()) {
 			conversation.end();
 		}
 		conversation.begin();
+		conversation.setTimeout(MINUTOS20);
 	}
 
 	/**
@@ -37,6 +40,7 @@ public class AbstractBean extends AbstractUtil {
 		} else {
 			conversation.begin(conversation.getId());
 		}
+		conversation.setTimeout(MINUTOS20);
 	}
 
 	protected void endConversation() {

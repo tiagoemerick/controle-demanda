@@ -35,12 +35,20 @@ public class Tarefa implements IEntity {
 	private String descricao;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_fim")
-	private Date dtFim;
+	@Column(name = "dt_fim_plan")
+	private Date dtFimPlan;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_ini")
-	private Date dtIni;
+	@Column(name = "dt_ini_plan")
+	private Date dtIniPlan;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "dt_fim_realizado")
+	private Date dtFimRealizado;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "dt_ini_realizado")
+	private Date dtIniRealizado;
 
 	private Integer esforco;
 
@@ -79,36 +87,36 @@ public class Tarefa implements IEntity {
 		this.descricao = descricao;
 	}
 
-	public String getDtFimFormatada() {
-		if (getDtFim() != null) {
+	public String getDtFimPlanFormatada() {
+		if (getDtFimPlan() != null) {
 			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-			return sf.format(getDtFim());
+			return sf.format(getDtFimPlan());
 		}
 		return "";
 	}
 
-	public Date getDtFim() {
-		return this.dtFim;
+	public Date getDtFimPlan() {
+		return this.dtFimPlan;
 	}
 
-	public void setDtFim(Date dtFim) {
-		this.dtFim = dtFim;
+	public void setDtFimPlan(Date dtFim) {
+		this.dtFimPlan = dtFim;
 	}
 
-	public Date getDtIni() {
-		return this.dtIni;
+	public Date getDtIniPlan() {
+		return this.dtIniPlan;
 	}
 
-	public String getDtIniFormatada() {
-		if (getDtIni() != null) {
+	public String getDtIniPlanFormatada() {
+		if (getDtIniPlan() != null) {
 			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-			return sf.format(getDtIni());
+			return sf.format(getDtIniPlan());
 		}
 		return "";
 	}
 
-	public void setDtIni(Date dtIni) {
-		this.dtIni = dtIni;
+	public void setDtIniPlan(Date dtIni) {
+		this.dtIniPlan = dtIni;
 	}
 
 	public Integer getEsforco() {
@@ -174,6 +182,38 @@ public class Tarefa implements IEntity {
 	@Override
 	public void setId(Object id) {
 		setId(Integer.valueOf(String.valueOf(id)));
+	}
+
+	public Date getDtFimRealizado() {
+		return dtFimRealizado;
+	}
+
+	public void setDtFimRealizado(Date dtFimRelizado) {
+		this.dtFimRealizado = dtFimRelizado;
+	}
+
+	public Date getDtIniRealizado() {
+		return dtIniRealizado;
+	}
+
+	public void setDtIniRealizado(Date dtIniRealizado) {
+		this.dtIniRealizado = dtIniRealizado;
+	}
+	
+	public String getDtFimRealizadoFormatada() {
+		if (getDtFimRealizado() != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+			return sf.format(getDtFimRealizado());
+		}
+		return "";
+	}
+	
+	public String getDtIniRealizadoFormatada() {
+		if (getDtIniRealizado() != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+			return sf.format(getDtIniRealizado());
+		}
+		return "";
 	}
 
 }

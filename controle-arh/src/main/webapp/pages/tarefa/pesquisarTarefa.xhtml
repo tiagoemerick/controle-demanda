@@ -24,13 +24,26 @@
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label">Período: </label>
+								<label class="control-label">Planejado: </label>
 								<div class="controls" style="width: 250px">
 									<h:panelGrid columns="3" border="0" >
-										<p:calendar id="taIni" value="#{tarefaBean.tarefa.dtIni}" pattern="dd/MM/yyyy">
+										<p:calendar id="taIni" value="#{tarefaBean.tarefa.dtIniPlan}" pattern="dd/MM/yyyy">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</p:calendar>à
-										<p:calendar id="taFim" value="#{tarefaBean.tarefa.dtFim}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+										<p:calendar id="taFim" value="#{tarefaBean.tarefa.dtFimPlan}" pattern="dd/MM/yyyy" style="margin-left: 15px">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:calendar>
+									</h:panelGrid>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Realizado: </label>
+								<div class="controls" style="width: 250px">
+									<h:panelGrid columns="3" border="0" >
+										<p:calendar id="taIniReal" value="#{tarefaBean.tarefa.dtIniRealizado}" pattern="dd/MM/yyyy">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:calendar>à
+										<p:calendar id="taFimReal" value="#{tarefaBean.tarefa.dtFimRealizado}" pattern="dd/MM/yyyy" style="margin-left: 15px">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</p:calendar>
 									</h:panelGrid>
@@ -108,12 +121,20 @@
 								<p:column headerText="Descrição" sortBy="#{tar.descricao}" >
 									<h:outputText value="#{tar.descricao}" />
 								</p:column>
-								<p:column headerText="Data início" sortBy="#{tar.dtIni}" style="width: 150px">
-									<center><h:outputText value="#{tar.dtIniFormatada}" /></center>
+								<p:column headerText="I- Planejado" sortBy="#{tar.dtIniPlanFormatada}" style="width: 100px">
+									<center><h:outputText value="#{tar.dtIniPlanFormatada}" /></center>
 								</p:column>
-								<p:column headerText="Data fim" sortBy="#{tar.dtFim}" style="width: 150px">
-									<center><h:outputText value="#{tar.dtFimFormatada}" /></center>
+								<p:column headerText="F- Planejado" sortBy="#{tar.dtFimPlanFormatada}" style="width: 100px">
+									<center><h:outputText value="#{tar.dtFimPlanFormatada}" /></center>
 								</p:column>
+								
+								<p:column headerText="I- Realizado" sortBy="#{tar.dtIniRealizadoFormatada}" style="width: 100px">
+									<center><h:outputText value="#{tar.dtIniRealizadoFormatada}" /></center>
+								</p:column>
+								<p:column headerText="F- Realizado" sortBy="#{tar.dtFimRealizadoFormatada}" style="width: 100px">
+									<center><h:outputText value="#{tar.dtFimRealizadoFormatada}" /></center>
+								</p:column>
+								
 								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
 									<center>
 										<p:commandLink title="Editar tarefa" >
@@ -127,7 +148,7 @@
 							</p:dataTable>
 							
 							<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-								<p:commandButton value="Pesquisar" action="#{tarefaBean.pesquisar()}" partialSubmit="true" process="@this,taDemanda,taAcao,taIni,taFim,taDesc" styleClass="btn btn-inverse" update=":formz:tableTarefas" />
+								<p:commandButton value="Pesquisar" action="#{tarefaBean.pesquisar()}" partialSubmit="true" process="@this,taDemanda,taAcao,taIni,taFim,taIniReal,taFimReal,taDesc" styleClass="btn btn-inverse" update=":formz:tableTarefas" />
 								<p:commandButton value="Limpar" action="#{tarefaBean.initPesquisar()}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 							</h:panelGroup>
 						</div>

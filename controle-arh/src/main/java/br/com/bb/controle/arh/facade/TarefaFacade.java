@@ -68,9 +68,14 @@ public class TarefaFacade extends AbstractUtil {
 		if (tarefa == null) {
 			throw new IllegalArgumentException("Tarefa inválida. Tente novamente.");
 		}
-		if (tarefa.getDtIni() != null && tarefa.getDtFim() != null) {
-			if (tarefa.getDtIni().after(tarefa.getDtFim())) {
-				throw new Exception("A data final não pode ser anterior a data final.");
+		if (tarefa.getDtIniPlan() != null && tarefa.getDtFimPlan() != null) {
+			if (tarefa.getDtIniPlan().after(tarefa.getDtFimPlan())) {
+				throw new Exception("A data final não pode ser anterior a data final no planejado.");
+			}
+		}
+		if (tarefa.getDtIniRealizado() != null && tarefa.getDtFimRealizado() != null) {
+			if (tarefa.getDtIniPlan().after(tarefa.getDtFimPlan())) {
+				throw new Exception("A data final não pode ser anterior a data final no realizado.");
 			}
 		}
 		validarAcaoTarefa(tarefa);

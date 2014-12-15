@@ -38,8 +38,10 @@ CREATE TABLE IF NOT EXISTS `arh`.`Tarefa` (
   `acao` INT NULL,
   `esforco` INT NULL,
   `descricao` VARCHAR(100) NOT NULL,
-  `dt_ini` DATETIME NULL,
-  `dt_fim` DATETIME NULL,
+  `dt_ini_plan` DATETIME NULL,
+  `dt_fim_plan` DATETIME NULL,
+  `dt_ini_realizado` DATE NULL,
+  `dt_fim_realizado` DATE NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -169,6 +171,7 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 CREATE USER 'usrctrl'@'localhost' IDENTIFIED BY 'usrctrl';
 GRANT ALL PRIVILEGES ON arh.* TO 'usrctrl'@'localhost';
