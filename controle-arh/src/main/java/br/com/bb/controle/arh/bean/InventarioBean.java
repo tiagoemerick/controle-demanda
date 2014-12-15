@@ -35,6 +35,9 @@ public class InventarioBean extends AbstractBean {
 	@Inject
 	private DataModel<Funcionario> funcionariosBusca;
 
+	@Inject
+	private DataModel<Inventario> inventariosBusca;
+
 	private List<Funcionario> funcionariosSelecionados;
 
 	public String init() {
@@ -47,6 +50,45 @@ public class InventarioBean extends AbstractBean {
 		this.funcionariosSelecionados = new ArrayList<Funcionario>();
 
 		return Constants.inventarioPages.CADASTRAR_INVENTARIO;
+	}
+
+	public String initEditar(Inventario inventario) {
+		this.inventario = inventario;
+
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+
+		this.funcionariosSelecionados = buscarFuncionariosInventario();
+
+		return Constants.inventarioPages.CADASTRAR_INVENTARIO;
+	}
+
+	private List<Funcionario> buscarFuncionariosInventario() {
+		List<Funcionario> funcionariosInventario = new ArrayList<Funcionario>();
+		if (this.inventario != null && this.inventario.getId() != null) {
+			try {
+				funcionariosInventario = this.funcionarioFacade.buscarFuncionariosPorInventario(this.inventario);
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return funcionariosInventario;
+	}
+
+	public String initPesquisar() {
+		super.beginNewConversation();
+
+		this.inventario = new Inventario();
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+		this.funcionariosSelecionados = new ArrayList<Funcionario>();
+		this.inventariosBusca = new DataModel<Inventario>();
+		this.inventariosBusca.setList(new ArrayList<Inventario>());
+
+		return Constants.inventarioPages.PESQUISAR_INVENTARIO;
 	}
 
 	public String cadastrar() {
@@ -71,6 +113,70 @@ public class InventarioBean extends AbstractBean {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void excluir(Inventario inventario) {
+		try {
+			Inventario iAux = new Inventario();
+			iAux.setId(inventario.getId());
+
+			inventarioFacade.excluir(inventario);
+
+			inventariosBusca.removeFromList(iAux);
+			displayInfoMessageToUser("Inventário excluído com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public String atualizar() {
+		try {
+			inventarioFacade.atualizar(this.inventario, funcionariosSelecionados);
+			displayInfoMessageToUser("Inventário atualizado com sucesso!");
+			return Constants.pages.HOME;
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void pesquisar() {
+		if (validarPesquisa()) {
+			try {
+				if (!funcionariosSelecionados.isEmpty()) {
+					this.inventario.setFuncionarios(funcionariosSelecionados);
+				}
+				List<Inventario> inventarios = inventarioFacade.buscarPorCriterios(inventario);
+				if (inventarios != null) {
+					this.inventariosBusca.setList(inventarios);
+				}
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private boolean validarPesquisa() {
+		boolean valido = false;
+		String msgErrov = "Pelo menos um filtro deve ser preenchido para a pesquisa de inventário.";
+		if (inventario != null) {
+			if (inventario.getNumBem() != null && !inventario.getNumBem().trim().equals("")) {
+				valido = true;
+			}
+			if (inventario.getDescricao() != null && !inventario.getDescricao().trim().equals("")) {
+				valido = true;
+			}
+			if (!funcionariosSelecionados.isEmpty()) {
+				valido = true;
+			}
+		}
+		if (!valido) {
+			displayErrorMessageToUser(msgErrov);
+		}
+		return valido;
 	}
 
 	public void vincularFuncionarios(Funcionario funcionario) {
@@ -133,6 +239,14 @@ public class InventarioBean extends AbstractBean {
 
 	public void setInventario(Inventario inventario) {
 		this.inventario = inventario;
+	}
+
+	public DataModel<Inventario> getInventariosBusca() {
+		return inventariosBusca;
+	}
+
+	public void setInventariosBusca(DataModel<Inventario> inventariosBusca) {
+		this.inventariosBusca = inventariosBusca;
 	}
 
 }

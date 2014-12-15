@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,6 +48,48 @@ public class InventarioFacade extends AbstractUtil {
 				this.inventarioDao.insertFuncionarioInventario(funcionario.getChave(), inventario.getId());
 			}
 		}
+	}
+
+	public List<Inventario> buscarPorCriterios(Inventario inventario) throws Exception {
+		List<Inventario> inventarios = new ArrayList<Inventario>();
+		try {
+			inventarios = inventarioDao.findByFilter(inventario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao pesquisar inventário por critérios. Tente novamente.", e);
+		}
+		return inventarios;
+	}
+
+	@Transactional(roolBack = true)
+	public void excluir(Inventario inventario) throws Exception {
+		try {
+			removerFuncionarioInventario(inventario);
+			inventarioDao.delete(inventario.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao excluir inventário. Tente novamente.", e);
+		}
+	}
+
+	private void removerFuncionarioInventario(Inventario inventario) {
+		this.inventarioDao.removeAllInventarioFromFuncionario(inventario);
+	}
+
+	@Transactional(roolBack = true)
+	public void atualizar(Inventario inventario, List<Funcionario> funcionariosSelecionados) throws Exception {
+		try {
+			inventarioDao.update(inventario);
+			atualizarFuncionarioInventario(inventario, funcionariosSelecionados);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao atualizar inventário. Tente novamente.", e);
+		}
+	}
+
+	private void atualizarFuncionarioInventario(Inventario inventario, List<Funcionario> funcionariosSelecionados) {
+		removerFuncionarioInventario(inventario);
+		vincularFuncionarioInventario(inventario, funcionariosSelecionados);
 	}
 
 }

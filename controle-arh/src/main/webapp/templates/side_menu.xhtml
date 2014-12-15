@@ -40,6 +40,7 @@
 					<a href="#"><i class="icon icon-hdd"></i> <span>Inventário</span> </a>
 					<ul>
 						<li><h:commandLink value="Cadastrar inventário" action="#{inventarioBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar inventário" action="#{inventarioBean.initPesquisar()}" /></li>
 					</ul>
 				</li>
 				<!-- 

@@ -39,6 +39,7 @@ public final class Constants {
 
 	public static final class inventarioPages {
 		public static final String CADASTRAR_INVENTARIO = "/pages/inventario/cadastrarInventario?faces-redirect=true";
+		public static final String PESQUISAR_INVENTARIO = "/pages/inventario/pesquisarInventario?faces-redirect=true";
 	}
 
 	public static final class session {

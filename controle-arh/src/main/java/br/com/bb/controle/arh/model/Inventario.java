@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -55,6 +56,9 @@ public class Inventario implements IEntity {
 	}
 
 	public List<Funcionario> getFuncionarios() {
+		if (funcionarios == null) {
+			funcionarios = new ArrayList<Funcionario>();
+		}
 		return this.funcionarios;
 	}
 

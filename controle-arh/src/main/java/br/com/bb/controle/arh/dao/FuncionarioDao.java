@@ -19,6 +19,7 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 	private static String FIND_FUNCIONARIOS_BY_TAREFA = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft on ft.Funcionario_chave = f.chave where ft.Tarefa_id = :tarefaId ";
 	private static String FIND_FUNCIONARIOS_BY_META = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Meta ft on ft.Funcionario_chave = f.chave where ft.Meta_id = :metaId ";
 	private static String FIND_FUNCIONARIOS_META_ATENDIDA_BY_META = "select fm.atendido from " + Constants.database.SCHEMA + ".Funcionario_has_Meta fm where fm.Meta_id = :metaId and fm.Funcionario_chave = :chave";
+	private static String FIND_FUNCIONARIOS_BY_INVENTARIO = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Inventario ft on ft.Funcionario_chave = f.chave where ft.Inventario_id = :inventarioId ";
 
 	public FuncionarioDao() {
 		super(Funcionario.class);
@@ -82,6 +83,11 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 			}
 		}
 		return funcionarios;
+	}
+
+	public List<Funcionario> findFuncionariosByInventarioId(Integer inventarioId) {
+		String sb = new String(FIND_FUNCIONARIOS_BY_INVENTARIO);
+		return findListResultNativeQuery(sb.replace(":inventarioId", String.valueOf(inventarioId)), Funcionario.class);
 	}
 
 }
