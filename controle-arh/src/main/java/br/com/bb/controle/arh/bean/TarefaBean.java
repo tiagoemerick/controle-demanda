@@ -40,6 +40,8 @@ public class TarefaBean extends AbstractBean {
 
 	private List<Funcionario> funcionariosSelecionados;
 
+	private String numeroDemandaPesquisaTopo;
+
 	public String init() {
 		super.beginNewConversation();
 
@@ -98,7 +100,7 @@ public class TarefaBean extends AbstractBean {
 			}
 			tarefaFacade.cadastrar(tarefa);
 			displayInfoMessageToUser("Tarefa cadastrada com sucesso!");
-			return Constants.pages.HOME;
+			return Constants.pages.HOME + "?faces-redirect=true";
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();
@@ -149,6 +151,17 @@ public class TarefaBean extends AbstractBean {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public String pesquisarTopo() {
+		try {
+			System.out.println(numeroDemandaPesquisaTopo);
+			displayInfoMessageToUser("Em desenvolvimento");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private boolean validarPesquisa() {
@@ -256,6 +269,14 @@ public class TarefaBean extends AbstractBean {
 
 	public void setTarefasBusca(DataModel<Tarefa> tarefasBusca) {
 		this.tarefasBusca = tarefasBusca;
+	}
+
+	public String getNumeroDemandaPesquisaTopo() {
+		return numeroDemandaPesquisaTopo;
+	}
+
+	public void setNumeroDemandaPesquisaTopo(String numeroDemandaPesquisaTopo) {
+		this.numeroDemandaPesquisaTopo = numeroDemandaPesquisaTopo;
 	}
 
 }

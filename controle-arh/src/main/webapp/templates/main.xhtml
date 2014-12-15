@@ -45,10 +45,16 @@
 	</div>
 
 	<div id="search">
-		<input type="text" placeholder="Número da demanda..." />
-		<button type="submit" class="tip-right" data-original-title="Pesquisar">
-			<i class="icon-search icon-white"></i>
-		</button>
+		<h:form id="formTopo">
+		
+			<div class="control-group">
+				<p:inputText id="taDemanda" value="#{tarefaBean.numeroDemandaPesquisaTopo}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" size="12" placeholder="Nº demanda" />
+				<p:commandLink id="psqDemandaTopoLink" action="#{tarefaBean.pesquisarTopo()}" partialSubmit="true" process="@this,taDemanda" styleClass="padding-left: -200" >
+					<i class="icon-search icon-white" style="margin-left: -25px;margin-top: -1px"></i>
+				</p:commandLink>
+				<p:defaultCommand target="psqDemandaTopoLink" />
+			</div>
+		</h:form>
 	</div>
 
 	<ui:include src="/templates/header_buttons.xhtml" />

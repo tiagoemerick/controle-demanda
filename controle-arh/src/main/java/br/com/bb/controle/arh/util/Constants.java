@@ -44,6 +44,7 @@ public final class Constants {
 
 	public static final class session {
 		public static final String FUNCIONARIO_LOGADO = "funcionarioLogado";
+		public static final String QTDE_DEMANDAS_PENDENTES = "qtdeDemandasPendentes";
 	}
 
 }

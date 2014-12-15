@@ -21,7 +21,7 @@ public class AbstractUtil implements Serializable {
 		request.getSession().setAttribute(name, object);
 	}
 
-	public Object getObjectInSession(String name) {
+	public Object getObjectFromSession(String name) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 		return request.getSession().getAttribute(name);
@@ -33,7 +33,7 @@ public class AbstractUtil implements Serializable {
 	 * @return funcionario logado ou null
 	 */
 	public Funcionario getFuncionarioLogado() {
-		Funcionario f = (Funcionario) getObjectInSession(Constants.session.FUNCIONARIO_LOGADO);
+		Funcionario f = (Funcionario) getObjectFromSession(Constants.session.FUNCIONARIO_LOGADO);
 		return f;
 	}
 

@@ -11,6 +11,7 @@ import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.model.Impacto;
 import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.AbstractUtil;
+import br.com.bb.controle.arh.util.Constants;
 
 public class TarefaFacade extends AbstractUtil {
 
@@ -25,10 +26,15 @@ public class TarefaFacade extends AbstractUtil {
 		try {
 			tarefaDao.saveAndFlush(tarefa);
 			insertFuncionarioTarefa(tarefa);
+			calcularQtdeDemandasPendentes();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao salvar tarefa. Tente novamente.", e);
 		}
+	}
+
+	private void calcularQtdeDemandasPendentes() {
+		putObjectInSession(Constants.session.QTDE_DEMANDAS_PENDENTES, null);
 	}
 
 	public List<Tarefa> buscarPorNumeroTemAcao(Tarefa tarefa) throws Exception {
@@ -125,6 +131,7 @@ public class TarefaFacade extends AbstractUtil {
 		try {
 			tarefaDao.update(tarefa);
 			atualizarFuncionarioTarefa(tarefa);
+			calcularQtdeDemandasPendentes();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao atualizar tarefa. Tente novamente.", e);
@@ -137,6 +144,7 @@ public class TarefaFacade extends AbstractUtil {
 			removerFuncionarioTarefa(tarefa);
 			removerTarefaImpacto(tarefa);
 			tarefaDao.delete(tarefa.getId());
+			calcularQtdeDemandasPendentes();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao excluir tarefa. Tente novamente.", e);
@@ -153,6 +161,17 @@ public class TarefaFacade extends AbstractUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao buscar tarefas por impacto. Tente novamente.", e);
+		}
+		return tarefas;
+	}
+
+	public List<Tarefa> pesquisarTarefasPendentesFuncionario(Funcionario funcionario) throws Exception {
+		List<Tarefa> tarefas = new ArrayList<Tarefa>();
+		try {
+			tarefas = tarefaDao.findTarefasPendentesPorFuncionario(funcionario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao buscar tarefas pendentes por funcionário. Tente novamente.", e);
 		}
 		return tarefas;
 	}

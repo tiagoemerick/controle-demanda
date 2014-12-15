@@ -26,6 +26,7 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	private static String FIND_TAREFA_COMPONENT = "select t from Tarefa t where 1 = 1 ";
 	private static String FIND_TAREFA = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t where 1 = 1 ";
 	private static String FIND_TAREFAS_BY_IMPACTO = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t inner join " + Constants.database.SCHEMA + ".Tarefa_has_impacto ti on ti.Tarefa_id = t.id where ti.impacto_id = :impactoId ";
+	private static String FIND_TAREFAS_PENDENTES_BY_FUNCIONARIO = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t inner join " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft on ft.Tarefa_id = t.id where ft.Funcionario_chave = :chave and t.dt_fim_realizado is null ";
 
 	public TarefaDao() {
 		super(Tarefa.class);
@@ -182,6 +183,11 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	public List<Tarefa> findTarefasByImpactoId(Integer impactoId) {
 		String sb = new String(FIND_TAREFAS_BY_IMPACTO);
 		return findListResultNativeQuery(sb.replace(":impactoId", String.valueOf(impactoId)), Tarefa.class);
+	}
+
+	public List<Tarefa> findTarefasPendentesPorFuncionario(Funcionario funcionario) {
+		String sb = new String(FIND_TAREFAS_PENDENTES_BY_FUNCIONARIO);
+		return findListResultNativeQuery(sb.replace(":chave", "'" + funcionario.getChave() + "'"), Tarefa.class);
 	}
 
 }
