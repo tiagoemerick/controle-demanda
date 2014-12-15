@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -56,6 +57,9 @@ public class Impacto implements IEntity {
 	}
 
 	public List<Tarefa> getTarefas() {
+		if (this.tarefas == null) {
+			this.tarefas = new ArrayList<Tarefa>();
+		}
 		return this.tarefas;
 	}
 

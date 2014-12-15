@@ -17,13 +17,15 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String INSERT_FUNCIONARIO_HAS_TAREFA = "insert into " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa (Funcionario_chave, Tarefa_id) values (':chaveFuncionario', :id)";
-	private static final String DELETE_FUNCIONARIO_HAS_TAREFA = "delete from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa where Tarefa_id = :tarefaId ";
-	private static final String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
-	private static final String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
-	private static final String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
-	private static final String FIND_TAREFA_COMPONENT = "select t from Tarefa t where 1 = 1 ";
-	private static final String FIND_TAREFA = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t where 1 = 1 ";
+	private static String INSERT_FUNCIONARIO_HAS_TAREFA = "insert into " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa (Funcionario_chave, Tarefa_id) values (':chaveFuncionario', :id)";
+	private static String DELETE_FUNCIONARIO_HAS_TAREFA = "delete from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa where Tarefa_id = :tarefaId ";
+	private static String DELETE_TAREFA_HAS_IMPACTO = "delete from " + Constants.database.SCHEMA + ".Tarefa_has_impacto where Tarefa_id = :tarefaId ";
+	private static String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
+	private static String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
+	private static String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
+	private static String FIND_TAREFA_COMPONENT = "select t from Tarefa t where 1 = 1 ";
+	private static String FIND_TAREFA = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t where 1 = 1 ";
+	private static String FIND_TAREFAS_BY_IMPACTO = "select t.* from " + Constants.database.SCHEMA + ".Tarefa t inner join " + Constants.database.SCHEMA + ".Tarefa_has_impacto ti on ti.Tarefa_id = t.id where ti.impacto_id = :impactoId ";
 
 	public TarefaDao() {
 		super(Tarefa.class);
@@ -169,6 +171,17 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 		String finalDelete = DELETE_FUNCIONARIO_HAS_TAREFA.replace(":tarefaId", String.valueOf(tarefa.getId()));
 
 		super.executeNativeSql(finalDelete);
+	}
+
+	public void removeAllImpactosFromTarefa(Tarefa tarefa) {
+		String finalDelete = DELETE_TAREFA_HAS_IMPACTO.replace(":tarefaId", String.valueOf(tarefa.getId()));
+
+		super.executeNativeSql(finalDelete);
+	}
+
+	public List<Tarefa> findTarefasByImpactoId(Integer impactoId) {
+		String sb = new String(FIND_TAREFAS_BY_IMPACTO);
+		return findListResultNativeQuery(sb.replace(":impactoId", String.valueOf(impactoId)), Tarefa.class);
 	}
 
 }

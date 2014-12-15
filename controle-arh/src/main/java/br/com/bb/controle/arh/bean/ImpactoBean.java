@@ -35,6 +35,9 @@ public class ImpactoBean extends AbstractBean {
 	@Inject
 	private DataModel<Tarefa> tarefasBusca;
 
+	@Inject
+	private DataModel<Impacto> impactosBusca;
+
 	private List<Tarefa> tarefasSelecionadas;
 
 	public String init() {
@@ -47,6 +50,60 @@ public class ImpactoBean extends AbstractBean {
 		this.tarefasSelecionadas = new ArrayList<Tarefa>();
 
 		return Constants.impactoPages.CADASTRAR_IMPACTO;
+	}
+
+	public String initEditar(Impacto impacto) {
+		this.impacto = impacto;
+
+		this.tarefa = new Tarefa();
+		this.tarefasBusca = new DataModel<Tarefa>();
+		this.tarefasBusca.setList(new ArrayList<Tarefa>());
+
+		this.tarefasSelecionadas = buscarImpactosTarefa();
+
+		return Constants.impactoPages.CADASTRAR_IMPACTO;
+	}
+
+	private List<Tarefa> buscarImpactosTarefa() {
+		List<Tarefa> impactosTarefa = new ArrayList<Tarefa>();
+		if (this.impacto != null && this.impacto.getId() != null) {
+			try {
+				impactosTarefa = this.tarefaFacade.buscarTarefaPorImpacto(this.impacto);
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return impactosTarefa;
+	}
+
+	public String initPesquisar() {
+		super.beginNewConversation();
+
+		this.impacto = new Impacto();
+		this.tarefa = new Tarefa();
+		this.tarefasBusca = new DataModel<Tarefa>();
+		this.tarefasBusca.setList(new ArrayList<Tarefa>());
+		this.tarefasSelecionadas = new ArrayList<Tarefa>();
+		this.impactosBusca = new DataModel<Impacto>();
+		this.impactosBusca.setList(new ArrayList<Impacto>());
+
+		return Constants.impactoPages.PESQUISAR_IMPACTO;
+	}
+
+	public void excluir(Impacto impacto) {
+		try {
+			Impacto iAux = new Impacto();
+			iAux.setId(impacto.getId());
+
+			impactoFacade.excluir(impacto);
+
+			impactosBusca.removeFromList(iAux);
+			displayInfoMessageToUser("Impacto excluído com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public String cadastrar() {
@@ -62,6 +119,53 @@ public class ImpactoBean extends AbstractBean {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String atualizar() {
+		try {
+			impacto.setTarefas(tarefasSelecionadas);
+			impactoFacade.atualizar(impacto);
+			displayInfoMessageToUser("Impacto atualizado com sucesso!");
+			return Constants.pages.HOME;
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void pesquisar() {
+		if (validarPesquisa()) {
+			try {
+				if (!tarefasSelecionadas.isEmpty()) {
+					this.impacto.setTarefas(tarefasSelecionadas);
+				}
+				List<Impacto> impactos = impactoFacade.buscarPorCriterios(impacto);
+				if (impactos != null) {
+					this.impactosBusca.setList(impactos);
+				}
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private boolean validarPesquisa() {
+		boolean valido = false;
+		String msgErrov = "Pelo menos um filtro deve ser preenchido para a pesquisa de impactos.";
+		if (impacto != null) {
+			if (impacto.getDescricao() != null && !impacto.getDescricao().trim().equals("")) {
+				valido = true;
+			}
+			if (!tarefasSelecionadas.isEmpty()) {
+				valido = true;
+			}
+		}
+		if (!valido) {
+			displayErrorMessageToUser(msgErrov);
+		}
+		return valido;
 	}
 
 	public void pesquisarTarefas() {
@@ -132,6 +236,14 @@ public class ImpactoBean extends AbstractBean {
 
 	public void setTarefasSelecionadas(List<Tarefa> tarefasSelecionadas) {
 		this.tarefasSelecionadas = tarefasSelecionadas;
+	}
+
+	public DataModel<Impacto> getImpactosBusca() {
+		return impactosBusca;
+	}
+
+	public void setImpactosBusca(DataModel<Impacto> impactosBusca) {
+		this.impactosBusca = impactosBusca;
 	}
 
 }

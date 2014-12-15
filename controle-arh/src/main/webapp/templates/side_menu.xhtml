@@ -26,6 +26,7 @@
 					<a href="#"><i class="icon icon-warning-sign"></i> <span>Impactos</span> </a>
 					<ul>
 						<li><h:commandLink value="Cadastrar impacto" action="#{impactoBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar impacto" action="#{impactoBean.initPesquisar()}" /></li>
 					</ul>
 				</li>
 				<li class="submenu">

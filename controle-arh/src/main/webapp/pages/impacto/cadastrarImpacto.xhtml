@@ -76,7 +76,8 @@
 							</div>
 						</h:panelGroup>
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-							<p:commandButton value="Cadastrar" action="#{impactoBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cadastrar" action="#{impactoBean.cadastrar}" styleClass="btn btn-inverse" rendered="#{impactoBean.impacto.id == null}" />
+							<p:commandButton value="Atualizar" action="#{impactoBean.atualizar}" styleClass="btn btn-inverse" rendered="#{impactoBean.impacto.id != null}" />
 							<p:commandButton value="Cancelar" action="#{impactoBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 						</h:panelGroup>
 					</h:form>

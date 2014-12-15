@@ -1,0 +1,101 @@
+<ui:composition template="/templates/main.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
+						<span class="icon"> <i class="icon icon-search"></i></span>
+						<h5>Pesquisa de impactos</h5>
+					</div>
+
+					<h:form id="formz" styleClass="form-horizontal">
+						<div class="widget-content">
+							<div class="control-group">
+								<label class="control-label">Descrição: </label>
+								<div class="controls" style="width: 500px;">
+									<p:inputText id="taDesc" value="#{impactoBean.impacto.descricao}" maxlength="100" />
+								</div>
+							</div>
+							
+							<h:panelGroup layout="block" id="divTarefas" class="control-group">
+								<label class="control-label">Pesquisa de tarefas: </label>
+								<div class="controls" >
+									<h:panelGrid columns="4" border="0" >
+										<p:inputText id="tarNumero" placeholder="Número" value="#{impactoBean.tarefa.numero}" size="12" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+										<p:inputText id="tarAcao" placeholder="Ação" value="#{impactoBean.tarefa.acao}" size="12" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" />
+										<p:inputText id="tarDesc" placeholder="Descrição" value="#{impactoBean.tarefa.descricao}" maxlength="50" size="55" />
+										<p:commandLink title="Pesquisar tarefa" style="margin-left: 5px;" action="#{impactoBean.pesquisarTarefas}" partialSubmit="true" process="@this,tarNumero,tarAcao,tarDesc" update=":formz:tableTarefas">
+											<i class="icon icon-search" style="margin-left: -50px"></i>
+										</p:commandLink>
+									</h:panelGrid>
+									
+									
+									<p:dataTable id="tableTarefas" var="tar" value="#{impactoBean.tarefasBusca}" lazy="true" style="width: 1000px;margin-top: 1px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="5" emptyMessage="Nenhuma tarefa encontrada">
+										<p:column headerText="Demanda" sortBy="#{tar.numero}" style="width: 150px">
+											<center><h:outputText value="#{tar.numero}" /></center>
+										</p:column>
+										<p:column headerText="Ação" sortBy="#{tar.acao}" style="width: 150px">
+											<center><h:outputText value="#{tar.acao}" /></center>
+										</p:column>
+										<p:column headerText="Descrição" sortBy="#{tar.descricao}">
+											<h:outputText value="#{tar.descricao}" />
+										</p:column>
+										<p:column headerText="Ação" style="width: 20px;">
+											<center>
+												<p:commandLink title="Adicionar à lista" action="#{impactoBean.vincularTarefas(tar)}" partialSubmit="true" process="@this" update=":formz:divTarefasSelecionados">
+													<i class="icon icon-plus-sign"></i>
+												</p:commandLink>
+											</center>
+										</p:column>
+									</p:dataTable>
+									
+									<h:panelGroup layout="block" id="divTarefasSelecionados" class="control-group">
+										<p:panel id="divTars" style="width: 400px;margin-top: 2px;" rendered="#{impactoBean.tarefasSelecionadas != null and !impactoBean.tarefasSelecionadas.isEmpty()}">
+											<div style="margin-top: 5px;width: 400px;margin-left: -10px">
+												<p:outputLabel value="Tarefas selecionadas: " />
+												<table>
+													<ui:repeat var="tar" value="#{impactoBean.tarefasSelecionadas}">
+														<tr> 
+															<td><p:outputLabel value="Tarefa - [ID: #{tar.id}] - [Demanda: #{tar.numero}] - [Ação: #{tar.acao}]" style="font-size: 14;" /></td>
+															<td>
+																<p:commandLink title="Remover tarefa" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{impactoBean.removerTarefa(tar)}" partialSubmit="true" process="@this" update=":formz:divTarefasSelecionados">
+																	<i class="icon icon-remove-sign"></i>
+																</p:commandLink>
+															</td>
+														</tr>
+													</ui:repeat>
+												</table>
+											</div>
+										</p:panel>
+									</h:panelGroup>
+								</div>
+							</h:panelGroup>
+							
+							<p:dataTable id="tableImpactos" var="imp" value="#{impactoBean.impactosBusca}" lazy="true" style="margin-top: 10px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhum impacto encontrado">
+								<p:column headerText="Demanda" sortBy="#{imp.descricao}" >
+									<center><h:outputText value="#{imp.descricao}" /></center>
+								</p:column>
+								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
+									<center>
+										<p:commandLink title="Editar" action="#{impactoBean.initEditar(imp)}">
+											<i class="icon icon-pencil"></i>
+										</p:commandLink>
+										<p:commandLink title="Excluir" style="margin-left: 5px;" action="#{impactoBean.excluir(imp)}" partialSubmit="true" process="@this" update=":formz:tableImpactos">
+											<i class="icon icon-remove-circle"></i>
+										</p:commandLink>
+									</center>
+								</p:column>
+							</p:dataTable>
+							
+							<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
+								<p:commandButton value="Pesquisar" action="#{impactoBean.pesquisar()}" partialSubmit="true" process="@this,taDesc" styleClass="btn btn-inverse" update=":formz:tableImpactos" />
+								<p:commandButton value="Limpar" action="#{impactoBean.initPesquisar()}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
+							</h:panelGroup>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

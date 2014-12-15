@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import br.com.bb.controle.arh.dao.TarefaDao;
 import br.com.bb.controle.arh.infra.interceptors.Transactional;
 import br.com.bb.controle.arh.model.Funcionario;
+import br.com.bb.controle.arh.model.Impacto;
 import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.AbstractUtil;
 
@@ -54,6 +55,10 @@ public class TarefaFacade extends AbstractUtil {
 
 	private void removerFuncionarioTarefa(Tarefa tarefa) {
 		this.tarefaDao.removeAllFuncionariosFromTarefa(tarefa);
+	}
+
+	private void removerTarefaImpacto(Tarefa tarefa) {
+		this.tarefaDao.removeAllImpactosFromTarefa(tarefa);
 	}
 
 	/**
@@ -130,11 +135,26 @@ public class TarefaFacade extends AbstractUtil {
 	public void excluir(Tarefa tarefa) throws Exception {
 		try {
 			removerFuncionarioTarefa(tarefa);
+			removerTarefaImpacto(tarefa);
 			tarefaDao.delete(tarefa.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao excluir tarefa. Tente novamente.", e);
 		}
+	}
+
+	public List<Tarefa> buscarTarefaPorImpacto(Impacto impacto) throws Exception {
+		if (impacto == null || impacto.getId() == null || impacto.getId().compareTo(0) == 0) {
+			throw new IllegalArgumentException("Impacto inválido.");
+		}
+		List<Tarefa> tarefas = new ArrayList<Tarefa>();
+		try {
+			tarefas = tarefaDao.findTarefasByImpactoId(impacto.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao buscar tarefas por impacto. Tente novamente.", e);
+		}
+		return tarefas;
 	}
 
 }

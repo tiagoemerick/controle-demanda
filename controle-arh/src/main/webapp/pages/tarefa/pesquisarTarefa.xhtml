@@ -4,7 +4,7 @@
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="widget-box">
-					<div id="widget_title" class="widget-title" onclick="$('#table_form').collapse('toggle')">
+					<div id="widget_title" class="widget-title" onclick="$('#formz').collapse('toggle')">
 						<span class="icon"> <i class="icon icon-search"></i></span>
 						<h5>Pesquisa de tarefas</h5>
 					</div>
@@ -88,21 +88,21 @@
 									
 									<h:panelGroup layout="block" id="divFuncionariosSelecionados" class="control-group">
 										<p:panel id="divFuncs" style="width: 700px;margin-top: 2px;" rendered="#{tarefaBean.funcionariosSelecionados != null and !tarefaBean.funcionariosSelecionados.isEmpty()}">
-												<div style="margin-top: 5px;width: 700px;margin-left: -10px">
-													<p:outputLabel value="Funcionários selecionados: " />
-													<table>
-														<ui:repeat var="fun" value="#{tarefaBean.funcionariosSelecionados}">
-															<tr> 
-																<td><p:outputLabel value="Funcionário - [Chave: #{fun.chave}] - [Nome: #{fun.nome}] - [Equipe: #{fun.equipe}]" style="font-size: 14;" /></td>
-																<td>
-																	<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{tarefaBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionariosSelecionados">
-																		<i class="icon icon-remove-sign"></i>
-																	</p:commandLink>
-																</td>
-															</tr>
-														</ui:repeat>
-													</table>
-												</div>
+											<div style="margin-top: 5px;width: 700px;margin-left: -10px">
+												<p:outputLabel value="Funcionários selecionados: " />
+												<table>
+													<ui:repeat var="fun" value="#{tarefaBean.funcionariosSelecionados}">
+														<tr> 
+															<td><p:outputLabel value="Funcionário - [Chave: #{fun.chave}] - [Nome: #{fun.nome}] - [Equipe: #{fun.equipe}]" style="font-size: 14;" /></td>
+															<td>
+																<p:commandLink title="Remover funcionário" style="margin-left: 10px;position: absolute;margin-top: -9;" action="#{tarefaBean.removerFuncionario(fun)}" partialSubmit="true" process="@this" update=":formz:divFuncionariosSelecionados">
+																	<i class="icon icon-remove-sign"></i>
+																</p:commandLink>
+															</td>
+														</tr>
+													</ui:repeat>
+												</table>
+											</div>
 										</p:panel>
 									</h:panelGroup>
 								</div>
