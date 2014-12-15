@@ -78,12 +78,24 @@ public class InventarioFacade extends AbstractUtil {
 
 	@Transactional(roolBack = true)
 	public void atualizar(Inventario inventario, List<Funcionario> funcionariosSelecionados) throws Exception {
+		validarAtualizacao(inventario);
 		try {
 			inventarioDao.update(inventario);
 			atualizarFuncionarioInventario(inventario, funcionariosSelecionados);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Erro ao atualizar inventário. Tente novamente.", e);
+		}
+	}
+
+	private void validarAtualizacao(Inventario inventario) throws Exception {
+		try {
+			Inventario invent = inventarioDao.findByNumeroBem(inventario.getNumBem());
+			if (invent != null && invent.getNumBem() != null && !invent.getNumBem().trim().equals("") && inventario.getId() != null && invent.getId().compareTo(inventario.getId()) != 0) {
+				throw new Exception("Inventário com número de bem: " + invent.getNumBem() + " já existe.");
+			}
+		} catch (EntityNotFoundException e) {
+			System.out.println("Cadastro pode continuar. Inventário não existe.");
 		}
 	}
 
