@@ -35,6 +35,9 @@ public class MetaBean extends AbstractBean {
 	@Inject
 	private DataModel<Funcionario> funcionariosBusca;
 
+	@Inject
+	private DataModel<Meta> metasBusca;
+
 	private List<Funcionario> funcionariosSelecionados;
 
 	public String init() {
@@ -49,6 +52,48 @@ public class MetaBean extends AbstractBean {
 		return Constants.metaPages.CADASTRAR_META;
 	}
 
+	public String initEditar(Meta meta) {
+		this.meta = meta;
+
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+
+		this.funcionariosSelecionados = buscarFuncionariosMeta();
+
+		return Constants.metaPages.CADASTRAR_META;
+	}
+
+	private List<Funcionario> buscarFuncionariosMeta() {
+		List<Funcionario> funcionariosMeta = new ArrayList<Funcionario>();
+		if (this.meta != null && this.meta.getId() != null) {
+			try {
+				funcionariosMeta = this.funcionarioFacade.buscarFuncionariosPorMeta(this.meta);
+				if (funcionariosMeta != null && !funcionariosMeta.isEmpty()) {
+					this.meta.setAtendido(funcionariosMeta.get(0).getMetaAtendida());
+				}
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return funcionariosMeta;
+	}
+
+	public String initPesquisar() {
+		super.beginNewConversation();
+
+		this.meta = new Meta();
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+		this.funcionariosSelecionados = new ArrayList<Funcionario>();
+		this.metasBusca = new DataModel<Meta>();
+		this.metasBusca.setList(new ArrayList<Meta>());
+
+		return Constants.metaPages.PESQUISAR_META;
+	}
+
 	public String cadastrar() {
 		try {
 			metaFacade.cadastrar(meta, funcionariosSelecionados);
@@ -59,6 +104,67 @@ public class MetaBean extends AbstractBean {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void excluir(Meta meta) {
+		try {
+			Meta mAux = new Meta();
+			mAux.setId(meta.getId());
+
+			metaFacade.excluir(meta);
+
+			metasBusca.removeFromList(mAux);
+			displayInfoMessageToUser("Meta excluída com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public String atualizar() {
+		try {
+			metaFacade.atualizar(this.meta, funcionariosSelecionados);
+			displayInfoMessageToUser("Meta atualizada com sucesso!");
+			return Constants.pages.HOME;
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void pesquisar() {
+		if (validarPesquisa()) {
+			try {
+				List<Meta> metas = metaFacade.buscarPorCriterios(meta, funcionariosSelecionados);
+				if (metas != null) {
+					this.metasBusca.setList(metas);
+				}
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private boolean validarPesquisa() {
+		boolean valido = false;
+		String msgErrov = "Pelo menos um filtro deve ser preenchido para a pesquisa de metas.";
+		if (meta != null) {
+			if (meta.getDescricao() != null && !meta.getDescricao().trim().equals("")) {
+				valido = true;
+			}
+			if (!funcionariosSelecionados.isEmpty()) {
+				valido = true;
+			}
+			if (meta.getDtLimiteIniPesquisa() != null || meta.getDtLimiteFimPesquisa() != null) {
+				valido = true;
+			}
+		}
+		if (!valido) {
+			displayErrorMessageToUser(msgErrov);
+		}
+		return valido;
 	}
 
 	public void pesquisarFuncionarios() {
@@ -129,6 +235,14 @@ public class MetaBean extends AbstractBean {
 
 	public void setMeta(Meta meta) {
 		this.meta = meta;
+	}
+
+	public DataModel<Meta> getMetasBusca() {
+		return metasBusca;
+	}
+
+	public void setMetasBusca(DataModel<Meta> metasBusca) {
+		this.metasBusca = metasBusca;
 	}
 
 }

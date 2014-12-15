@@ -34,6 +34,7 @@ public final class Constants {
 
 	public static final class metaPages {
 		public static final String CADASTRAR_META = "/pages/meta/cadastrarMeta?faces-redirect=true";
+		public static final String PESQUISAR_META = "/pages/meta/pesquisarMeta?faces-redirect=true";
 	}
 
 	public static final class inventarioPages {

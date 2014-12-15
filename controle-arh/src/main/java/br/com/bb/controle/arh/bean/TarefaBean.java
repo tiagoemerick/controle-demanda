@@ -167,6 +167,12 @@ public class TarefaBean extends AbstractBean {
 			if (!funcionariosSelecionados.isEmpty()) {
 				valido = true;
 			}
+			if (tarefa.getDtIniPlan() != null || tarefa.getDtFimPlan() != null) {
+				valido = true;
+			}
+			if (tarefa.getDtIniRealizado() != null || tarefa.getDtFimRealizado() != null) {
+				valido = true;
+			}
 		}
 		if (!valido) {
 			displayErrorMessageToUser(msgErrov);

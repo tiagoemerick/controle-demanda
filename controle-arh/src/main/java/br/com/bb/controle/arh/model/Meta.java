@@ -1,5 +1,6 @@
 package br.com.bb.controle.arh.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -12,30 +13,39 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the meta database table.
  * 
  */
 @Entity
-@NamedQuery(name="Meta.findAll", query="SELECT m FROM Meta m")
+@NamedQuery(name = "Meta.findAll", query = "SELECT m FROM Meta m")
 public class Meta implements IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String descricao;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="dt_limite")
+	@Column(name = "dt_limite")
 	private Date dtLimite;
 
-	//bi-directional many-to-one association to FuncionarioHasMeta
-	@OneToMany(mappedBy="meta")
+	// bi-directional many-to-one association to FuncionarioHasMeta
+	@OneToMany(mappedBy = "meta")
 	private List<FuncionarioHasMeta> funcionarioHasMetas;
+
+	@Transient
+	private Boolean atendido;
+
+	@Transient
+	private Date dtLimiteIniPesquisa;
+
+	@Transient
+	private Date dtLimiteFimPesquisa;
 
 	public Meta() {
 	}
@@ -47,7 +57,7 @@ public class Meta implements IEntity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public void setId(Object id) {
 		setId(Integer.valueOf(String.valueOf(id)));
@@ -63,6 +73,14 @@ public class Meta implements IEntity {
 
 	public Date getDtLimite() {
 		return this.dtLimite;
+	}
+
+	public String getDtLimiteFormatada() {
+		if (getDtLimite() != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+			return sf.format(getDtLimite());
+		}
+		return "";
 	}
 
 	public void setDtLimite(Date dtLimite) {
@@ -112,5 +130,29 @@ public class Meta implements IEntity {
 			return false;
 		return true;
 	}
-	
+
+	public Date getDtLimiteIniPesquisa() {
+		return dtLimiteIniPesquisa;
+	}
+
+	public void setDtLimiteIniPesquisa(Date dtLimiteIniPesquisa) {
+		this.dtLimiteIniPesquisa = dtLimiteIniPesquisa;
+	}
+
+	public Date getDtLimiteFimPesquisa() {
+		return dtLimiteFimPesquisa;
+	}
+
+	public void setDtLimiteFimPesquisa(Date dtLimiteFimPesquisa) {
+		this.dtLimiteFimPesquisa = dtLimiteFimPesquisa;
+	}
+
+	public Boolean getAtendido() {
+		return atendido;
+	}
+
+	public void setAtendido(Boolean atendido) {
+		this.atendido = atendido;
+	}
+
 }

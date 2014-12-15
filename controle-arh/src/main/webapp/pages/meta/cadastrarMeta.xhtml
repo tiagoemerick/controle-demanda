@@ -33,6 +33,13 @@
 							</div>
 						</div>
 						
+						<div class="control-group">
+							<label class="control-label">Atendido: </label>
+							<div class="controls" style="width: 100px">
+								<p:selectBooleanCheckbox value="#{metaBean.meta.atendido}" />
+							</div>
+						</div>
+						
 						<h:panelGroup layout="block" id="divFuncionarios" class="control-group">
 							<label class="control-label">Pesquisa de funcionários: </label>
 							<div class="controls" >
@@ -84,7 +91,8 @@
 						</h:panelGroup>
 						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-							<p:commandButton value="Cadastrar" action="#{metaBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cadastrar" action="#{metaBean.cadastrar}" styleClass="btn btn-inverse" rendered="#{metaBean.meta.id == null}" />
+							<p:commandButton value="Atualizar" action="#{metaBean.atualizar}" styleClass="btn btn-inverse" rendered="#{metaBean.meta.id != null}" />
 							<p:commandButton value="Cancelar" action="#{metaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 						</h:panelGroup>
 					</h:form>

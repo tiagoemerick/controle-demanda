@@ -33,6 +33,7 @@
 					<a href="#"><i class="icon icon-calendar"></i> <span>Metas</span> </a>
 					<ul>
 						<li><h:commandLink value="Cadastrar meta" action="#{metaBean.init()}" rendered="#{sessionScope.funcionarioLogado.isAdmin}"/></li>
+						<li><h:commandLink value="Pesquisar meta" action="#{metaBean.initPesquisar()}" /></li>
 					</ul>
 				</li>
 				<li class="submenu">

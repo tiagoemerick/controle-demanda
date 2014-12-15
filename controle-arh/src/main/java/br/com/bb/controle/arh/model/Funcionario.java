@@ -45,6 +45,9 @@ public class Funcionario implements IEntity {
 	@Transient
 	private String novaSenha;
 
+	@Transient
+	private Boolean metaAtendida;
+
 	// bi-directional many-to-many association to Tarefa
 	@ManyToMany
 	@JoinTable(name = "Funcionario_has_Tarefa", joinColumns = { @JoinColumn(name = "Funcionario_chave") }, inverseJoinColumns = { @JoinColumn(name = "Tarefa_id") })
@@ -203,6 +206,14 @@ public class Funcionario implements IEntity {
 
 	public void setNovaSenha(String novaSenha) {
 		this.novaSenha = novaSenha;
+	}
+
+	public Boolean getMetaAtendida() {
+		return metaAtendida;
+	}
+
+	public void setMetaAtendida(Boolean metaAtendida) {
+		this.metaAtendida = metaAtendida;
 	}
 
 }

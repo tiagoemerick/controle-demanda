@@ -17,6 +17,8 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 	private static String FIND_ALL_FUNCIONARIOS_BY_STATUS = "select f from Funcionario f where f.isAtivo = :status";
 	private static String FIND_FUNCIONARIOS_ATIVO = "select f from Funcionario f where f.isAtivo = :ativo ";
 	private static String FIND_FUNCIONARIOS_BY_TAREFA = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft on ft.Funcionario_chave = f.chave where ft.Tarefa_id = :tarefaId ";
+	private static String FIND_FUNCIONARIOS_BY_META = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Meta ft on ft.Funcionario_chave = f.chave where ft.Meta_id = :metaId ";
+	private static String FIND_FUNCIONARIOS_META_ATENDIDA_BY_META = "select fm.atendido from " + Constants.database.SCHEMA + ".Funcionario_has_Meta fm where fm.Meta_id = :metaId and fm.Funcionario_chave = :chave";
 
 	public FuncionarioDao() {
 		super(Funcionario.class);
@@ -58,9 +60,28 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 		return super.findListResult(sb.toString(), parameters, 0);
 	}
 
-	public List<Funcionario> findFuncionariosByTarefaId(Integer id) {
+	public List<Funcionario> findFuncionariosByTarefaId(Integer tarefaId) {
 		String sb = new String(FIND_FUNCIONARIOS_BY_TAREFA);
-		return findListResultNativeQuery(sb.replace(":tarefaId", String.valueOf(id)), Funcionario.class);
+		return findListResultNativeQuery(sb.replace(":tarefaId", String.valueOf(tarefaId)), Funcionario.class);
+	}
+
+	public List<Funcionario> findFuncionariosByMetaId(Integer metaId) {
+		String sb = new String(FIND_FUNCIONARIOS_BY_META);
+		List<Funcionario> funcionarios = findListResultNativeQuery(sb.replace(":metaId", String.valueOf(metaId)), Funcionario.class);
+
+		if (funcionarios != null && !funcionarios.isEmpty()) {
+			sb = new String(FIND_FUNCIONARIOS_META_ATENDIDA_BY_META);
+			List<Object> result = findListResultNativeQuery(sb.replace(":metaId", String.valueOf(metaId)).replace(":chave", "'" + funcionarios.get(0).getChave()) + "'");
+
+			if (result != null && !result.isEmpty()) {
+				for (Object ob : result) {
+					Boolean atendido = Boolean.valueOf(ob.toString());
+					funcionarios.get(0).setMetaAtendida(atendido);
+					break;
+				}
+			}
+		}
+		return funcionarios;
 	}
 
 }
