@@ -137,10 +137,10 @@
 								
 								<p:column headerText="Ação" style="width: 40px;" rendered="#{sessionScope.funcionarioLogado.isAdmin}">
 									<center>
-										<p:commandLink title="Editar tarefa" >
+										<p:commandLink title="Editar" action="#{tarefaBean.initEditar(tar)}">
 											<i class="icon icon-pencil"></i>
 										</p:commandLink>
-										<p:commandLink title="Excluir" style="margin-left: 5px;" >
+										<p:commandLink title="Excluir" style="margin-left: 5px;" action="#{tarefaBean.excluir(tar)}" partialSubmit="true" process="@this" update=":formz:tableTarefas">
 											<i class="icon icon-remove-circle"></i>
 										</p:commandLink>
 									</center>

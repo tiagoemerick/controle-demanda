@@ -119,7 +119,8 @@
 						</h:panelGroup>
 						
 						<h:panelGroup id="buttons" styleClass="form-actions" layout="block">
-							<p:commandButton value="Cadastrar" action="#{tarefaBean.cadastrar}" styleClass="btn btn-inverse" />
+							<p:commandButton value="Cadastrar" action="#{tarefaBean.cadastrar}" styleClass="btn btn-inverse" rendered="#{tarefaBean.tarefa.id == null}" />
+							<p:commandButton value="Atualizar" action="#{tarefaBean.atualizar}" styleClass="btn btn-inverse" rendered="#{tarefaBean.tarefa.id != null}" />
 							<p:commandButton value="Cancelar" action="#{tarefaBean.cancelar}" styleClass="btn btn-inverse" style="margin-left: 50px" immediate="true" />
 						</h:panelGroup>
 					</h:form>

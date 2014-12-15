@@ -18,6 +18,7 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final String INSERT_FUNCIONARIO_HAS_TAREFA = "insert into " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa (Funcionario_chave, Tarefa_id) values (':chaveFuncionario', :id)";
+	private static final String DELETE_FUNCIONARIO_HAS_TAREFA = "delete from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa where Tarefa_id = :tarefaId ";
 	private static final String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
 	private static final String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
 	private static final String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
@@ -162,6 +163,12 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 			}
 		}
 		return tarefas;
+	}
+
+	public void removeAllFuncionariosFromTarefa(Tarefa tarefa) {
+		String finalDelete = DELETE_FUNCIONARIO_HAS_TAREFA.replace(":tarefaId", String.valueOf(tarefa.getId()));
+
+		super.executeNativeSql(finalDelete);
 	}
 
 }

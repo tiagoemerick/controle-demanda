@@ -7,14 +7,16 @@ import java.util.Map;
 
 import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.model.StatusEnum;
+import br.com.bb.controle.arh.util.Constants;
 
 public class FuncionarioDao extends GenericDao<Funcionario> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String FIND_FUNCIONARIO_BY_CHAVE_SENHA = "select f from Funcionario f where f.chave = :chave and f.hash = :hash";
-	private static final String FIND_ALL_FUNCIONARIOS_BY_STATUS = "select f from Funcionario f where f.isAtivo = :status";
-	private static final String FIND_FUNCIONARIOS_ATIVO = "select f from Funcionario f where f.isAtivo = :ativo ";
+	private static String FIND_FUNCIONARIO_BY_CHAVE_SENHA = "select f from Funcionario f where f.chave = :chave and f.hash = :hash";
+	private static String FIND_ALL_FUNCIONARIOS_BY_STATUS = "select f from Funcionario f where f.isAtivo = :status";
+	private static String FIND_FUNCIONARIOS_ATIVO = "select f from Funcionario f where f.isAtivo = :ativo ";
+	private static String FIND_FUNCIONARIOS_BY_TAREFA = "select f.* from " + Constants.database.SCHEMA + ".Funcionario f inner join " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa ft on ft.Funcionario_chave = f.chave where ft.Tarefa_id = :tarefaId ";
 
 	public FuncionarioDao() {
 		super(Funcionario.class);
@@ -54,6 +56,11 @@ public class FuncionarioDao extends GenericDao<Funcionario> implements Serializa
 		parameters.put("ativo", Boolean.TRUE);
 
 		return super.findListResult(sb.toString(), parameters, 0);
+	}
+
+	public List<Funcionario> findFuncionariosByTarefaId(Integer id) {
+		String sb = new String(FIND_FUNCIONARIOS_BY_TAREFA);
+		return findListResultNativeQuery(sb.replace(":tarefaId", String.valueOf(id)), Funcionario.class);
 	}
 
 }

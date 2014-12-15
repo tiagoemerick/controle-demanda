@@ -52,6 +52,31 @@ public class TarefaBean extends AbstractBean {
 		return Constants.tarefaPages.CADASTRAR_TAREFA;
 	}
 
+	public String initEditar(Tarefa tarefa) {
+		this.tarefa = tarefa;
+
+		this.funcionario = new Funcionario();
+		this.funcionariosBusca = new DataModel<Funcionario>();
+		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+
+		this.funcionariosSelecionados = buscarFuncionariosTarefa();
+
+		return Constants.tarefaPages.CADASTRAR_TAREFA;
+	}
+
+	private List<Funcionario> buscarFuncionariosTarefa() {
+		List<Funcionario> funcionariosTarefa = new ArrayList<Funcionario>();
+		if (this.tarefa != null && this.tarefa.getId() != null) {
+			try {
+				funcionariosTarefa = this.funcionarioFacade.buscarFuncionariosPorTarefa(this.tarefa);
+			} catch (Exception e) {
+				displayErrorMessageToUser(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return funcionariosTarefa;
+	}
+
 	public String initPesquisar() {
 		this.beginNewConversation();
 
@@ -79,6 +104,34 @@ public class TarefaBean extends AbstractBean {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String atualizar() {
+		try {
+			tarefa.setFuncionarios(funcionariosSelecionados);
+			tarefaFacade.atualizar(tarefa);
+			displayInfoMessageToUser("Tarefa atualizada com sucesso!");
+			return Constants.pages.HOME;
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void excluir(Tarefa tarefa) {
+		try {
+			Tarefa tAux = new Tarefa();
+			tAux.setId(tarefa.getId());
+
+			tarefaFacade.excluir(tarefa);
+
+			tarefasBusca.removeFromList(tAux);
+			displayInfoMessageToUser("Tarefa excluída com sucesso!");
+		} catch (Exception e) {
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void pesquisar() {

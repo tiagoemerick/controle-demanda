@@ -39,6 +39,13 @@ public class DataModel<T extends IEntity> extends LazyDataModel<T> implements Se
 		super.setWrappedData(list);
 	}
 
+	public void removeFromList(Object obj) {
+		if (list != null) {
+			this.list.remove(obj);
+		}
+		super.setWrappedData(list);
+	}
+
 	@Override
 	public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 		List<T> data = new ArrayList<T>();

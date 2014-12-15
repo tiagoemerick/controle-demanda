@@ -10,6 +10,7 @@ import br.com.bb.controle.arh.dao.FuncionarioDao;
 import br.com.bb.controle.arh.infra.interceptors.Transactional;
 import br.com.bb.controle.arh.model.Funcionario;
 import br.com.bb.controle.arh.model.StatusEnum;
+import br.com.bb.controle.arh.model.Tarefa;
 import br.com.bb.controle.arh.util.AbstractUtil;
 import br.com.bb.controle.arh.util.CryptUtil;
 
@@ -164,6 +165,20 @@ public class FuncionarioFacade extends AbstractUtil {
 			e.printStackTrace();
 			throw new Exception("Erro ao atualizar funcionário. Tente novamente.", e);
 		}
+	}
+
+	public List<Funcionario> buscarFuncionariosPorTarefa(Tarefa tarefa) throws Exception {
+		if (tarefa == null || tarefa.getId() == null || tarefa.getId().compareTo(0) == 0) {
+			throw new IllegalArgumentException("Tarefa inválida.");
+		}
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		try {
+			funcionarios = funcionarioDao.findFuncionariosByTarefaId(tarefa.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao buscar funcionários por tarefa. Tente novamente.", e);
+		}
+		return funcionarios;
 	}
 
 }

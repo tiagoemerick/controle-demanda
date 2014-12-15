@@ -47,6 +47,15 @@ public class TarefaFacade extends AbstractUtil {
 		}
 	}
 
+	private void atualizarFuncionarioTarefa(Tarefa tarefa) {
+		removerFuncionarioTarefa(tarefa);
+		insertFuncionarioTarefa(tarefa);
+	}
+
+	private void removerFuncionarioTarefa(Tarefa tarefa) {
+		this.tarefaDao.removeAllFuncionariosFromTarefa(tarefa);
+	}
+
 	/**
 	 * Não é permitido ter acao repitida para a tarefa
 	 * 
@@ -58,7 +67,9 @@ public class TarefaFacade extends AbstractUtil {
 			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
 				Tarefa demAux = tarefaDao.findByNumeroEAcao(tarefa.getNumero(), tarefa.getAcao());
 				if (demAux != null) {
-					throw new Exception("Já existe uma tarefa com esta demanda e esta ação.");
+					if (tarefa.getId() == null || tarefa.getId().compareTo(demAux.getId()) != 0) {
+						throw new Exception("Já existe uma tarefa com esta demanda e esta ação.");
+					}
 				}
 			}
 		}
@@ -101,6 +112,29 @@ public class TarefaFacade extends AbstractUtil {
 			throw new Exception("Erro ao pesquisar tarefas por critérios. Tente novamente.", e);
 		}
 		return tafefas;
+	}
+
+	@Transactional(roolBack = true)
+	public void atualizar(Tarefa tarefa) throws Exception {
+		validarCadastro(tarefa);
+		try {
+			tarefaDao.update(tarefa);
+			atualizarFuncionarioTarefa(tarefa);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao atualizar tarefa. Tente novamente.", e);
+		}
+	}
+
+	@Transactional(roolBack = true)
+	public void excluir(Tarefa tarefa) throws Exception {
+		try {
+			removerFuncionarioTarefa(tarefa);
+			tarefaDao.delete(tarefa.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao excluir tarefa. Tente novamente.", e);
+		}
 	}
 
 }

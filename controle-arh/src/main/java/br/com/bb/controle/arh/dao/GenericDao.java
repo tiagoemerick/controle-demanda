@@ -62,9 +62,8 @@ public class GenericDao<T> implements Serializable {
 		return entity;
 	}
 
-	protected void delete(Object id, Class<T> classe) {
-		T entityToBeRemoved = em.getReference(classe, id);
-
+	public void delete(Object id) {
+		T entityToBeRemoved = em.getReference(entityClass, id);
 		em.remove(entityToBeRemoved);
 	}
 
@@ -153,6 +152,22 @@ public class GenericDao<T> implements Serializable {
 		try {
 			Query query = em.createNativeQuery(stringNativeQuery);
 			result = (List<Object>) query.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("Nenhum resultado encontrado para a lista native query: " + stringNativeQuery);
+		} catch (Exception e) {
+			System.out.println("Erro na lista native query: " + stringNativeQuery + "\ne.getMessage(): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected List<T> findListResultNativeQuery(String stringNativeQuery, Class<T> resultClass) {
+		List<T> result = null;
+
+		try {
+			Query query = em.createNativeQuery(stringNativeQuery, resultClass);
+			result = (List<T>) query.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("Nenhum resultado encontrado para a lista native query: " + stringNativeQuery);
 		} catch (Exception e) {
