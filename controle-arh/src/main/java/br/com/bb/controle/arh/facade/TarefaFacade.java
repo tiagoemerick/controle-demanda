@@ -74,16 +74,21 @@ public class TarefaFacade extends AbstractUtil {
 	 * @throws Exception
 	 */
 	private void validarAcaoTarefa(Tarefa tarefa) throws Exception {
-		if (tarefa.getNumero() != null && tarefa.getNumero().compareTo(0l) != 0) {
-			if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
-				Tarefa demAux = tarefaDao.findByNumeroEAcao(tarefa.getNumero(), tarefa.getAcao());
-				if (demAux != null) {
-					if (tarefa.getId() == null || tarefa.getId().compareTo(demAux.getId()) != 0) {
-						throw new Exception("Já existe uma tarefa com esta demanda e esta ação.");
-					}
+		if (tarefa.getAcao() != null && tarefa.getAcao().compareTo(0) != 0) {
+			Tarefa demAux = buscarPorAcao(tarefa);
+			if (demAux != null) {
+				if (tarefa.getId() == null || tarefa.getId().compareTo(demAux.getId()) != 0) {
+					throw new Exception("Já existe uma tarefa com esta demanda e esta ação.");
 				}
 			}
 		}
+	}
+
+	public Tarefa buscarPorAcao(Tarefa tarefa) {
+		if (tarefa == null || tarefa.getAcao() == null || tarefa.getAcao().compareTo(0) == 0) {
+			throw new IllegalArgumentException("Tarefa sem número da ação para pesquisa");
+		}
+		return tarefaDao.findByAcao(tarefa.getAcao());
 	}
 
 	private void validarCadastro(Tarefa tarefa) throws Exception {

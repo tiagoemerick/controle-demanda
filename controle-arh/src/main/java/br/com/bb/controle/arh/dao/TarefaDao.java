@@ -21,6 +21,7 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 	private static String DELETE_FUNCIONARIO_HAS_TAREFA = "delete from " + Constants.database.SCHEMA + ".Funcionario_has_Tarefa where Tarefa_id = :tarefaId ";
 	private static String DELETE_TAREFA_HAS_IMPACTO = "delete from " + Constants.database.SCHEMA + ".Tarefa_has_impacto where Tarefa_id = :tarefaId ";
 	private static String FIND_TAREFA_NUMERO_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao = :acao";
+	private static String FIND_TAREFA_ACAO = "select d from Tarefa d where d.acao = :acao";
 	private static String FIND_TAREFA_NUMERO = "select d from Tarefa d where d.numero = :numero";
 	private static String FIND_TAREFA_NUMERO_HAS_ACAO = "select d from Tarefa d where d.numero = :numero and d.acao != null";
 	private static String FIND_TAREFA_COMPONENT = "select t from Tarefa t where 1 = 1 ";
@@ -44,6 +45,13 @@ public class TarefaDao extends GenericDao<Tarefa> implements Serializable {
 		parameters.put("acao", acao);
 
 		return super.findOneResult(FIND_TAREFA_NUMERO_ACAO, parameters);
+	}
+	
+	public Tarefa findByAcao(Integer acao) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("acao", acao);
+
+		return super.findOneResult(FIND_TAREFA_ACAO, parameters);
 	}
 
 	public List<Tarefa> findByNumero(Long numero) {

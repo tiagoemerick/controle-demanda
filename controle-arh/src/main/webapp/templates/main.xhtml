@@ -48,8 +48,8 @@
 		<h:form id="formTopo">
 		
 			<div class="control-group">
-				<p:inputText id="taDemanda" value="#{tarefaBean.numeroDemandaPesquisaTopo}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" size="12" placeholder="Nº demanda" />
-				<p:commandLink id="psqDemandaTopoLink" action="#{tarefaBean.pesquisarTopo()}" partialSubmit="true" process="@this,taDemanda" styleClass="padding-left: -200" >
+				<p:inputText id="taAcao" value="#{tarefaBean.numeroAcaoPesquisaTopo}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" maxlength="8" size="12" placeholder="Nº ação" />
+				<p:commandLink id="psqDemandaTopoLink" action="#{tarefaBean.pesquisarTopo()}" partialSubmit="true" process="@this,taAcao" styleClass="padding-left: -200" >
 					<i class="icon-search icon-white" style="margin-left: -25px;margin-top: -1px"></i>
 				</p:commandLink>
 				<p:defaultCommand target="psqDemandaTopoLink" />

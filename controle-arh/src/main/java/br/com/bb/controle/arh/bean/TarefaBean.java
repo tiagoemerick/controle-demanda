@@ -40,7 +40,7 @@ public class TarefaBean extends AbstractBean {
 
 	private List<Funcionario> funcionariosSelecionados;
 
-	private String numeroDemandaPesquisaTopo;
+	private String numeroAcaoPesquisaTopo;
 
 	public String init() {
 		super.beginNewConversation();
@@ -60,6 +60,7 @@ public class TarefaBean extends AbstractBean {
 		this.funcionario = new Funcionario();
 		this.funcionariosBusca = new DataModel<Funcionario>();
 		this.funcionariosBusca.setList(new ArrayList<Funcionario>());
+		this.numeroAcaoPesquisaTopo = new String();
 
 		this.funcionariosSelecionados = buscarFuncionariosTarefa();
 
@@ -155,8 +156,14 @@ public class TarefaBean extends AbstractBean {
 
 	public String pesquisarTopo() {
 		try {
-			System.out.println(numeroDemandaPesquisaTopo);
-			displayInfoMessageToUser("Em desenvolvimento");
+			Tarefa tAux = new Tarefa();
+			tAux.setAcao(Integer.valueOf(numeroAcaoPesquisaTopo));
+			Tarefa tarAcao = tarefaFacade.buscarPorAcao(tAux);
+			if (tarAcao != null && tarAcao.getId() != null) {
+				super.beginNewConversation();
+				return initEditar(tarAcao);
+			}
+			displayInfoMessageToUser("Nenhuma tarefa encontrada por este número de ação.");
 		} catch (Exception e) {
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();
@@ -271,12 +278,12 @@ public class TarefaBean extends AbstractBean {
 		this.tarefasBusca = tarefasBusca;
 	}
 
-	public String getNumeroDemandaPesquisaTopo() {
-		return numeroDemandaPesquisaTopo;
+	public String getNumeroAcaoPesquisaTopo() {
+		return numeroAcaoPesquisaTopo;
 	}
 
-	public void setNumeroDemandaPesquisaTopo(String numeroDemandaPesquisaTopo) {
-		this.numeroDemandaPesquisaTopo = numeroDemandaPesquisaTopo;
+	public void setNumeroAcaoPesquisaTopo(String numeroAcaoPesquisaTopo) {
+		this.numeroAcaoPesquisaTopo = numeroAcaoPesquisaTopo;
 	}
 
 }
