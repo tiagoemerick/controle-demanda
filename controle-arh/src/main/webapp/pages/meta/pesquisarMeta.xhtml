@@ -86,7 +86,7 @@
 						</h:panelGroup>
 						
 						<p:dataTable id="tableMetas" var="met" value="#{metaBean.metasBusca}" lazy="true" style="margin-top: 10px" tableStyleClass="table table-bordered table-striped" paginator="true" paginatorPosition="bottom" rows="10" emptyMessage="Nenhuma meta encontrada">
-							<p:column headerText="Demanda" sortBy="#{met.descricao}">
+							<p:column headerText="Descrição" sortBy="#{met.descricao}">
 								<center><h:outputText value="#{met.descricao}" /></center>
 							</p:column>
 							<p:column headerText="Data limite" sortBy="#{met.dtLimiteFormatada}" style="width: 100px">
