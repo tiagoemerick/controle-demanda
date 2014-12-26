@@ -20,7 +20,7 @@
 			<property name="hibernate.connection.username" value="usrctrl" />
 			<property name="hibernate.connection.password" value="usrctrl" />
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/arh" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/arh?autoReconnect=true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
